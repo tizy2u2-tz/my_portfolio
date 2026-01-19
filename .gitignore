@@ -13,12 +13,18 @@ Thumbs.db
 *.swp
 *.swo
 
+# Keep VS Code config
+!.vscode/tasks.json
+!.vscode/launch.json
+
 # Dependencies
 node_modules/
 
 # Build output
 dist/
 build/
+.next/
+out/
 
 # Environment files
 .env
@@ -28,3 +34,10 @@ build/
 # Logs
 *.log
 npm-debug.log*
+node_modules
+.next
+out
+.DS_Store
+*.log
+.env
+.env.local

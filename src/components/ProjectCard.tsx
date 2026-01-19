@@ -1,0 +1,74 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Project } from '@/data/projects';
+
+interface ProjectCardProps {
+  project: Project;
+}
+
+export default function ProjectCard({ project }: ProjectCardProps) {
+  return (
+    <Link href={`/work/${project.slug}`} className="group block">
+      <motion.article
+        whileHover={{ y: -8 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="relative overflow-hidden bg-ink-light rounded-sm"
+      >
+        {/* Project Image */}
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src={project.thumbnail}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          
+          {/* Hover overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"
+          />
+          
+          {/* Category badge */}
+          <span className="absolute top-4 left-4 px-3 py-1 text-xs font-medium tracking-wider uppercase bg-magenta text-cream">
+            {project.category}
+          </span>
+        </div>
+
+        {/* Project Info */}
+        <div className="p-6">
+          <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-magenta transition-colors duration-300">
+            {project.title}
+          </h3>
+          <p className="text-cream/60 text-sm line-clamp-2">
+            {project.overview}
+          </p>
+          
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {project.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="text-xs text-cream/40 border border-cream/20 px-2 py-1"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Hover accent line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileHover={{ scaleX: 1 }}
+          transition={{ duration: 0.3 }}
+          className="absolute bottom-0 left-0 right-0 h-1 bg-magenta origin-left"
+        />
+      </motion.article>
+    </Link>
+  );
+}

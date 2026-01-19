@@ -1,0 +1,156 @@
+export interface Project {
+  slug: string;
+  title: string;
+  category: string;
+  overview: string;
+  role: string;
+  challenge: string;
+  approach: string;
+  outcome: string;
+  reflection?: string;
+  thumbnail: string;
+  images: string[];
+  tags: string[];
+  year: string;
+  client?: string;
+  featured: boolean;
+  hasLottie?: boolean;
+  lottieFile?: string;
+}
+
+export const projects: Project[] = [
+  {
+    slug: 'resilience-everywhere-2025',
+    title: 'Resilience Everywhere 2025',
+    category: 'Campaign',
+    overview: 'Global campaign launch for enterprise data security, bringing bold visuals to life across digital and physical touchpoints.',
+    role: 'Lead Designer. Owned creative direction, visual identity, and multi-channel asset production.',
+    challenge: 'Creating a cohesive campaign that stands out in the crowded cybersecurity space while maintaining enterprise credibility.',
+    approach: 'Developed a striking visual system using bold typography and dynamic shield imagery, scaling across OOH, digital, and event materials.',
+    outcome: 'Campaign launched across multiple global markets, driving significant brand visibility at industry events.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Brand Campaign', 'Motion', 'OOH', 'Digital'],
+    year: '2025',
+    client: 'Cohesity',
+    featured: true,
+    hasLottie: true,
+  },
+  {
+    slug: 'aws-reinvent-ooh-2024',
+    title: 'AWS re:Invent OOH Media',
+    category: 'Brand',
+    overview: 'High-impact out-of-home media campaign for AWS re:Invent, maximizing brand presence in Las Vegas.',
+    role: 'Senior Designer. Led design of OOH assets including billboards, car wraps, and event signage.',
+    challenge: 'Standing out among thousands of tech brands competing for attention at AWS re:Invent.',
+    approach: 'Created eye-catching visuals with bold colors and clear messaging optimized for quick viewing at scale.',
+    outcome: 'Successful campaign presence throughout Las Vegas during the event, generating strong brand recall.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['OOH', 'Brand', 'Event', 'Print'],
+    year: '2024',
+    client: 'Cohesity',
+    featured: true,
+  },
+  {
+    slug: 'swiss-cheese-animation-2024',
+    title: 'Swiss Cheese Animation',
+    category: 'Motion',
+    overview: 'Playful animated explainer using the Swiss cheese model to visualize layered security concepts.',
+    role: 'Motion Designer. Concept development, illustration, and animation.',
+    challenge: 'Making complex security concepts accessible and engaging for a broad audience.',
+    approach: 'Used the familiar Swiss cheese metaphor with playful character animation to explain defense-in-depth strategy.',
+    outcome: 'Animation became a key educational asset, shared widely across marketing and sales channels.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Motion', 'Animation', 'Explainer', 'Illustration'],
+    year: '2024',
+    client: 'Cohesity',
+    featured: true,
+    hasLottie: true,
+  },
+  {
+    slug: 'cohesity-design-system-2024',
+    title: 'Design System',
+    category: 'Design System',
+    overview: 'Comprehensive design system establishing visual consistency across all brand touchpoints.',
+    role: 'Design System Lead. Defined components, patterns, and documentation for cross-team adoption.',
+    challenge: 'Unifying disparate design approaches across multiple teams and product lines.',
+    approach: 'Built a scalable component library with clear guidelines, ensuring consistency while allowing flexibility.',
+    outcome: 'Design system adopted company-wide, reducing design debt and accelerating production timelines.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Design System', 'Brand', 'UI', 'Documentation'],
+    year: '2024',
+    client: 'Cohesity',
+    featured: true,
+  },
+  {
+    slug: 'car-wrap-reinvent-2024',
+    title: 'Car Wrap for AWS re:Invent',
+    category: 'Brand',
+    overview: 'Fleet vehicle wraps creating mobile brand presence throughout Las Vegas during AWS re:Invent.',
+    role: 'Senior Designer. Vehicle wrap design optimized for maximum visual impact.',
+    challenge: 'Designing for unconventional curved surfaces while maintaining brand integrity and readability.',
+    approach: 'Created bold, simplified graphics that work across different vehicle types and viewing angles.',
+    outcome: 'Fleet of wrapped vehicles became a memorable brand presence on the Las Vegas strip.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Vehicle Wrap', 'OOH', 'Brand', 'Event'],
+    year: '2024',
+    client: 'Cohesity',
+    featured: false,
+  },
+  {
+    slug: 'virtual-conference-2023',
+    title: 'Virtual Conference',
+    category: 'Digital',
+    overview: 'Full visual identity and digital experience for a global virtual conference.',
+    role: 'Lead Designer. Creative direction, branding, and digital asset production.',
+    challenge: 'Creating an engaging virtual event experience that captures attention in a screen-fatigued world.',
+    approach: 'Developed vibrant, dynamic visuals with motion elements to bring energy to the virtual format.',
+    outcome: 'Conference achieved record attendance and engagement metrics.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Digital', 'Brand', 'Motion', 'Event'],
+    year: '2023',
+    client: 'Cohesity',
+    featured: false,
+  },
+  {
+    slug: 'nasdaq-tower-animation-2019',
+    title: 'NASDAQ Tower Animation',
+    category: 'Motion',
+    overview: 'Animated brand takeover of the iconic NASDAQ tower in Times Square.',
+    role: 'Motion Designer. Animation design and production for large-format LED display.',
+    challenge: 'Creating animation that reads clearly on a massive curved LED display in bright daylight.',
+    approach: 'Designed bold, high-contrast motion graphics optimized for the unique display characteristics.',
+    outcome: 'Successful brand moment in one of the world\'s most visible advertising locations.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Motion', 'Animation', 'OOH', 'Brand'],
+    year: '2019',
+    client: 'Cohesity',
+    featured: true,
+    hasLottie: true,
+  },
+  {
+    slug: 'fine-art-2023',
+    title: 'Fine Art',
+    category: 'Personal',
+    overview: 'Personal art explorations blending street art influences with digital techniques.',
+    role: 'Artist. Concept, creation, and exhibition.',
+    challenge: 'Finding authentic personal expression outside of commercial design constraints.',
+    approach: 'Experimented with mixed media, combining traditional and digital processes.',
+    outcome: 'Body of work that informs and enriches my commercial design practice.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Art', 'Personal', 'Mixed Media', 'Experimental'],
+    year: '2023',
+    featured: false,
+  },
+];
+
+export const featuredProjects = projects.filter((p) => p.featured);
+
+export const categories = [...new Set(projects.map((p) => p.category))];
