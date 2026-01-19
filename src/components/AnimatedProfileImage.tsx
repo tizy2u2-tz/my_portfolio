@@ -22,7 +22,7 @@ export default function AnimatedProfileImage() {
         className="absolute z-10"
         style={{
           bottom: 0, // Bottom-aligned
-          left: '50%',
+          left: 'calc(50% - 4rem)',
           transform: 'translateX(-50%)',
           width: '100%',
           height: 'auto',

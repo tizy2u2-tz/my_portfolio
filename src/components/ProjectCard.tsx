@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Project } from '@/data/projects';
+import LottiePlayer from './LottiePlayer';
 
 interface ProjectCardProps {
   project: Project;
@@ -17,24 +18,34 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className="relative overflow-hidden bg-ink-light rounded-sm"
       >
-        {/* Project Image */}
+        {/* Project Image or Lottie */}
         <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
-            src={project.thumbnail}
-            alt={project.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
+          {project.hasLottie && project.lottieFile ? (
+            <LottiePlayer 
+              src={project.lottieFile} 
+              className="w-full h-full"
+              showControls={false}
+              autoplay={true}
+              loop={true}
+            />
+          ) : (
+            <Image
+              src={project.thumbnail}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          )}
           
           {/* Hover overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             whileHover={{ opacity: 1 }}
-            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-transparent pointer-events-none"
           />
           
           {/* Category badge */}
-          <span className="absolute top-4 left-4 px-3 py-1 text-xs font-medium tracking-wider uppercase bg-magenta text-cream">
+          <span className="absolute top-4 left-4 px-3 py-1 text-xs font-medium tracking-wider uppercase bg-magenta text-cream z-10">
             {project.category}
           </span>
         </div>

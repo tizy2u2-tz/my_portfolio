@@ -71,23 +71,25 @@ export default function Home() {
                 Purpose
               </motion.h1>
               
-              <motion.p
+              <motion.div
                 custom={2}
                 initial="hidden"
                 animate="visible"
                 variants={heroTextVariants}
-                className="body-lg max-w-2xl mb-12 text-ink"
+                className="bg-white px-6 py-5 md:px-8 md:py-6 max-w-2xl mb-8 relative z-20 -ml-4"
               >
-                I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work. 
-                My work blends visual clarity with bold ideas to deliver unique design solutions across every medium.
-              </motion.p>
+                <p className="text-ink text-base md:text-lg leading-relaxed">
+                  I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work. 
+                  My work blends visual clarity with bold ideas to deliver unique design solutions across every medium.
+                </p>
+              </motion.div>
               
               <motion.div
                 custom={3}
                 initial="hidden"
                 animate="visible"
                 variants={heroTextVariants}
-                className="flex flex-wrap gap-4"
+                className="flex flex-wrap gap-4 -ml-4"
               >
                 <Link href="/work" className="btn-primary bg-ink text-cream hover:bg-ink-light">
                   View Work

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import { useRef } from 'react';
+import { Player, PlayerEvent } from '@lottiefiles/react-lottie-player';
 
 interface LottiePlayerProps {
   src: string;
@@ -18,69 +18,39 @@ export default function LottiePlayer({
   loop = true,
   showControls = true,
 }: LottiePlayerProps) {
-  const lottieRef = useRef<LottieRefCurrentProps>(null);
-  const [isPlaying, setIsPlaying] = useState(autoplay);
-  const [animationData, setAnimationData] = useState<object | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Load animation data
-  useState(() => {
-    fetch(src)
-      .then((res) => res.json())
-      .then((data) => {
-        setAnimationData(data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError('Failed to load animation');
-        setIsLoading(false);
-        console.error('Lottie load error:', err);
-      });
-  });
+  const playerRef = useRef<Player>(null);
 
   const togglePlay = () => {
-    if (lottieRef.current) {
-      if (isPlaying) {
-        lottieRef.current.pause();
+    if (playerRef.current) {
+      const state = playerRef.current.state;
+      if (state?.playerState === 'playing') {
+        playerRef.current.pause();
       } else {
-        lottieRef.current.play();
+        playerRef.current.play();
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   const restart = () => {
-    if (lottieRef.current) {
-      lottieRef.current.goToAndPlay(0);
-      setIsPlaying(true);
+    if (playerRef.current) {
+      playerRef.current.setSeeker(0);
+      playerRef.current.play();
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className={`flex items-center justify-center bg-ink-light ${className}`}>
-        <div className="animate-pulse text-cream/40">Loading animation...</div>
-      </div>
-    );
-  }
-
-  if (error || !animationData) {
-    return (
-      <div className={`flex items-center justify-center bg-ink-light ${className}`}>
-        <div className="text-cream/40">{error || 'Animation unavailable'}</div>
-      </div>
-    );
-  }
-
   return (
     <div className={`relative group ${className}`}>
-      <Lottie
-        lottieRef={lottieRef}
-        animationData={animationData}
+      <Player
+        ref={playerRef}
+        src={src}
         loop={loop}
         autoplay={autoplay}
-        className="w-full h-full"
+        style={{ width: '100%', height: '100%' }}
+        onEvent={(event: PlayerEvent) => {
+          if (event === 'error') {
+            console.error('Lottie player error');
+          }
+        }}
       />
 
       {/* Controls overlay */}
@@ -89,18 +59,11 @@ export default function LottiePlayer({
           <button
             onClick={togglePlay}
             className="w-10 h-10 flex items-center justify-center bg-ink/80 text-cream hover:bg-magenta transition-colors"
-            aria-label={isPlaying ? 'Pause' : 'Play'}
+            aria-label="Play/Pause"
           >
-            {isPlaying ? (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="6" y="4" width="4" height="16" />
-                <rect x="14" y="4" width="4" height="16" />
-              </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5,3 19,12 5,21" />
-              </svg>
-            )}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5,3 19,12 5,21" />
+            </svg>
           </button>
           
           <button

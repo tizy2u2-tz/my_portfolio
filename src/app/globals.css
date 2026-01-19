@@ -38,10 +38,14 @@
   body {
     background: var(--bg-primary);
     color: var(--text-primary);
-    font-family: var(--font-body), system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+  }
+
+  p {
+    font-family: 'Space Grotesk', system-ui, sans-serif !important;
   }
 
   ::selection {
@@ -119,24 +123,29 @@
 
   /* Heading styles - Editorial Serif */
   .heading-xl {
-    @apply text-6xl md:text-8xl lg:text-9xl font-display font-black tracking-tight leading-[0.85] uppercase;
+    @apply text-6xl md:text-8xl lg:text-9xl font-black tracking-tight leading-[0.85] uppercase;
+    font-family: 'Playfair Display', serif !important;
   }
 
   .heading-lg {
-    @apply text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight leading-[0.9] uppercase;
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.9] uppercase;
+    font-family: 'Playfair Display', serif !important;
   }
 
   .heading-md {
-    @apply text-2xl md:text-3xl lg:text-4xl font-display font-semibold leading-tight;
+    @apply text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight;
+    font-family: 'Playfair Display', serif !important;
   }
 
   /* Body text */
   .body-lg {
     @apply text-lg md:text-xl leading-relaxed text-cream/80;
+    font-family: 'Space Grotesk', system-ui, sans-serif !important;
   }
 
   .body-md {
     @apply text-base md:text-lg leading-relaxed text-cream/70;
+    font-family: 'Space Grotesk', system-ui, sans-serif !important;
   }
 }
 
