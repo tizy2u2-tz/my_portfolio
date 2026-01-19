@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 :root {
-  /* Primary Colors */
+  /* Primary Colors - Bold Palette */
   --color-magenta: #bb0147;
-  --color-coral: #FF6B4A;
-  --color-lime: #BFFF00;
+  --color-coral: #FF8C09; /* Vibrant orange */
+  --color-fuchsia: #EB5D9B; /* Bright fuchsia pink */
+  --color-lime: #79D37C; /* Lime green */
   --color-electric: #1a1aff;
   --color-cream: #f5f2eb;
   --color-ink: #0a0a0a;

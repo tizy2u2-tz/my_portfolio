@@ -16,14 +16,19 @@ const config: Config = {
           dark: '#8a0035',
         },
         coral: {
-          DEFAULT: '#FF6B4A',
-          light: '#ff8a70',
-          dark: '#e55235',
+          DEFAULT: '#FF8C09', // Exact orange
+          light: '#ffa533',
+          dark: '#cc7007',
+        },
+        fuchsia: {
+          DEFAULT: '#EB5D9B', // Exact pink
+          light: '#ff7ab5',
+          dark: '#d44a7f',
         },
         lime: {
-          DEFAULT: '#BFFF00',
-          light: '#d4ff4d',
-          dark: '#99cc00',
+          DEFAULT: '#79D37C', // Exact green
+          light: '#9de59f',
+          dark: '#60c164',
         },
         electric: {
           DEFAULT: '#1a1aff',

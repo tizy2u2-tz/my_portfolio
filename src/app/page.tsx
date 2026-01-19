@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import ProjectCard from '@/components/ProjectCard';
+import AnimatedBackground from '@/components/AnimatedBackground';
+import AnimatedProfileImage from '@/components/AnimatedProfileImage';
 import { featuredProjects } from '@/data/projects';
 
 const heroTextVariants = {
@@ -21,62 +23,81 @@ const heroTextVariants = {
 export default function Home() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="min-h-screen flex flex-col justify-center container-main relative">
-        {/* Background accent */}
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-magenta/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-lime/10 rounded-full blur-3xl" />
+      {/* Hero Section - Full Bleed */}
+      <section className="min-h-screen w-full flex flex-col justify-center relative overflow-hidden">
+        {/* Full-bleed animated background */}
+        <AnimatedBackground />
         
-        <div className="relative z-10 max-w-5xl">
-          <motion.p
-            custom={0}
-            initial="hidden"
-            animate="visible"
-            variants={heroTextVariants}
-            className="text-magenta font-medium tracking-widest uppercase mb-6"
-          >
-            Tonya Zenin
-          </motion.p>
-          
-          <motion.h1
-            custom={1}
-            initial="hidden"
-            animate="visible"
-            variants={heroTextVariants}
-            className="heading-xl mb-8"
-          >
-            Design
-            <br />
-            <span className="text-magenta">With</span>
-            <br />
-            Purpose
-          </motion.h1>
-          
-          <motion.p
-            custom={2}
-            initial="hidden"
-            animate="visible"
-            variants={heroTextVariants}
-            className="body-lg max-w-2xl mb-12"
-          >
-            I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work. 
-            My work blends visual clarity with bold ideas to deliver unique design solutions across every medium.
-          </motion.p>
-          
-          <motion.div
-            custom={3}
-            initial="hidden"
-            animate="visible"
-            variants={heroTextVariants}
-            className="flex flex-wrap gap-4"
-          >
-            <Link href="/work" className="btn-primary">
-              View Work
-            </Link>
-            <Link href="/contact" className="btn-outline">
-              Get in Touch
-            </Link>
-          </motion.div>
+        {/* Light overlay for text readability on colored backgrounds */}
+        <div className="absolute inset-0 bg-white/10 z-[1]" />
+        
+        {/* Content container */}
+        <div className="container-main relative z-10">
+          <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12 lg:gap-16">
+            {/* Animated Profile Image - Left side */}
+            <motion.div
+              custom={0}
+              initial="hidden"
+              animate="visible"
+              variants={heroTextVariants}
+              className="w-full md:w-auto"
+            >
+              <AnimatedProfileImage />
+            </motion.div>
+
+            {/* Text Content - Right side */}
+            <div className="flex-1">
+              <motion.p
+                custom={0}
+                initial="hidden"
+                animate="visible"
+                variants={heroTextVariants}
+                className="font-medium tracking-widest uppercase mb-6 text-ink"
+              >
+                Tonya Zenin
+              </motion.p>
+              
+              <motion.h1
+                custom={1}
+                initial="hidden"
+                animate="visible"
+                variants={heroTextVariants}
+                className="heading-xl mb-8 text-ink"
+              >
+                Design
+                <br />
+                <span className="text-ink">With</span>
+                <br />
+                Purpose
+              </motion.h1>
+              
+              <motion.p
+                custom={2}
+                initial="hidden"
+                animate="visible"
+                variants={heroTextVariants}
+                className="body-lg max-w-2xl mb-12 text-ink"
+              >
+                I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work. 
+                My work blends visual clarity with bold ideas to deliver unique design solutions across every medium.
+              </motion.p>
+              
+              <motion.div
+                custom={3}
+                initial="hidden"
+                animate="visible"
+                variants={heroTextVariants}
+                className="flex flex-wrap gap-4"
+              >
+                <Link href="/work" className="btn-primary bg-ink text-cream hover:bg-ink-light">
+                  View Work
+                </Link>
+                <Link href="/contact" className="btn-outline border-ink text-ink hover:bg-ink hover:text-cream">
+                  Get in Touch
+                </Link>
+              </motion.div>
+            </div>
+          </div>
         </div>
 
         {/* Scroll indicator */}
@@ -84,14 +105,14 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center gap-2 text-cream/40"
+            className="flex flex-col items-center gap-2 text-ink"
           >
-            <span className="text-xs uppercase tracking-widest">Scroll</span>
+            <span className="text-xs uppercase tracking-widest font-medium">Scroll</span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 5v14M5 12l7 7 7-7" />
             </svg>
