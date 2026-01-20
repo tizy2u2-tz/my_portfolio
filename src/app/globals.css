@@ -1,3 +1,94 @@
+/* ==========================================================================
+   LOCAL FONT DECLARATIONS - Served from /fonts/ directory
+   ========================================================================== */
+
+/* Fraunces - Display font for headings */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-700-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-900-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-900-italic.woff2') format('woff2');
+}
+
+/* Bodoni Moda - Display font for "Design" word */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/bodoni-moda-latin-900-normal.woff2') format('woff2');
+}
+
+/* Space Grotesk - Body font */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/space-grotesk-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/space-grotesk-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/space-grotesk-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/space-grotesk-latin-700-normal.woff2') format('woff2');
+}
+
+/* ==========================================================================
+   TAILWIND
+   ========================================================================== */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -123,18 +214,34 @@
 
   /* Heading styles - Editorial Serif */
   .heading-xl {
-    @apply text-6xl md:text-8xl lg:text-9xl font-black tracking-tight leading-[0.85] uppercase;
-    font-family: 'Playfair Display', serif !important;
+    @apply font-bold tracking-tight;
+    font-size: 4.25rem; /* ~68px, was 3.75rem */
+    line-height: 0.85;
+    font-family: 'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', 'Fraunces', serif !important;
+  }
+  
+  @media (min-width: 768px) {
+    .heading-xl {
+      font-size: 6.75rem; /* ~108px, was 6rem */
+      line-height: 0.82;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .heading-xl {
+      font-size: 9rem; /* 144px, was 8rem */
+      line-height: 0.8;
+    }
   }
 
   .heading-lg {
     @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.9] uppercase;
-    font-family: 'Playfair Display', serif !important;
+    font-family: 'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', 'Fraunces', serif !important;
   }
 
   .heading-md {
     @apply text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight;
-    font-family: 'Playfair Display', serif !important;
+    font-family: 'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', 'Fraunces', serif !important;
   }
 
   /* Body text */

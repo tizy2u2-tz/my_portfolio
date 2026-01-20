@@ -47,7 +47,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['Playfair Display', 'serif'],
+        display: ['Fraunces', 'serif'],
         body: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       animation: {

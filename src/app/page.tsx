@@ -64,9 +64,9 @@ export default function Home() {
                 variants={heroTextVariants}
                 className="heading-xl mb-8 text-ink"
               >
-                Design
+                <span style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 900 }}>Design</span>
                 <br />
-                <span className="text-ink">With</span>
+                <span className="font-normal italic">With</span>
                 <br />
                 Purpose
               </motion.h1>
@@ -79,8 +79,7 @@ export default function Home() {
                 className="bg-white px-6 py-5 md:px-8 md:py-6 max-w-2xl mb-8 relative z-20 -ml-4"
               >
                 <p className="text-ink text-base md:text-lg leading-relaxed">
-                  I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work. 
-                  My work blends visual clarity with bold ideas to deliver unique design solutions across every medium.
+                  I’m a multi-disciplinary designer specializing in brand, digital, and campaign work, combining visual clarity, bold ideas, and AI-enabled workflows to create design solutions across every medium.
                 </p>
               </motion.div>
               
