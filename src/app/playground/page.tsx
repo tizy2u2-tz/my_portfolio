@@ -41,7 +41,7 @@ const experiments = [
 
 export default function PlaygroundPage() {
   return (
-    <section className="py-16 container-main min-h-screen">
+    <section className="pt-28 pb-16 container-main min-h-screen">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

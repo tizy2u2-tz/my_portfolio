@@ -2,116 +2,391 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
-import AnimatedBackground from '@/components/AnimatedBackground';
-import AnimatedProfileImage from '@/components/AnimatedProfileImage';
 import { featuredProjects } from '@/data/projects';
 
-const heroTextVariants = {
-  hidden: { opacity: 0, y: 30 },
+// Staggered text animation for headline
+const letterVariants = {
+  hidden: { opacity: 0, y: 50 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
+      delay: 0.8 + i * 0.03,
+      duration: 0.5,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (delay: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay,
       duration: 0.6,
       ease: [0.25, 0.46, 0.45, 0.94],
     },
   }),
 };
 
+const imageRevealVariants = {
+  hidden: { clipPath: 'inset(100% 0 0 0)' },
+  visible: (delay: number) => ({
+    clipPath: 'inset(0% 0 0 0)',
+    transition: {
+      delay,
+      duration: 0.8,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
+// Animated letter component
+const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
+  <motion.span
+    custom={index}
+    initial="hidden"
+    animate="visible"
+    variants={letterVariants}
+    className="inline-block"
+    style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
+  >
+    {char === ' ' ? '\u00A0' : char}
+  </motion.span>
+);
+
+// TZ Logo Component with cool animation
+const AnimatedTZLogo = () => {
+  return (
+    <motion.div
+      className="w-[230px] h-[230px]"
+      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+      transition={{
+        delay: 1.2,
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+    >
+      <motion.svg
+        viewBox="0 0 400 400"
+        className="w-full h-full"
+        animate={{
+          rotate: [0, 2, 0, -2, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        {/* Outer circle with tz letterform */}
+        <motion.path
+          d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
+          fill="black"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{
+            pathLength: { delay: 1.4, duration: 1.5, ease: "easeInOut" },
+            opacity: { delay: 1.4, duration: 0.3 },
+          }}
+        />
+        
+        {/* Inner counter shape */}
+        <motion.path
+          d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
+          fill="black"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.2, duration: 0.5 }}
+        />
+      </motion.svg>
+    </motion.div>
+  );
+};
+
 export default function Home() {
+  const designText = "Design";
+  const withText = "with";
+  const purposeText = "PURPOSE";
+
   return (
     <>
-      {/* Hero Section - Full Bleed */}
-      <section className="min-h-screen w-full flex flex-col justify-center relative overflow-hidden">
-        {/* Full-bleed animated background */}
-        <AnimatedBackground />
-        
-        {/* Light overlay for text readability on colored backgrounds */}
-        <div className="absolute inset-0 bg-white/10 z-[1]" />
-        
-        {/* Content container */}
-        <div className="container-main relative z-10">
-          <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12 lg:gap-16">
-            {/* Animated Profile Image - Left side */}
-            <motion.div
-              custom={0}
-              initial="hidden"
-              animate="visible"
-              variants={heroTextVariants}
-              className="w-full md:w-auto"
-            >
-              <AnimatedProfileImage />
-            </motion.div>
+      {/* Hero Section - Figma-matched layout */}
+      <section className="min-h-screen w-full relative overflow-hidden bg-[#FFE100]">
+        {/* Desktop Layout Container - centered with max-width */}
+        <div className="hidden lg:block relative w-full max-w-[1440px] mx-auto h-screen">
+          
+          {/* tonya-3.png - Background colorful image with special corners */}
+          <motion.div
+            custom={0.2}
+            initial="hidden"
+            animate="visible"
+            variants={imageRevealVariants}
+            className="absolute"
+            style={{
+              left: '11.5%',
+              top: '163px',
+              width: '526px',
+              height: '538px',
+            }}
+          >
+            <div className="relative w-full h-full rounded-bl-[20px] rounded-tr-[20px] overflow-hidden">
+              <Image
+                src="/images/tonya-3.png"
+                alt="Colorful background"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </motion.div>
 
-            {/* Text Content - Right side */}
-            <div className="flex-1">
-              <motion.p
-                custom={0}
-                initial="hidden"
-                animate="visible"
-                variants={heroTextVariants}
-                className="font-medium tracking-widest uppercase mb-6 text-ink"
-              >
-                Tonya Zenin
-              </motion.p>
-              
-              <motion.h1
-                custom={1}
-                initial="hidden"
-                animate="visible"
-                variants={heroTextVariants}
-                className="heading-xl mb-8 text-ink"
-              >
-                <span style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 900 }}>Design</span>
-                <br />
-                <span className="font-normal italic">With</span>
-                <br />
-                Purpose
-              </motion.h1>
-              
-              <motion.div
-                custom={2}
-                initial="hidden"
-                animate="visible"
-                variants={heroTextVariants}
-                className="bg-white px-6 py-5 md:px-8 md:py-6 max-w-2xl mb-8 relative z-20 -ml-4"
-              >
-                <p className="text-ink text-base md:text-lg leading-relaxed">
-                  I’m a multi-disciplinary designer specializing in brand, digital, and campaign work, combining visual clarity, bold ideas, and AI-enabled workflows to create design solutions across every medium.
-                </p>
-              </motion.div>
-              
-              <motion.div
-                custom={3}
-                initial="hidden"
-                animate="visible"
-                variants={heroTextVariants}
-                className="flex flex-wrap gap-4 -ml-4"
-              >
-                <Link href="/work" className="btn-primary bg-ink text-cream hover:bg-ink-light">
-                  View Work
-                </Link>
-                <Link href="/contact" className="btn-outline border-ink text-ink hover:bg-ink hover:text-cream">
-                  Get in Touch
-                </Link>
-              </motion.div>
+          {/* tonya.png - Main portrait (z-10 to be on top of PURPOSE box) */}
+          <motion.div
+            custom={0.4}
+            initial="hidden"
+            animate="visible"
+            variants={imageRevealVariants}
+            className="absolute z-10"
+            style={{
+              left: '18.75%',
+              top: '116px',
+              width: '507px',
+              height: '585px',
+            }}
+          >
+            <Image
+              src="/images/tonya.png"
+              alt="Tonya Zenin"
+              fill
+              className="object-cover object-top"
+              priority
+            />
+          </motion.div>
+
+          {/* TZ Logo - overlapping bottom-left of portrait */}
+          <div
+            className="absolute z-20"
+            style={{
+              left: '6.3%',
+              top: '541px',
+            }}
+          >
+            <AnimatedTZLogo />
+          </div>
+
+          {/* TONYA ZENIN label */}
+          <motion.p
+            custom={0.6}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUpVariants}
+            className="absolute text-black text-[16px] font-medium tracking-[0.96px] uppercase"
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              left: '49.65%',
+              top: '156px',
+            }}
+          >
+            Tonya Zenin
+          </motion.p>
+
+          {/* Design with - Headline */}
+          <div
+            className="absolute text-black"
+            style={{
+              left: '48.8%',
+              top: '197px',
+              fontSize: '152px',
+              lineHeight: '0.8',
+            }}
+          >
+            {/* Design */}
+            <div style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 900 }}>
+              {designText.split('').map((char, i) => (
+                <AnimatedLetter key={i} char={char} index={i} />
+              ))}
+            </div>
+            
+            {/* with */}
+            <div 
+              style={{ 
+                fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
+                fontStyle: 'italic',
+                fontWeight: 400,
+              }}
+            >
+              {withText.split('').map((char, i) => (
+                <AnimatedLetter key={i} char={char} index={i + designText.length} />
+              ))}
             </div>
           </div>
+
+          {/* PURPOSE - Black box with yellow text (z-0 to be behind tonya.png) */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 1.0, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="absolute bg-black flex items-center z-0"
+            style={{
+              left: '48%',
+              top: '456px',
+              width: '611px',
+              height: '125px',
+              transformOrigin: 'left',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.4, duration: 0.5 }}
+              className="text-[#FFE100] uppercase"
+              style={{
+                fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
+                fontWeight: 700,
+                fontSize: '140px',
+                lineHeight: '1',
+                paddingLeft: '12px',
+              }}
+            >
+              {purposeText}
+            </motion.div>
+          </motion.div>
+
+          {/* Description - White box (aligned right edge with PURPOSE box) */}
+          <motion.div
+            custom={1.6}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUpVariants}
+            className="absolute bg-white p-[30px] z-10"
+            style={{
+              left: '40.2%',
+              top: '600px',
+              width: '723px',
+            }}
+          >
+            <p
+              className="text-black text-[18px] leading-[1.6]"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work. My work blends visual clarity with bold ideas to deliver unique design solutions across every medium.
+            </p>
+          </motion.div>
+
+          {/* CTA Buttons - positioned below description */}
+          <motion.div
+            custom={1.8}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUpVariants}
+            className="absolute flex gap-4"
+            style={{
+              left: '40.2%',
+              top: '750px',
+            }}
+          >
+            <Link 
+              href="/work" 
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100] hover:bg-black/80 transition-colors"
+            >
+              View Work
+            </Link>
+            <Link 
+              href="/contact" 
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black hover:bg-black hover:text-[#FFE100] transition-colors"
+            >
+              Get in Touch
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Tablet/Mobile Layout - simplified responsive version */}
+        <div className="lg:hidden flex flex-col items-center justify-center min-h-screen px-6 py-20">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-black text-sm font-medium tracking-[0.96px] uppercase mb-4"
+          >
+            Tonya Zenin
+          </motion.p>
+          
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-black text-center mb-8"
+            style={{ fontSize: 'clamp(3rem, 12vw, 6rem)', lineHeight: 0.85 }}
+          >
+            <span style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 900, display: 'block' }}>Design</span>
+            <span style={{ fontFamily: "'Bodoni 72', serif", fontStyle: 'italic', display: 'block' }}>with</span>
+            <span style={{ fontFamily: "'Bodoni 72', serif", fontWeight: 700, display: 'block' }}>Purpose</span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="relative w-full max-w-sm mb-8"
+          >
+            <Image
+              src="/images/tonya.png"
+              alt="Tonya Zenin"
+              width={507}
+              height={585}
+              className="w-full h-auto"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white p-6 max-w-md mb-8"
+          >
+            <p className="text-black text-base leading-relaxed">
+              I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0 }}
+            className="flex flex-wrap gap-4 justify-center"
+          >
+            <Link 
+              href="/work" 
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100]"
+            >
+              View Work
+            </Link>
+            <Link 
+              href="/contact" 
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black"
+            >
+              Get in Touch
+            </Link>
+          </motion.div>
         </div>
 
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
+          transition={{ delay: 2.2, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center gap-2 text-ink"
+            className="flex flex-col items-center gap-2 text-black"
           >
             <span className="text-xs uppercase tracking-widest font-medium">Scroll</span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -122,7 +397,7 @@ export default function Home() {
       </section>
 
       {/* Featured Work Section */}
-      <section className="py-32 container-main">
+      <section className="py-32 container-main bg-ink">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -132,7 +407,7 @@ export default function Home() {
         >
           <div>
             <p className="text-magenta font-medium tracking-widest uppercase mb-4">Selected Projects</p>
-            <h2 className="heading-lg">Featured Work</h2>
+            <h2 className="heading-lg text-cream">Featured Work</h2>
           </div>
           <Link 
             href="/work" 
@@ -158,7 +433,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-32 container-main">
+      <section className="py-32 container-main bg-ink">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -166,7 +441,7 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto"
         >
-          <h2 className="heading-lg mb-6">
+          <h2 className="heading-lg mb-6 text-cream">
             Let&apos;s create something <span className="text-magenta">bold</span> together.
           </h2>
           <p className="body-lg mb-10">

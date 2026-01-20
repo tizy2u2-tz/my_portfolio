@@ -7,7 +7,7 @@ import Resume from '@/components/Resume';
 
 export default function AboutPage() {
   return (
-    <section className="py-16 container-main">
+    <section className="pt-28 pb-16 container-main">
       {/* Hero */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
         <motion.div

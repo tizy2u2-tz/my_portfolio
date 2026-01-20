@@ -3,8 +3,14 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Project } from '@/data/projects';
-import LottiePlayer from './LottiePlayer';
+
+// Dynamic import with ssr: false to prevent document is not defined error
+const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-ink-light animate-pulse" />
+});
 
 interface ProjectCardProps {
   project: Project;

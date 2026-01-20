@@ -3,8 +3,14 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Project, projects } from '@/data/projects';
-import LottiePlayer from './LottiePlayer';
+
+// Dynamic import with ssr: false to prevent document is not defined error
+const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
+  ssr: false,
+  loading: () => <div className="w-full h-full bg-ink-light animate-pulse" />
+});
 
 interface ProjectDetailProps {
   project: Project;
@@ -16,7 +22,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
 
   return (
-    <article className="py-16 container-main">
+    <article className="pt-28 pb-16 container-main">
       {/* Back link */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}

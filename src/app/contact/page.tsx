@@ -32,7 +32,7 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="py-16 container-main min-h-screen">
+    <section className="pt-28 pb-16 container-main min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* Left column - Info */}
         <motion.div

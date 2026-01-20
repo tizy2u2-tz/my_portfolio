@@ -30,6 +30,11 @@ const config: Config = {
           light: '#9de59f',
           dark: '#60c164',
         },
+        yellow: {
+          DEFAULT: '#FFE100', // Bold yellow
+          light: '#FFF033',
+          dark: '#E6CB00',
+        },
         electric: {
           DEFAULT: '#1a1aff',
           light: '#4d4dff',

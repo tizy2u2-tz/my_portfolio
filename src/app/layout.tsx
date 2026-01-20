@@ -25,7 +25,7 @@ export default function RootLayout({
         
         {/* Main content with page transitions */}
         <PageTransition>
-          <main className="pt-20">
+          <main>
             {children}
           </main>
         </PageTransition>
