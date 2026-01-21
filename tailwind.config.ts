@@ -6,39 +6,33 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    'bg-yellow', 'bg-pink', 'bg-blue',
+    'text-yellow', 'text-pink', 'text-blue',
+    'text-ink', 'text-white',
+    'group-hover:text-yellow', 'group-hover:text-pink', 'group-hover:text-blue',
+    'hover:text-yellow', 'hover:text-pink', 'hover:text-blue',
+    'hover:border-yellow', 'hover:border-pink', 'hover:border-blue',
+    'border-yellow', 'border-pink', 'border-blue',
+  ],
   theme: {
     extend: {
       colors: {
-        // Primary palette from moodboard
-        magenta: {
-          DEFAULT: '#bb0147',
-          light: '#e91e76',
-          dark: '#8a0035',
-        },
-        coral: {
-          DEFAULT: '#FF8C09', // Exact orange
-          light: '#ffa533',
-          dark: '#cc7007',
-        },
-        fuchsia: {
-          DEFAULT: '#EB5D9B', // Exact pink
-          light: '#ff7ab5',
-          dark: '#d44a7f',
-        },
-        lime: {
-          DEFAULT: '#79D37C', // Exact green
-          light: '#9de59f',
-          dark: '#60c164',
-        },
+        // Primary palette from Figma
         yellow: {
-          DEFAULT: '#FFE100', // Bold yellow
-          light: '#FFF033',
+          DEFAULT: '#FFE100', // Primary accent
+          light: '#FFF44F',
           dark: '#E6CB00',
         },
-        electric: {
-          DEFAULT: '#1a1aff',
-          light: '#4d4dff',
-          dark: '#0000cc',
+        pink: {
+          DEFAULT: '#FF0B90', // Secondary accent
+          light: '#FF4DAD',
+          dark: '#CC0073',
+        },
+        blue: {
+          DEFAULT: '#014CFD', // Tertiary accent
+          light: '#4D7FFF',
+          dark: '#003DCA',
         },
         cream: {
           DEFAULT: '#f5f2eb',
@@ -46,9 +40,13 @@ const config: Config = {
           dark: '#e8e4d9',
         },
         ink: {
-          DEFAULT: '#0a0a0a',
+          DEFAULT: '#000000',
           light: '#1a1a1a',
           muted: '#6a6d75',
+        },
+        // Legacy colors for compatibility
+        magenta: {
+          DEFAULT: '#FF0B90',
         },
       },
       fontFamily: {

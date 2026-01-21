@@ -14,9 +14,28 @@ const LottiePlayer = dynamic(() => import('./LottiePlayer'), {
 
 interface ProjectCardProps {
   project: Project;
+  index?: number;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+// Color scheme based on category
+const getCategoryColors = (category: string) => {
+  switch (category.toLowerCase()) {
+    case 'brand':
+      return { badge: 'bg-yellow text-ink', titleHover: 'group-hover:text-yellow', line: 'bg-yellow' };
+    case 'motion':
+      return { badge: 'bg-pink text-white', titleHover: 'group-hover:text-pink', line: 'bg-pink' };
+    case 'campaign':
+      return { badge: 'bg-blue text-white', titleHover: 'group-hover:text-blue', line: 'bg-blue' };
+    case 'design system':
+      return { badge: 'bg-blue text-white', titleHover: 'group-hover:text-blue', line: 'bg-blue' };
+    default:
+      return { badge: 'bg-yellow text-ink', titleHover: 'group-hover:text-yellow', line: 'bg-yellow' };
+  }
+};
+
+export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+  const colors = getCategoryColors(project.category);
+  
   return (
     <Link href={`/work/${project.slug}`} className="group block">
       <motion.article
@@ -51,14 +70,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           />
           
           {/* Category badge */}
-          <span className="absolute top-4 left-4 px-3 py-1 text-xs font-medium tracking-wider uppercase bg-magenta text-cream z-10">
+          <span className={`absolute top-4 left-4 px-3 py-1 text-xs font-medium tracking-wider uppercase z-10 ${colors.badge}`}>
             {project.category}
           </span>
         </div>
 
         {/* Project Info */}
         <div className="p-6">
-          <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-magenta transition-colors duration-300">
+          <h3 className={`text-xl font-display font-semibold mb-2 ${colors.titleHover} transition-colors duration-300`}>
             {project.title}
           </h3>
           <p className="text-cream/60 text-sm line-clamp-2">
@@ -83,7 +102,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           initial={{ scaleX: 0 }}
           whileHover={{ scaleX: 1 }}
           transition={{ duration: 0.3 }}
-          className="absolute bottom-0 left-0 right-0 h-1 bg-magenta origin-left"
+          className={`absolute bottom-0 left-0 right-0 h-1 origin-left ${colors.line}`}
         />
       </motion.article>
     </Link>

@@ -97,12 +97,11 @@
   /* Primary Colors - Bold Palette */
   --color-magenta: #bb0147;
   --color-coral: #FF8C09; /* Vibrant orange */
-  --color-fuchsia: #EB5D9B; /* Bright fuchsia pink */
-  --color-lime: #79D37C; /* Lime green */
-  --color-yellow: #FFE100; /* Bold yellow */
-  --color-electric: #1a1aff;
+  --color-pink: #FF0B90; /* Vibrant pink */
+  --color-blue: #014CFD; /* Electric blue */
+  --color-yellow: #FFE100; /* Bold yellow - primary accent */
   --color-cream: #f5f2eb;
-  --color-ink: #0a0a0a;
+  --color-ink: #000000;
   --color-ink-muted: #6a6d75;
   
   /* Background & Text */
@@ -111,9 +110,9 @@
   --text-primary: var(--color-cream);
   --text-muted: var(--color-ink-muted);
   
-  /* Accent */
-  --accent-primary: var(--color-magenta);
-  --accent-secondary: var(--color-lime);
+  /* Accent - Yellow is primary */
+  --accent-primary: var(--color-yellow);
+  --accent-secondary: var(--color-pink);
 }
 
 @layer base {
@@ -141,8 +140,8 @@
   }
 
   ::selection {
-    background: var(--color-magenta);
-    color: var(--color-cream);
+    background: var(--color-yellow);
+    color: var(--color-ink);
   }
 
   /* Custom scrollbar */
@@ -160,7 +159,7 @@
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-magenta);
+    background: var(--color-yellow);
   }
 }
 
@@ -181,16 +180,30 @@
   /* Button styles */
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase;
-    @apply bg-magenta text-cream rounded-none;
+    @apply bg-ink text-yellow rounded-none;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-lime hover:text-ink;
+    @apply hover:bg-yellow hover:text-ink;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase;
+    @apply bg-blue text-white rounded-none;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-blue-light;
   }
 
   .btn-outline {
     @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase;
     @apply border border-cream text-cream bg-transparent;
     @apply transition-all duration-300 ease-out;
-    @apply hover:bg-cream hover:text-ink;
+    @apply hover:bg-yellow hover:text-ink hover:border-yellow;
+  }
+
+  .btn-outline-blue {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase;
+    @apply border border-blue text-blue bg-transparent;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-blue hover:text-white;
   }
 
   /* Link underline animation */
@@ -200,11 +213,25 @@
 
   .link-underline::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-magenta;
+    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-yellow;
     @apply transition-all duration-300 ease-out;
   }
 
   .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  .link-underline-blue {
+    @apply relative inline-block;
+  }
+
+  .link-underline-blue::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-blue;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .link-underline-blue:hover::after {
     @apply w-full;
   }
 
@@ -236,7 +263,7 @@
   }
 
   .heading-lg {
-    @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.9] uppercase;
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.9];
     font-family: 'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', 'Fraunces', serif !important;
   }
 
@@ -261,15 +288,19 @@
   /* Text gradient */
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, var(--color-magenta) 0%, var(--color-coral) 50%, var(--color-lime) 100%);
+    background-image: linear-gradient(135deg, var(--color-yellow) 0%, var(--color-pink) 50%, var(--color-blue) 100%);
   }
 
   /* Glow effects */
-  .glow-magenta {
-    box-shadow: 0 0 40px rgba(187, 1, 71, 0.3);
+  .glow-yellow {
+    box-shadow: 0 0 40px rgba(255, 225, 0, 0.3);
   }
 
-  .glow-lime {
-    box-shadow: 0 0 40px rgba(191, 255, 0, 0.3);
+  .glow-pink {
+    box-shadow: 0 0 40px rgba(255, 11, 144, 0.3);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 40px rgba(1, 76, 253, 0.3);
   }
 }

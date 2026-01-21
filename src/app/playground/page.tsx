@@ -90,7 +90,7 @@ export default function PlaygroundPage() {
               <motion.div
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
-                className="absolute inset-0 bg-magenta/20 flex items-center justify-center"
+                className="absolute inset-0 bg-yellow/20 flex items-center justify-center"
               >
                 <span className="px-4 py-2 bg-ink text-cream text-sm font-medium">
                   View Animation

@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/work', label: 'Work' },
-  { href: '/playground', label: 'Playground' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -34,7 +33,7 @@ export default function Navigation() {
   // On home page with yellow bg: use black text; elsewhere or when scrolled: use cream
   const textColorClass = isHomePage && !isScrolled
     ? 'text-black/80 hover:text-black'
-    : 'text-cream/80 hover:text-magenta';
+    : 'text-cream/80 hover:text-yellow';
   
   const hamburgerColorClass = isHomePage && !isScrolled && !isOpen
     ? 'bg-black'
@@ -125,7 +124,7 @@ export default function Navigation() {
                     <Link
                       href={link.href}
                       onClick={() => setIsOpen(false)}
-                      className="text-4xl font-display font-bold text-cream hover:text-magenta transition-colors duration-300"
+                      className="text-4xl font-display font-bold text-cream hover:text-yellow transition-colors duration-300"
                     >
                       {link.label}
                     </Link>

@@ -59,52 +59,59 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
   </motion.span>
 );
 
-// TZ Logo Component with cool animation
+// TZ Logo Component with roll-in and continuous rotation
 const AnimatedTZLogo = () => {
   return (
     <motion.div
       className="w-[230px] h-[230px]"
-      initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+      // Roll in from left: start completely off-screen
+      initial={{ 
+        x: '-100vw', 
+        rotate: -720,
+        opacity: 1,
+      }}
+      animate={{ 
+        x: 0, 
+        rotate: 0,
+        opacity: 1,
+      }}
       transition={{
-        delay: 1.2,
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        delay: 1.0,
+        duration: 1.4,
+        ease: [0.16, 1, 0.3, 1],
       }}
     >
-      <motion.svg
-        viewBox="0 0 400 400"
+      {/* Inner container for continuous 360° rotation with pause */}
+      <motion.div
         className="w-full h-full"
         animate={{
-          rotate: [0, 2, 0, -2, 0],
+          rotate: [0, 0, 360, 360], // Pause → Rotate → Pause
         }}
         transition={{
-          duration: 8,
+          duration: 5,
           repeat: Infinity,
-          ease: "easeInOut",
+          ease: [0.4, 0, 0.2, 1], // Smooth acceleration/deceleration
+          times: [0, 0.3, 0.7, 1], // 30% pause, 40% rotation, 30% pause
+          delay: 2.5, // Start after roll-in completes
         }}
       >
-        {/* Outer circle with tz letterform */}
-        <motion.path
-          d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
-          fill="black"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{
-            pathLength: { delay: 1.4, duration: 1.5, ease: "easeInOut" },
-            opacity: { delay: 1.4, duration: 0.3 },
-          }}
-        />
-        
-        {/* Inner counter shape */}
-        <motion.path
-          d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
-          fill="black"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2, duration: 0.5 }}
-        />
-      </motion.svg>
+        <svg
+          viewBox="0 0 400 400"
+          className="w-full h-full"
+        >
+          {/* Outer circle with tz letterform */}
+          <path
+            d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
+            fill="black"
+          />
+          
+          {/* Inner counter shape */}
+          <path
+            d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
+            fill="black"
+          />
+        </svg>
+      </motion.div>
     </motion.div>
   );
 };
@@ -117,7 +124,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section - Figma-matched layout */}
-      <section className="min-h-screen w-full relative overflow-hidden bg-[#FFE100]">
+      <section className="min-h-screen w-full relative bg-[#FFE100]">
         {/* Desktop Layout Container - centered with max-width */}
         <div className="hidden lg:block relative w-full max-w-[1440px] mx-auto h-screen">
           
@@ -406,12 +413,12 @@ export default function Home() {
           className="flex flex-col md:flex-row md:items-end md:justify-between mb-16"
         >
           <div>
-            <p className="text-magenta font-medium tracking-widest uppercase mb-4">Selected Projects</p>
+            <p className="text-yellow font-medium tracking-widest uppercase mb-4">Selected Projects</p>
             <h2 className="heading-lg text-cream">Featured Work</h2>
           </div>
           <Link 
             href="/work" 
-            className="mt-6 md:mt-0 text-cream/60 hover:text-magenta transition-colors duration-300 link-underline"
+            className="mt-6 md:mt-0 text-cream/60 hover:text-yellow transition-colors duration-300 link-underline"
           >
             View All Projects →
           </Link>
@@ -433,7 +440,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-32 container-main bg-ink">
+      <section className="py-32 container-main bg-blue">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -441,13 +448,13 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto"
         >
-          <h2 className="heading-lg mb-6 text-cream">
-            Let&apos;s create something <span className="text-magenta">bold</span> together.
+          <h2 className="heading-lg mb-6 text-white">
+            Let&apos;s create something <span className="text-yellow">bold</span> together.
           </h2>
-          <p className="body-lg mb-10">
+          <p className="text-lg md:text-xl leading-relaxed text-white/80 mb-10">
             I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
-          <Link href="/contact" className="btn-primary">
+          <Link href="/contact" className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-yellow text-ink hover:bg-white transition-colors duration-300">
             Start a Conversation
           </Link>
         </motion.div>

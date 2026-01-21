@@ -31,7 +31,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       >
         <Link 
           href="/work" 
-          className="inline-flex items-center gap-2 text-cream/60 hover:text-magenta transition-colors mb-12"
+          className="inline-flex items-center gap-2 text-cream/60 hover:text-yellow transition-colors mb-12"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -48,7 +48,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         className="mb-16"
       >
         <div className="flex flex-wrap items-center gap-4 mb-6">
-          <span className="px-3 py-1 text-xs font-medium tracking-wider uppercase bg-magenta text-cream">
+          <span className="px-3 py-1 text-xs font-medium tracking-wider uppercase bg-yellow text-ink">
             {project.category}
           </span>
           <span className="text-cream/40">{project.year}</span>
@@ -95,12 +95,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <div className="sticky top-32 space-y-8">
             <div>
-              <h3 className="text-xs font-medium tracking-widest uppercase text-magenta mb-3">Role</h3>
+              <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-3">Role</h3>
               <p className="text-cream/80">{project.role}</p>
             </div>
             
             <div>
-              <h3 className="text-xs font-medium tracking-widest uppercase text-magenta mb-3">Tags</h3>
+              <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <span
@@ -185,7 +185,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             className="group"
           >
             <span className="text-xs text-cream/40 uppercase tracking-widest">Previous</span>
-            <p className="text-lg font-display group-hover:text-magenta transition-colors">
+            <p className="text-lg font-display group-hover:text-yellow transition-colors">
               ← {prevProject.title}
             </p>
           </Link>
@@ -197,7 +197,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             className="group text-right"
           >
             <span className="text-xs text-cream/40 uppercase tracking-widest">Next</span>
-            <p className="text-lg font-display group-hover:text-magenta transition-colors">
+            <p className="text-lg font-display group-hover:text-yellow transition-colors">
               {nextProject.title} →
             </p>
           </Link>

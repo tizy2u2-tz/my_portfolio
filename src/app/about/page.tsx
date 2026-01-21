@@ -15,7 +15,7 @@ export default function AboutPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-magenta font-medium tracking-widest uppercase mb-4">About</p>
+          <p className="text-yellow font-medium tracking-widest uppercase mb-4">About</p>
           <h1 className="heading-lg mb-8">
             Hey, I&apos;m Tonya.
           </h1>
@@ -55,8 +55,8 @@ export default function AboutPage() {
               <span className="text-sm">Your photo here</span>
             </div>
             {/* Decorative elements */}
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-magenta/20 -z-10" />
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-lime/20 -z-10" />
+            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-yellow/20 -z-10" />
+            <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue/20 -z-10" />
           </div>
         </motion.div>
       </div>
@@ -95,9 +95,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="p-8 border border-cream/10 hover:border-magenta/50 transition-colors duration-300"
+              className={`p-8 border border-cream/10 transition-colors duration-300 ${index % 2 === 0 ? 'hover:border-yellow/50' : 'hover:border-blue/50'}`}
             >
-              <span className="text-3xl text-magenta mb-4 block">{skill.icon}</span>
+              <span className={`text-3xl mb-4 block ${index % 2 === 0 ? 'text-yellow' : 'text-blue'}`}>{skill.icon}</span>
               <h3 className="text-xl font-display font-semibold mb-3">{skill.title}</h3>
               <p className="text-cream/60">{skill.description}</p>
             </motion.div>
@@ -143,14 +143,14 @@ export default function AboutPage() {
         <h2 className="heading-md mb-8">A Few More Things</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { label: 'Coffee order', value: 'Oat milk latte' },
-            { label: 'Current obsession', value: 'AI experiments' },
-            { label: 'Design tool', value: 'Figma forever' },
-            { label: 'Hidden talent', value: 'Street art photography' },
+            { label: 'Coffee order', value: 'Oat milk latte', color: 'text-yellow' },
+            { label: 'Current obsession', value: 'AI experiments', color: 'text-blue' },
+            { label: 'Design tool', value: 'Figma forever', color: 'text-pink' },
+            { label: 'Hidden talent', value: 'Street art photography', color: 'text-yellow' },
           ].map((fact) => (
             <div key={fact.label} className="text-center p-4">
               <p className="text-xs uppercase tracking-widest text-cream/40 mb-2">{fact.label}</p>
-              <p className="font-display font-semibold text-magenta">{fact.value}</p>
+              <p className={`font-display font-semibold ${fact.color}`}>{fact.value}</p>
             </div>
           ))}
         </div>

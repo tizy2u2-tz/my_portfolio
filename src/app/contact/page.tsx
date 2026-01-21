@@ -40,7 +40,7 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-magenta font-medium tracking-widest uppercase mb-4">Get in Touch</p>
+          <p className="text-blue font-medium tracking-widest uppercase mb-4">Get in Touch</p>
           <h1 className="heading-lg mb-8">
             Let&apos;s create something together.
           </h1>
@@ -55,7 +55,7 @@ export default function ContactPage() {
               <h3 className="text-xs font-medium tracking-widest uppercase text-cream/40 mb-2">Email</h3>
               <a 
                 href="mailto:hello@tonyazenin.com" 
-                className="text-lg hover:text-magenta transition-colors link-underline"
+                className="text-lg hover:text-blue transition-colors link-underline-blue"
               >
                 hello@tonyazenin.com
               </a>
@@ -80,7 +80,7 @@ export default function ContactPage() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 text-sm border border-cream/20 hover:border-magenta hover:text-magenta transition-colors duration-300"
+                  className="px-4 py-2 text-sm border border-cream/20 hover:border-blue hover:text-blue transition-colors duration-300"
                 >
                   {social.name}
                 </a>
@@ -124,7 +124,7 @@ export default function ContactPage() {
                   required
                   value={formState.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-transparent border border-cream/20 text-cream focus:border-magenta focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-transparent border border-cream/20 text-cream focus:border-blue focus:outline-none transition-colors"
                   placeholder="Your name"
                 />
               </div>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                   required
                   value={formState.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-transparent border border-cream/20 text-cream focus:border-magenta focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-transparent border border-cream/20 text-cream focus:border-blue focus:outline-none transition-colors"
                   placeholder="your@email.com"
                 />
               </div>
@@ -156,7 +156,7 @@ export default function ContactPage() {
                   rows={6}
                   value={formState.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-transparent border border-cream/20 text-cream focus:border-magenta focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-transparent border border-cream/20 text-cream focus:border-blue focus:outline-none transition-colors resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-secondary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>

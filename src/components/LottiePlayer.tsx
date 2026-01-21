@@ -58,7 +58,7 @@ export default function LottiePlayer({
         <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={togglePlay}
-            className="w-10 h-10 flex items-center justify-center bg-ink/80 text-cream hover:bg-magenta transition-colors"
+            className="w-10 h-10 flex items-center justify-center bg-ink/80 text-cream hover:bg-yellow hover:text-ink transition-colors"
             aria-label="Play/Pause"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -68,7 +68,7 @@ export default function LottiePlayer({
           
           <button
             onClick={restart}
-            className="w-10 h-10 flex items-center justify-center bg-ink/80 text-cream hover:bg-magenta transition-colors"
+            className="w-10 h-10 flex items-center justify-center bg-ink/80 text-cream hover:bg-yellow hover:text-ink transition-colors"
             aria-label="Restart"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

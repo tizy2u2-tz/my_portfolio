@@ -60,7 +60,7 @@ export default function Resume() {
     <div className="space-y-16">
       {/* Experience */}
       <div>
-        <h3 className="text-xs font-medium tracking-widest uppercase text-magenta mb-8">Work Experience</h3>
+        <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Work Experience</h3>
         <div className="space-y-8">
           {experience.map((item, index) => (
             <motion.div
@@ -76,7 +76,7 @@ export default function Resume() {
               </div>
               <div className="md:col-span-3">
                 <h4 className="text-lg font-display font-semibold">{item.role}</h4>
-                <p className="text-magenta mb-2">{item.company}</p>
+                <p className="text-yellow mb-2">{item.company}</p>
                 <p className="text-cream/60 text-sm">{item.description}</p>
               </div>
             </motion.div>
@@ -86,7 +86,7 @@ export default function Resume() {
 
       {/* Education */}
       <div>
-        <h3 className="text-xs font-medium tracking-widest uppercase text-magenta mb-8">Education</h3>
+        <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Education</h3>
         <div className="space-y-4">
           {education.map((item, index) => (
             <motion.div
@@ -111,7 +111,7 @@ export default function Resume() {
 
       {/* Tools & Skills */}
       <div>
-        <h3 className="text-xs font-medium tracking-widest uppercase text-magenta mb-8">Tools & Skills</h3>
+        <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Tools & Skills</h3>
         <div className="flex flex-wrap gap-3">
           {tools.map((tool, index) => (
             <motion.span
@@ -120,7 +120,7 @@ export default function Resume() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05, duration: 0.3 }}
-              className="px-4 py-2 text-sm border border-cream/20 hover:border-magenta hover:text-magenta transition-colors duration-300"
+              className="px-4 py-2 text-sm border border-cream/20 hover:border-yellow hover:text-yellow transition-colors duration-300"
             >
               {tool}
             </motion.span>

@@ -21,7 +21,7 @@ export default function WorkPage() {
         transition={{ duration: 0.6 }}
         className="mb-16"
       >
-        <p className="text-magenta font-medium tracking-widest uppercase mb-4">Portfolio</p>
+        <p className="text-yellow font-medium tracking-widest uppercase mb-4">Portfolio</p>
         <h1 className="heading-lg mb-6">Selected Work</h1>
         <p className="body-lg max-w-2xl">
           A collection of brand, digital, and motion projects spanning enterprise tech, 
@@ -99,8 +99,8 @@ function FilterButton({ label, isActive, onClick }: FilterButtonProps) {
       className={`
         px-4 py-2 text-sm font-medium tracking-wide uppercase transition-all duration-300
         ${isActive 
-          ? 'bg-magenta text-cream' 
-          : 'bg-transparent text-cream/60 border border-cream/20 hover:border-magenta hover:text-magenta'
+          ? 'bg-yellow text-ink' 
+          : 'bg-transparent text-cream/60 border border-cream/20 hover:border-yellow hover:text-yellow'
         }
       `}
     >
