@@ -74,14 +74,49 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             src={project.lottieFile} 
             className="w-full h-full"
           />
-        ) : (
-          <Image
-            src={project.thumbnail}
-            alt={project.title}
-            fill
-            className="object-cover"
-          />
-        )}
+        ) : (() => {
+          // For AWS project, use the first image if it's a video
+          if (project.slug === 'aws-reinvent-ooh-2024' && project.images[0]) {
+            const firstImage = project.images[0];
+            const isVideo = firstImage.endsWith('.mp4') || firstImage.endsWith('.mov') || firstImage.endsWith('.webm');
+            if (isVideo) {
+              return (
+                <video
+                  src={firstImage}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              );
+            }
+          }
+          
+          // Check if thumbnail is a video
+          const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
+          if (isThumbnailVideo) {
+            return (
+              <video
+                src={project.thumbnail}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            );
+          }
+          
+          return (
+            <Image
+              src={project.thumbnail}
+              alt={project.title}
+              fill
+              className="object-cover"
+            />
+          );
+        })()}
       </motion.div>
 
       {/* Case Study Content */}
@@ -157,16 +192,36 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="heading-md mb-8">Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {project.images.slice(1).map((image, index) => (
-              <div key={index} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
-                <Image
-                  src={image}
-                  alt={`${project.title} - Image ${index + 2}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
+            {project.images.slice(1).map((image, index) => {
+              const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+              
+              // Skip the first image if it's a video (already shown in hero for AWS project)
+              if (project.slug === 'aws-reinvent-ooh-2024' && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
+                return null;
+              }
+              
+              return (
+                <div key={index} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
+                  {isVideo ? (
+                    <video
+                      src={image}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={image}
+                      alt={`${project.title} - Image ${index + 2}`}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </motion.section>
       )}
