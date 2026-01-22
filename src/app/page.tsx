@@ -191,7 +191,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* tonya.png - Main portrait (z-10 to be on top of PURPOSE box) */}
+          {/* tonya.png - Main portrait */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -213,15 +213,24 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* TZ Logo - overlapping bottom-left of portrait */}
+          {/* TZ Logo - locked position relative to profile photo */}
+          {/* Original working position: calc(5.5% + 20px), 557px */}
+          {/* Scales proportionally: 207px at 1440px container, scales down on smaller screens */}
           <div
             className="absolute z-20"
             style={{
-              left: '5.5%',
-              top: '565px',
+              left: 'calc(5.5% + 20px)',
+              top: '557px',
             }}
           >
-            <AnimatedTZLogo />
+            <div 
+              className="w-[207px] h-[207px]"
+              style={{
+                transform: 'scale(min(1, calc(100vw / 1440)))',
+              }}
+            >
+              <AnimatedTZLogo />
+            </div>
           </div>
 
           {/* TONYA ZENIN label */}
@@ -376,13 +385,35 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="relative w-full max-w-sm mb-8"
           >
-            <Image
-              src="/images/tonya.png"
-              alt="Tonya Zenin"
-              width={507}
-              height={585}
-              className="w-full h-auto"
-            />
+            <div className="relative w-full overflow-visible">
+              <Image
+                src="/images/tonya.png"
+                alt="Tonya Zenin"
+                width={507}
+                height={585}
+                className="w-full h-auto"
+              />
+              
+              {/* TZ Logo - locked position relative to profile photo (same ratio as desktop) */}
+              {/* Position: 75.4% from top, -33.7% from left (maintains same visual relationship) */}
+              {/* Scales proportionally with screen size */}
+              <div
+                className="absolute z-20"
+                style={{
+                  left: '-33.7%',
+                  top: '75.4%',
+                }}
+              >
+                <div 
+                  className="w-[207px] h-[207px]"
+                  style={{
+                    transform: 'scale(min(1, calc(100vw / 1440)))',
+                  }}
+                >
+                  <AnimatedTZLogo />
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
