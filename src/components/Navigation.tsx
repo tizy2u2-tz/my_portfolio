@@ -10,7 +10,6 @@ const navLinks = [
   { href: '/work', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  { href: '/design-system', label: 'Design System' },
 ];
 
 export default function Navigation() {
