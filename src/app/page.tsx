@@ -34,16 +34,54 @@ const fadeUpVariants = {
   }),
 };
 
-const imageRevealVariants = {
-  hidden: { clipPath: 'inset(100% 0 0 0)' },
-  visible: (delay: number) => ({
-    clipPath: 'inset(0% 0 0 0)',
+// Diagonal split with scale and rotation - Background (top-left to bottom-right)
+const diagonalSplitBackgroundVariants = {
+  hidden: { 
+    clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
+    scale: 0.9,
+    rotate: -5,
+    opacity: 0,
+  },
+  visible: {
+    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
     transition: {
-      delay,
-      duration: 0.8,
+      delay: 0.2,
+      duration: 1,
       ease: [0.25, 0.46, 0.45, 0.94],
+      clipPath: { duration: 0.8 },
+      scale: { duration: 0.9 },
+      rotate: { duration: 0.9 },
+      opacity: { duration: 0.6 },
     },
-  }),
+  },
+};
+
+// Diagonal split with scale and rotation - Profile (bottom-right to top-left, opposite direction)
+const diagonalSplitProfileVariants = {
+  hidden: { 
+    clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
+    scale: 0.9,
+    rotate: 5,
+    opacity: 0,
+  },
+  visible: {
+    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duration: 1,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      clipPath: { duration: 0.8 },
+      scale: { duration: 0.9 },
+      rotate: { duration: 0.9 },
+      opacity: { duration: 0.6 },
+    },
+  },
 };
 
 // Animated letter component
@@ -64,7 +102,7 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
 const AnimatedTZLogo = () => {
   return (
     <motion.div
-      className="w-[230px] h-[230px]"
+      className="w-[207px] h-[207px]"
       // Roll in from left: start completely off-screen
       initial={{ 
         x: '-100vw', 
@@ -131,10 +169,9 @@ export default function Home() {
           
           {/* tonya-3.png - Background colorful image with special corners */}
           <motion.div
-            custom={0.2}
             initial="hidden"
             animate="visible"
-            variants={imageRevealVariants}
+            variants={diagonalSplitBackgroundVariants}
             className="absolute"
             style={{
               left: '11.5%',
@@ -156,10 +193,9 @@ export default function Home() {
 
           {/* tonya.png - Main portrait (z-10 to be on top of PURPOSE box) */}
           <motion.div
-            custom={0.4}
             initial="hidden"
             animate="visible"
-            variants={imageRevealVariants}
+            variants={diagonalSplitProfileVariants}
             className="absolute z-10"
             style={{
               left: '18.75%',
@@ -181,8 +217,8 @@ export default function Home() {
           <div
             className="absolute z-20"
             style={{
-              left: '6.3%',
-              top: '541px',
+              left: '5.5%',
+              top: '565px',
             }}
           >
             <AnimatedTZLogo />
@@ -211,7 +247,7 @@ export default function Home() {
               left: '48.8%',
               top: '197px',
               fontSize: '152px',
-              lineHeight: '0.8',
+              lineHeight: '0.75',
             }}
           >
             {/* Design */}
@@ -243,7 +279,7 @@ export default function Home() {
             className="absolute bg-black overflow-hidden z-0"
             style={{
               left: '48%',
-              top: '456px',
+              top: '450px',
               width: '611px',
               height: '113px',
               transformOrigin: 'left',
@@ -276,7 +312,7 @@ export default function Home() {
             className="absolute bg-white border border-black z-10"
             style={{
               left: '40.2%',
-              top: '600px',
+              top: '577px',
               width: '723px',
               padding: '24px',
               boxShadow: '12px 12px 0px 0px #000000',
@@ -299,7 +335,7 @@ export default function Home() {
             className="absolute flex gap-4"
             style={{
               left: '40.2%',
-              top: '780px',
+              top: '750px',
             }}
           >
             <MagneticButton href="/work" variant="primary">
@@ -387,7 +423,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 0.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
