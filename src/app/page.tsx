@@ -234,17 +234,17 @@ export default function Home() {
             </div>
           </div>
 
-          {/* PURPOSE - Black box with yellow text (z-0 to be behind tonya.png) */}
+          {/* PURPOSE - Yellow text in black container with top clipped */}
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 1.0, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute bg-black flex items-center z-0"
+            className="absolute bg-black overflow-hidden z-0"
             style={{
               left: '48%',
               top: '456px',
               width: '611px',
-              height: '125px',
+              height: '113px',
               transformOrigin: 'left',
             }}
           >
@@ -258,7 +258,8 @@ export default function Home() {
                 fontWeight: 700,
                 fontSize: '140px',
                 lineHeight: '1',
-                paddingLeft: '12px',
+                marginTop: '-22px',
+                paddingLeft: '10px',
               }}
             >
               {purposeText}
@@ -271,7 +272,7 @@ export default function Home() {
             initial="hidden"
             animate="visible"
             variants={fadeUpVariants}
-            className="absolute bg-white p-[30px] z-10"
+            className="absolute bg-white p-[20px] z-10"
             style={{
               left: '40.2%',
               top: '600px',
@@ -413,7 +414,7 @@ export default function Home() {
           className="flex flex-col md:flex-row md:items-end md:justify-between mb-16"
         >
           <div>
-            <p className="text-yellow font-medium tracking-widest uppercase mb-4">Selected Projects</p>
+            <p className="text-magenta font-medium tracking-widest uppercase mb-4">Selected Projects</p>
             <h2 className="heading-lg text-cream">Featured Work</h2>
           </div>
           <Link 

@@ -21,15 +21,15 @@ interface ProjectCardProps {
 const getCategoryColors = (category: string) => {
   switch (category.toLowerCase()) {
     case 'brand':
-      return { badge: 'bg-yellow text-ink', titleHover: 'group-hover:text-yellow', line: 'bg-yellow' };
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
     case 'motion':
-      return { badge: 'bg-pink text-white', titleHover: 'group-hover:text-pink', line: 'bg-pink' };
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
     case 'campaign':
-      return { badge: 'bg-blue text-white', titleHover: 'group-hover:text-blue', line: 'bg-blue' };
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
     case 'design system':
-      return { badge: 'bg-blue text-white', titleHover: 'group-hover:text-blue', line: 'bg-blue' };
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
     default:
-      return { badge: 'bg-yellow text-ink', titleHover: 'group-hover:text-yellow', line: 'bg-yellow' };
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
   }
 };
 
