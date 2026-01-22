@@ -85,6 +85,117 @@
   src: url('/fonts/space-grotesk-latin-700-normal.woff2') format('woff2');
 }
 
+/* Klavika - Primary font family */
+@font-face {
+  font-family: 'Klavika';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/klavika-light.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/klavika-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/klavika-medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/klavika-semibold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/klavika-bold.woff2') format('woff2');
+}
+
+/* Klavika Condensed */
+@font-face {
+  font-family: 'Klavika Condensed';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/klavika-condensed-light.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/klavika-condensed-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/klavika-condensed-medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/klavika-condensed-semibold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/klavika-condensed-bold.woff2') format('woff2');
+}
+
+/* Klavika Basic */
+@font-face {
+  font-family: 'Klavika Basic';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/klavika-basic-light.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Basic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/klavika-basic-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Basic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/klavika-basic-medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Basic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/klavika-basic-semibold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Klavika Basic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/klavika-basic-bold.woff2') format('woff2');
+}
+
 /* ==========================================================================
    TAILWIND
    ========================================================================== */

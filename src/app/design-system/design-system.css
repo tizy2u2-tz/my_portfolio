@@ -1,0 +1,719 @@
+/* ==========================================================================
+   DESIGN SYSTEM PAGE STYLES
+   Page-specific styles for the Cohesity Design System documentation
+   ========================================================================== */
+
+.ds-page {
+  background: #080808;
+  color: #FFFFFF;
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+.ds-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.ds-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #00FD92;
+  margin-bottom: 48px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ==========================================================================
+   COLOR PALETTE SECTION
+   ========================================================================== */
+
+.ds-color-section {
+  margin-bottom: 80px;
+}
+
+.ds-section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 32px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-color-group {
+  margin-bottom: 48px;
+}
+
+.ds-group-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #F0F3F4;
+  margin-bottom: 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.ds-color-grid-tints {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+
+.ds-color-card {
+  background: #111111;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ds-color-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ds-color-card-small {
+  padding: 16px;
+}
+
+.ds-color-swatch {
+  width: 100%;
+  height: 120px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.ds-color-swatch:hover {
+  transform: scale(1.02);
+}
+
+.ds-color-card-small .ds-color-swatch {
+  height: 80px;
+  border-radius: 4px;
+}
+
+.ds-copied-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 10;
+  animation: fadeInOut 2s ease;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
+}
+
+.ds-color-info {
+  padding: 16px;
+}
+
+.ds-color-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-color-hex {
+  font-size: 0.875rem;
+  color: #F0F3F4;
+  font-family: 'Monaco', 'Menlo', monospace;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: color 0.2s ease;
+}
+
+.ds-color-hex:hover {
+  color: #00FD92;
+}
+
+.ds-color-hex-small {
+  font-size: 0.75rem;
+  color: #F0F3F4;
+  font-family: 'Monaco', 'Menlo', monospace;
+  cursor: pointer;
+  margin-top: 8px;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.ds-color-hex-small:hover {
+  color: #00FD92;
+}
+
+.ds-color-desc {
+  font-size: 0.875rem;
+  color: #6a6d75;
+  line-height: 1.5;
+}
+
+/* Gradient Cards */
+.ds-gradient-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.ds-gradient-card {
+  background: #111111;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ds-gradient-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ds-gradient-swatch {
+  width: 100%;
+  height: 120px;
+}
+
+.ds-gradient-info {
+  padding: 16px;
+}
+
+.ds-gradient-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-gradient-colors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-family: 'Monaco', 'Menlo', monospace;
+  color: #F0F3F4;
+}
+
+.ds-gradient-colors span:first-child,
+.ds-gradient-colors span:last-child {
+  color: #00FD92;
+}
+
+/* ==========================================================================
+   BUTTON COMPONENTS SECTION
+   ========================================================================== */
+
+.ds-button-section {
+  margin-bottom: 80px;
+}
+
+.ds-section-description {
+  font-size: 1rem;
+  color: #6a6d75;
+  margin-bottom: 48px;
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.ds-button-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.ds-button-group {
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 48px;
+}
+
+.ds-button-group:last-child {
+  border-bottom: none;
+}
+
+.ds-button-header {
+  margin-bottom: 32px;
+}
+
+.ds-button-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  font-family: system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.ds-button-desc {
+  font-size: 0.9375rem;
+  color: #6a6d75;
+  line-height: 1.6;
+}
+
+.ds-button-states {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.ds-button-state {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ds-state-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #F0F3F4;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ds-button-variants {
+  margin-top: 32px;
+}
+
+.ds-variant-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #F0F3F4;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ds-variant-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Button Documentation */
+.ds-button-docs {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.ds-docs-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.ds-docs-block {
+  background: #111111;
+  border: 1px solid #1a1a1a;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.ds-docs-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #00DD68;
+  margin-bottom: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-docs-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ds-docs-list li {
+  font-size: 0.875rem;
+  color: #F0F3F4;
+  line-height: 1.8;
+  margin-bottom: 8px;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.ds-docs-list code {
+  background: #1a1a1a;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #00FD92;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.875rem;
+}
+
+/* Base Button Styles */
+.ds-btn {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 18px 32px;
+  border-radius: 6px;
+  border: 1.5px solid;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  position: relative;
+}
+
+.ds-btn:focus {
+  outline: 2px solid #00FD92;
+  outline-offset: 2px;
+}
+
+.ds-btn:active {
+  transform: scale(0.98);
+}
+
+.ds-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary Green Button */
+.ds-btn-primary-green {
+  background-color: #00DD68;
+  color: #080808;
+  border-color: #006616;
+}
+
+.ds-btn-primary-green:hover,
+.ds-btn-primary-green.ds-btn-hover {
+  background-color: #00774C;
+  color: #FFFFFF;
+  border-color: #080808;
+}
+
+.ds-btn-primary-green-light {
+  background-color: #EAFFEA;
+  color: #00DD68;
+  border-color: #00DD68;
+}
+
+.ds-btn-primary-green-light:hover {
+  background-color: #B1FFBE;
+  border-color: #00DD68;
+}
+
+/* Secondary Ghost-Green Button */
+.ds-btn-ghost-green {
+  background-color: transparent;
+  color: #00DD68;
+  border-color: #00DD68;
+}
+
+.ds-btn-ghost-green:hover,
+.ds-btn-ghost-green.ds-btn-hover {
+  background-color: #EAFFEA;
+  border-color: #00DD68;
+  color: #00DD68;
+}
+
+.ds-btn-ghost-green-dark {
+  color: #FFFFFF;
+  border-color: #00DD68;
+}
+
+.ds-btn-ghost-green-dark:hover,
+.ds-btn-ghost-green-dark.ds-btn-hover {
+  background-color: rgba(0, 221, 104, 0.1);
+  border-color: #00DD68;
+  color: #FFFFFF;
+}
+
+/* Primary Black Button */
+.ds-btn-primary-black {
+  background-color: #080808;
+  color: #FFFFFF;
+  border-color: #080808;
+}
+
+.ds-btn-primary-black:hover,
+.ds-btn-primary-black.ds-btn-hover {
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+}
+
+/* Secondary White Button */
+.ds-btn-secondary-white {
+  background-color: #FFFFFF;
+  color: #080808;
+  border-color: #080808;
+}
+
+.ds-btn-secondary-white:hover,
+.ds-btn-secondary-white.ds-btn-hover {
+  background-color: #F0F3F4;
+  border-color: #080808;
+  color: #080808;
+}
+
+/* Secondary Ghost-Transparent Button */
+.ds-btn-ghost-transparent {
+  background-color: transparent;
+  color: #080808;
+  border-color: #080808;
+}
+
+.ds-btn-ghost-transparent:hover,
+.ds-btn-ghost-transparent.ds-btn-hover {
+  background-color: #F0F3F4;
+  border-color: #080808;
+  color: #080808;
+}
+
+/* Tertiary Button - Green */
+.ds-btn-tertiary-green {
+  background-color: transparent;
+  color: #080808;
+  padding: 0;
+  border: none;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ds-btn-tertiary-green:hover,
+.ds-btn-tertiary-green.ds-btn-hover {
+  color: #00DD68;
+}
+
+.ds-btn-tertiary-green .ds-btn-arrow,
+.ds-btn-tertiary-green .ds-btn-icon {
+  transition: color 0.3s ease-in-out;
+}
+
+.ds-btn-tertiary-green:hover .ds-btn-arrow,
+.ds-btn-tertiary-green.ds-btn-hover .ds-btn-arrow,
+.ds-btn-tertiary-green:hover .ds-btn-icon,
+.ds-btn-tertiary-green.ds-btn-hover .ds-btn-icon {
+  color: #00DD68;
+}
+
+/* Navigation Link - Green with Arrow */
+.ds-btn-nav-link {
+  background-color: transparent;
+  color: #00DD68;
+  padding: 0;
+  border: none;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ds-btn-nav-link:hover,
+.ds-btn-nav-link.ds-btn-hover {
+  color: #007740;
+}
+
+.ds-btn-nav-link .ds-btn-arrow {
+  transition: color 0.3s ease-in-out;
+}
+
+.ds-btn-nav-link:hover .ds-btn-arrow,
+.ds-btn-nav-link.ds-btn-hover .ds-btn-arrow {
+  color: #007740;
+}
+
+/* Navigation Link - Black with Icon */
+.ds-btn-nav-link-black {
+  background-color: transparent;
+  color: #080808;
+  padding: 0;
+  border: none;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ds-btn-nav-link-black:hover,
+.ds-btn-nav-link-black.ds-btn-hover {
+  color: #000068;
+}
+
+.ds-btn-nav-link-black .ds-btn-icon {
+  transition: color 0.3s ease-in-out;
+}
+
+.ds-btn-nav-link-black:hover .ds-btn-icon,
+.ds-btn-nav-link-black.ds-btn-hover .ds-btn-icon {
+  color: #00DD68;
+}
+
+/* Navigation Link - Text with Arrow Prefix */
+.ds-btn-nav-link-prefix {
+  background-color: transparent;
+  color: #00DD68;
+  padding: 0;
+  border: none;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ds-btn-nav-link-prefix:hover,
+.ds-btn-nav-link-prefix.ds-btn-hover {
+  color: #007740;
+  text-decoration: underline;
+}
+
+.ds-btn-arrow {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.ds-btn-icon {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.875rem;
+}
+
+/* Background Containers for Button Showcase */
+.ds-bg-light {
+  background-color: #FFFFFF;
+  padding: 24px;
+  border-radius: 8px;
+  display: inline-block;
+  min-width: 200px;
+}
+
+.ds-bg-dark {
+  background-color: #080808;
+  padding: 24px;
+  border-radius: 8px;
+  display: inline-block;
+  min-width: 200px;
+}
+
+/* ==========================================================================
+   DOCUMENTATION SECTION
+   ========================================================================== */
+
+.ds-docs-section {
+  margin-top: 80px;
+  padding-top: 48px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.ds-docs-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ds-doc-block {
+  background: #111111;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.ds-doc-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ds-doc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ds-doc-list li {
+  font-size: 0.9375rem;
+  color: #F0F3F4;
+  line-height: 1.8;
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.ds-doc-list li:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #00FD92;
+  font-weight: bold;
+}
+
+.ds-doc-list li strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   RESPONSIVE STYLES
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .ds-section {
+    padding: 0 16px;
+  }
+
+  .ds-title {
+    font-size: 2rem;
+  }
+
+  .ds-section-title {
+    font-size: 1.5rem;
+  }
+
+  .ds-color-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+
+  .ds-color-grid-tints {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .ds-button-states {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ds-variant-grid {
+    flex-direction: column;
+  }
+
+  .ds-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 2500px) {
+  .ds-section {
+    max-width: 1600px;
+  }
+}
