@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
+import MagneticButton from '@/components/MagneticButton';
 import { featuredProjects } from '@/data/projects';
 
 // Staggered text animation for headline
@@ -272,15 +273,17 @@ export default function Home() {
             initial="hidden"
             animate="visible"
             variants={fadeUpVariants}
-            className="absolute bg-white p-[20px] z-10"
+            className="absolute bg-white border border-black z-10"
             style={{
               left: '40.2%',
               top: '600px',
               width: '723px',
+              padding: '24px',
+              boxShadow: '12px 12px 0px 0px #000000',
             }}
           >
             <p
-              className="text-black text-[18px] leading-[1.6]"
+              className="text-black text-[18px] leading-[1.7] font-normal"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
@@ -296,21 +299,15 @@ export default function Home() {
             className="absolute flex gap-4"
             style={{
               left: '40.2%',
-              top: '750px',
+              top: '780px',
             }}
           >
-            <Link 
-              href="/work" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100] hover:bg-black/80 transition-colors"
-            >
+            <MagneticButton href="/work" variant="primary">
               View Work
-            </Link>
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black hover:bg-black hover:text-[#FFE100] transition-colors"
-            >
+            </MagneticButton>
+            <MagneticButton href="/contact" variant="secondary">
               Get in Touch
-            </Link>
+            </MagneticButton>
           </motion.div>
         </div>
 
@@ -356,9 +353,16 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white p-6 max-w-md mb-8"
+            className="bg-white border border-black max-w-md mb-8"
+            style={{
+              padding: '24px',
+              boxShadow: '12px 12px 0px 0px #000000',
+            }}
           >
-            <p className="text-black text-base leading-relaxed">
+            <p 
+              className="text-black text-base leading-[1.7] font-normal"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
               I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
             </p>
           </motion.div>
@@ -369,18 +373,12 @@ export default function Home() {
             transition={{ delay: 1.0 }}
             className="flex flex-wrap gap-4 justify-center"
           >
-            <Link 
-              href="/work" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100]"
-            >
+            <MagneticButton href="/work" variant="primary">
               View Work
-            </Link>
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black"
-            >
+            </MagneticButton>
+            <MagneticButton href="/contact" variant="secondary">
               Get in Touch
-            </Link>
+            </MagneticButton>
           </motion.div>
         </div>
 
