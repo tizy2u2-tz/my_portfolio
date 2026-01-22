@@ -40,7 +40,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
     setIsMounted(true);
     // Fallback: ensure content is visible after animation should complete
     const timer = setTimeout(() => {
-      const wrapper = document.querySelector('[data-page-transition]');
+      const wrapper = document.querySelector('[data-page-transition]') as HTMLElement | null;
       if (wrapper) {
         const style = window.getComputedStyle(wrapper);
         if (parseFloat(style.opacity) === 0) {
