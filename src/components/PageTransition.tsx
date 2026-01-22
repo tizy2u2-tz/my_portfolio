@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface PageTransitionProps {
   children: React.ReactNode;
@@ -33,6 +34,24 @@ const pageVariants = {
 
 export default function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    // Fallback: ensure content is visible after animation should complete
+    const timer = setTimeout(() => {
+      const wrapper = document.querySelector('[data-page-transition]');
+      if (wrapper) {
+        const style = window.getComputedStyle(wrapper);
+        if (parseFloat(style.opacity) === 0) {
+          wrapper.style.opacity = '1';
+          wrapper.style.transform = 'translateY(0)';
+        }
+      }
+    }, 1000); // After 1 second, force visibility if still hidden
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   return (
     <AnimatePresence mode="wait">
@@ -42,6 +61,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
         animate="enter"
         exit="exit"
         variants={pageVariants}
+        data-page-transition
       >
         {children}
       </motion.div>

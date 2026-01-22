@@ -99,8 +99,8 @@ function FilterButton({ label, isActive, onClick }: FilterButtonProps) {
       className={`
         px-4 py-2 text-sm font-medium tracking-wide uppercase transition-all duration-300
         ${isActive 
-          ? 'bg-yellow text-ink' 
-          : 'bg-transparent text-cream/60 border border-cream/20 hover:border-yellow hover:text-yellow'
+          ? 'bg-magenta text-white' 
+          : 'bg-transparent text-cream/60 border border-cream/20 hover:border-magenta hover:text-magenta'
         }
       `}
     >
