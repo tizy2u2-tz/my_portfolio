@@ -49,15 +49,51 @@ export default function AboutPage() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="relative"
         >
-          {/* Photo placeholder - replace with your actual photo */}
-          <div className="relative aspect-[4/5] bg-ink-light overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center text-cream/20">
-              {/* Placeholder for photo */}
-              <span className="text-sm">Your photo here</span>
-            </div>
-            {/* Decorative elements */}
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-yellow/20 -z-10" />
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue/20 -z-10" />
+          <div className="relative aspect-[4/5] bg-ink overflow-hidden">
+            {/* Yellow rectangle background - animates in first */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-0"
+            >
+              <div className="absolute bg-yellow w-[70%] h-[70%] top-[12%] left-1/2 -translate-x-1/2" />
+            </motion.div>
+            
+            {/* Wings - animates in second */}
+            <motion.div
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1.10 }}
+              transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-0 z-10"
+            >
+              <Image
+                src="/images/wings.png"
+                alt="Wings"
+                fill
+                className="object-contain"
+                priority
+              />
+            </motion.div>
+            
+            {/* Tonya - animates in last */}
+            <motion.div
+              initial={{ opacity: 0, y: 120 }}
+              animate={{ opacity: 1, y: 80 }}
+              transition={{ delay: 0.7, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-0 z-20 flex justify-center"
+              style={{ paddingTop: '16%' }}
+            >
+              <div className="relative" style={{ width: '60%', height: '66%' }}>
+                <Image
+                  src="/images/tonya-about.png"
+                  alt="Tonya Zenin"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
