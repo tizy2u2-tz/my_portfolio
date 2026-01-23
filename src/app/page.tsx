@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
+import MagneticButton from '@/components/MagneticButton';
 import { featuredProjects } from '@/data/projects';
 
 // Staggered text animation for headline
@@ -33,16 +34,54 @@ const fadeUpVariants = {
   }),
 };
 
-const imageRevealVariants = {
-  hidden: { clipPath: 'inset(100% 0 0 0)' },
-  visible: (delay: number) => ({
-    clipPath: 'inset(0% 0 0 0)',
+// Diagonal split with scale and rotation - Background (top-left to bottom-right)
+const diagonalSplitBackgroundVariants = {
+  hidden: { 
+    clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)',
+    scale: 0.9,
+    rotate: -5,
+    opacity: 0,
+  },
+  visible: {
+    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
     transition: {
-      delay,
-      duration: 0.8,
+      delay: 0.2,
+      duration: 1,
       ease: [0.25, 0.46, 0.45, 0.94],
+      clipPath: { duration: 0.8 },
+      scale: { duration: 0.9 },
+      rotate: { duration: 0.9 },
+      opacity: { duration: 0.6 },
     },
-  }),
+  },
+};
+
+// Diagonal split with scale and rotation - Profile (bottom-right to top-left, opposite direction)
+const diagonalSplitProfileVariants = {
+  hidden: { 
+    clipPath: 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)',
+    scale: 0.9,
+    rotate: 5,
+    opacity: 0,
+  },
+  visible: {
+    clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duration: 1,
+      ease: [0.25, 0.46, 0.45, 0.94],
+      clipPath: { duration: 0.8 },
+      scale: { duration: 0.9 },
+      rotate: { duration: 0.9 },
+      opacity: { duration: 0.6 },
+    },
+  },
 };
 
 // Animated letter component
@@ -63,7 +102,7 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
 const AnimatedTZLogo = () => {
   return (
     <motion.div
-      className="w-[230px] h-[230px]"
+      className="w-[207px] h-[207px]"
       // Roll in from left: start completely off-screen
       initial={{ 
         x: '-100vw', 
@@ -130,10 +169,9 @@ export default function Home() {
           
           {/* tonya-3.png - Background colorful image with special corners */}
           <motion.div
-            custom={0.2}
             initial="hidden"
             animate="visible"
-            variants={imageRevealVariants}
+            variants={diagonalSplitBackgroundVariants}
             className="absolute"
             style={{
               left: '11.5%',
@@ -153,12 +191,11 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* tonya.png - Main portrait (z-10 to be on top of PURPOSE box) */}
+          {/* tonya.png - Main portrait */}
           <motion.div
-            custom={0.4}
             initial="hidden"
             animate="visible"
-            variants={imageRevealVariants}
+            variants={diagonalSplitProfileVariants}
             className="absolute z-10"
             style={{
               left: '18.75%',
@@ -176,15 +213,24 @@ export default function Home() {
             />
           </motion.div>
 
-          {/* TZ Logo - overlapping bottom-left of portrait */}
+          {/* TZ Logo - locked position relative to profile photo */}
+          {/* Original working position: calc(5.5% + 20px), 557px */}
+          {/* Scales proportionally: 207px at 1440px container, scales down on smaller screens */}
           <div
             className="absolute z-20"
             style={{
-              left: '6.3%',
-              top: '541px',
+              left: 'calc(5.5% + 20px)',
+              top: '557px',
             }}
           >
-            <AnimatedTZLogo />
+            <div 
+              className="w-[207px] h-[207px]"
+              style={{
+                transform: 'scale(min(1, calc(100vw / 1440)))',
+              }}
+            >
+              <AnimatedTZLogo />
+            </div>
           </div>
 
           {/* TONYA ZENIN label */}
@@ -210,7 +256,7 @@ export default function Home() {
               left: '48.8%',
               top: '197px',
               fontSize: '152px',
-              lineHeight: '0.8',
+              lineHeight: '0.75',
             }}
           >
             {/* Design */}
@@ -242,7 +288,7 @@ export default function Home() {
             className="absolute bg-black overflow-hidden z-0"
             style={{
               left: '48%',
-              top: '456px',
+              top: '450px',
               width: '611px',
               height: '113px',
               transformOrigin: 'left',
@@ -272,15 +318,17 @@ export default function Home() {
             initial="hidden"
             animate="visible"
             variants={fadeUpVariants}
-            className="absolute bg-white p-[20px] z-10"
+            className="absolute bg-white border border-black z-10"
             style={{
               left: '40.2%',
-              top: '600px',
+              top: '577px',
               width: '723px',
+              padding: '24px',
+              boxShadow: '12px 12px 0px 0px #000000',
             }}
           >
             <p
-              className="text-black text-[18px] leading-[1.6]"
+              className="text-black text-[18px] leading-[1.7] font-normal"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
@@ -299,18 +347,12 @@ export default function Home() {
               top: '750px',
             }}
           >
-            <Link 
-              href="/work" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100] hover:bg-black/80 transition-colors"
-            >
+            <MagneticButton href="/work" variant="primary">
               View Work
-            </Link>
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black hover:bg-black hover:text-[#FFE100] transition-colors"
-            >
+            </MagneticButton>
+            <MagneticButton href="/contact" variant="secondary">
               Get in Touch
-            </Link>
+            </MagneticButton>
           </motion.div>
         </div>
 
@@ -343,22 +385,51 @@ export default function Home() {
             transition={{ delay: 0.6 }}
             className="relative w-full max-w-sm mb-8"
           >
-            <Image
-              src="/images/tonya.png"
-              alt="Tonya Zenin"
-              width={507}
-              height={585}
-              className="w-full h-auto"
-            />
+            <div className="relative w-full overflow-visible">
+              <Image
+                src="/images/tonya.png"
+                alt="Tonya Zenin"
+                width={507}
+                height={585}
+                className="w-full h-auto"
+              />
+              
+              {/* TZ Logo - locked position relative to profile photo (same ratio as desktop) */}
+              {/* Position: 75.4% from top, -33.7% from left (maintains same visual relationship) */}
+              {/* Scales proportionally with screen size */}
+              <div
+                className="absolute z-20"
+                style={{
+                  left: '-33.7%',
+                  top: '75.4%',
+                }}
+              >
+                <div 
+                  className="w-[207px] h-[207px]"
+                  style={{
+                    transform: 'scale(min(1, calc(100vw / 1440)))',
+                  }}
+                >
+                  <AnimatedTZLogo />
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-white p-6 max-w-md mb-8"
+            className="bg-white border border-black max-w-md mb-8"
+            style={{
+              padding: '24px',
+              boxShadow: '12px 12px 0px 0px #000000',
+            }}
           >
-            <p className="text-black text-base leading-relaxed">
+            <p 
+              className="text-black text-base leading-[1.7] font-normal"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
               I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
             </p>
           </motion.div>
@@ -369,18 +440,12 @@ export default function Home() {
             transition={{ delay: 1.0 }}
             className="flex flex-wrap gap-4 justify-center"
           >
-            <Link 
-              href="/work" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100]"
-            >
+            <MagneticButton href="/work" variant="primary">
               View Work
-            </Link>
-            <Link 
-              href="/contact" 
-              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black"
-            >
+            </MagneticButton>
+            <MagneticButton href="/contact" variant="secondary">
               Get in Touch
-            </Link>
+            </MagneticButton>
           </motion.div>
         </div>
 
@@ -389,7 +454,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 0.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}

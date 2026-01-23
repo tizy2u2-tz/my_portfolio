@@ -20,11 +20,13 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Consider scrolled after passing the hero section
-      setIsScrolled(window.scrollY > window.innerHeight - 100);
+      // Consider scrolled after a small amount of scrolling to prevent overlap
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
+    // Check initial scroll position
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -40,7 +42,13 @@ export default function Navigation() {
     : 'bg-cream';
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${isScrolled ? 'bg-ink/90 backdrop-blur-sm' : ''}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-ink/95 backdrop-blur-md shadow-lg' 
+        : isHomePage 
+        ? 'bg-[#FFE100]/80 backdrop-blur-sm' 
+        : 'bg-ink/90 backdrop-blur-sm'
+    }`}>
       <nav className="container-main py-6 flex items-center justify-between">
         {/* Logo - TZ mark */}
         <Link href="/" className="relative z-50">
