@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
 import MagneticButton from '@/components/MagneticButton';
+import MagneticWrapper from '@/components/MagneticWrapper';
 import { featuredProjects } from '@/data/projects';
 
 // Staggered text animation for headline
@@ -520,9 +521,11 @@ export default function Home() {
           <p className="text-lg md:text-xl leading-relaxed text-white/80 mb-10">
             I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
-          <Link href="/contact" className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-yellow text-ink hover:bg-white transition-colors duration-300">
-            Start a Conversation
-          </Link>
+          <MagneticWrapper>
+            <Link href="/contact" className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-yellow text-ink hover:bg-white transition-colors duration-300">
+              Start a Conversation
+            </Link>
+          </MagneticWrapper>
         </motion.div>
       </section>
     </>

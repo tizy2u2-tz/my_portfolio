@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import Resume from '@/components/Resume';
+import MagneticWrapper from '@/components/MagneticWrapper';
 
 export default function AboutPage() {
   return (
@@ -117,16 +118,18 @@ export default function AboutPage() {
           <div>
             <h2 className="heading-md">Experience</h2>
           </div>
-          <Link 
-            href="/resume.pdf" 
-            target="_blank"
-            className="mt-4 md:mt-0 btn-outline inline-flex items-center gap-2"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-            </svg>
-            Download Resume (PDF)
-          </Link>
+          <MagneticWrapper>
+            <Link 
+              href="/resume.pdf" 
+              target="_blank"
+              className="mt-4 md:mt-0 btn-outline inline-flex items-center gap-2"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              Download Resume (PDF)
+            </Link>
+          </MagneticWrapper>
         </div>
         
         <Resume />
