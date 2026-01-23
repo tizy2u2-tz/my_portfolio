@@ -4,8 +4,31 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import Resume from '@/components/Resume';
+import MagneticWrapper from '@/components/MagneticWrapper';
+import { useContainerSize } from '@/hooks/useContainerSize';
 
 export default function AboutPage() {
+  // Base design size: 800px width, 1000px height (4:5 aspect ratio)
+  const BASE_WIDTH = 800;
+  const BASE_HEIGHT = 1000;
+
+  // Base positions in pixels (at base design size)
+  const YELLOW_RECT = {
+    width: 560, // 70% of 800
+    height: 660, // 70% of 1000 - 40px
+    top: 120, // 12% of 1000
+  };
+
+  // Wings image - full container size to prevent clipping
+  const WINGS = {
+    width: 800, // Full width of container
+    height: 1000, // Full height of container
+    top: 0,
+    left: 0,
+  };
+
+  const [containerRef, containerSize] = useContainerSize();
+  const scaleFactor = containerSize.width > 0 ? containerSize.width / BASE_WIDTH : 1;
   return (
     <section className="pt-28 pb-16 container-main">
       {/* Hero */}
@@ -48,15 +71,53 @@ export default function AboutPage() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="relative"
         >
-          {/* Photo placeholder - replace with your actual photo */}
-          <div className="relative aspect-[4/5] bg-ink-light overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center text-cream/20">
-              {/* Placeholder for photo */}
-              <span className="text-sm">Your photo here</span>
-            </div>
-            {/* Decorative elements */}
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-yellow/20 -z-10" />
-            <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue/20 -z-10" />
+          <div 
+            ref={containerRef}
+            className="relative aspect-[4/5] bg-ink"
+            style={{ overflow: 'visible' }}
+          >
+            {/* Yellow rectangle background - animates in first */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute inset-0"
+            >
+              <div 
+                className="absolute bg-yellow"
+                style={{
+                  width: `${YELLOW_RECT.width * scaleFactor}px`,
+                  height: `${YELLOW_RECT.height * scaleFactor}px`,
+                  top: `${(YELLOW_RECT.top + 4) * scaleFactor}px`,
+                  left: '50%',
+                  transform: `translateX(calc(-50% - ${20 * scaleFactor}px))`,
+                }}
+              />
+            </motion.div>
+            
+            {/* Tonya with Wings - animates in second */}
+            <motion.div
+              initial={{ opacity: 0, scale: 1.1, y: 5 }}
+              animate={{ opacity: 1, scale: 1.10, y: 5 }}
+              transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute z-10"
+              style={{
+                width: `${WINGS.width * scaleFactor}px`,
+                height: `${WINGS.height * scaleFactor}px`,
+                top: `${(WINGS.top + 5) * scaleFactor}px`,
+                left: `${WINGS.left * scaleFactor}px`,
+              }}
+            >
+              <div className="relative w-full h-full">
+                <Image
+                  src="/images/tonya-wings.png"
+                  alt="Tonya with Wings"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
@@ -117,16 +178,18 @@ export default function AboutPage() {
           <div>
             <h2 className="heading-md">Experience</h2>
           </div>
-          <Link 
-            href="/resume.pdf" 
-            target="_blank"
-            className="mt-4 md:mt-0 btn-outline inline-flex items-center gap-2"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-            </svg>
-            Download Resume (PDF)
-          </Link>
+          <MagneticWrapper>
+            <Link 
+              href="/resume.pdf" 
+              target="_blank"
+              className="mt-4 md:mt-0 btn-outline inline-flex items-center gap-2"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              Download Resume (PDF)
+            </Link>
+          </MagneticWrapper>
         </div>
         
         <Resume />

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import MagneticWrapper from '@/components/MagneticWrapper';
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -161,13 +162,15 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn-secondary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </button>
+              <MagneticWrapper className="w-full">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-secondary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </button>
+              </MagneticWrapper>
             </form>
           )}
         </motion.div>

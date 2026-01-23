@@ -322,14 +322,58 @@
     @apply relative inline-block;
   }
 
+  /* Always visible underline - full word length */
+  .link-underline::before {
+    content: '';
+    @apply absolute left-0 w-full;
+    bottom: -4px;
+    height: 3px;
+    background-color: currentColor;
+    opacity: 0.8;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Wavy underline on hover - using SVG wave that respects currentColor */
   .link-underline::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-yellow;
-    @apply transition-all duration-300 ease-out;
+    @apply absolute left-0 w-full;
+    bottom: -6px;
+    height: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+    /* SVG wave pattern - more pronounced wave with larger amplitude */
+    background: currentColor;
+    /* Create more pronounced wavy mask using SVG with larger amplitude */
+    /* Wave goes from 0 to 8 (center at 4), so we need height of 12px to avoid clipping */
+    /* Stroke width matches default state (3px) */
+    mask-image: url("data:image/svg+xml,%3Csvg width='50' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,6 Q12.5,0 25,6 T50,6' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='50' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,6 Q12.5,0 25,6 T50,6' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    mask-size: 50px 12px;
+    -webkit-mask-size: 50px 12px;
+    mask-repeat: repeat-x;
+    -webkit-mask-repeat: repeat-x;
+    mask-position: 0 center;
+    -webkit-mask-position: 0 center;
+    animation: wave-slide 0.8s linear infinite;
+  }
+
+  .link-underline:hover::before {
+    opacity: 0;
   }
 
   .link-underline:hover::after {
-    @apply w-full;
+    opacity: 1;
+  }
+
+  @keyframes wave-slide {
+    0% {
+      mask-position: 0 center;
+      -webkit-mask-position: 0 center;
+    }
+    100% {
+      mask-position: 50px center;
+      -webkit-mask-position: 50px center;
+    }
   }
 
   .link-underline-blue {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
 import MagneticButton from '@/components/MagneticButton';
+import MagneticWrapper from '@/components/MagneticWrapper';
 import { featuredProjects } from '@/data/projects';
 
 // Staggered text animation for headline
@@ -17,6 +18,21 @@ const letterVariants = {
       delay: 0.8 + i * 0.03,
       duration: 0.5,
       ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
+// Bounce animation for PURPOSE letters
+const bounceLetterVariants = {
+  hidden: { opacity: 0, y: 80, scale: 0.3 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: 1.4 + i * 0.08,
+      duration: 0.6,
+      ease: [0.34, 1.56, 0.64, 1], // Bouncy ease
     },
   }),
 };
@@ -91,6 +107,20 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
     initial="hidden"
     animate="visible"
     variants={letterVariants}
+    className="inline-block"
+    style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
+  >
+    {char === ' ' ? '\u00A0' : char}
+  </motion.span>
+);
+
+// Animated purpose letter component with bounce
+const AnimatedPurposeLetter = ({ char, index }: { char: string; index: number }) => (
+  <motion.span
+    custom={index}
+    initial="hidden"
+    animate="visible"
+    variants={bounceLetterVariants}
     className="inline-block"
     style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
   >
@@ -294,10 +324,7 @@ export default function Home() {
               transformOrigin: 'left',
             }}
           >
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.4, duration: 0.5 }}
+            <div
               className="text-[#FFE100] uppercase"
               style={{
                 fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
@@ -308,8 +335,10 @@ export default function Home() {
                 paddingLeft: '10px',
               }}
             >
-              {purposeText}
-            </motion.div>
+              {purposeText.split('').map((char, index) => (
+                <AnimatedPurposeLetter key={index} char={char} index={index} />
+              ))}
+            </div>
           </motion.div>
 
           {/* Description - White box (aligned right edge with PURPOSE box) */}
@@ -344,7 +373,7 @@ export default function Home() {
             className="absolute flex gap-4"
             style={{
               left: '40.2%',
-              top: '750px',
+              top: '775px',
             }}
           >
             <MagneticButton href="/work" variant="primary">
@@ -520,9 +549,11 @@ export default function Home() {
           <p className="text-lg md:text-xl leading-relaxed text-white/80 mb-10">
             I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
-          <Link href="/contact" className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-yellow text-ink hover:bg-white transition-colors duration-300">
-            Start a Conversation
-          </Link>
+          <MagneticWrapper>
+            <Link href="/contact" className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-yellow text-ink hover:bg-white transition-colors duration-300">
+              Start a Conversation
+            </Link>
+          </MagneticWrapper>
         </motion.div>
       </section>
     </>
