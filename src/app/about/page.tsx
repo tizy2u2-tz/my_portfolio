@@ -5,8 +5,30 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Resume from '@/components/Resume';
 import MagneticWrapper from '@/components/MagneticWrapper';
+import { useContainerSize } from '@/hooks/useContainerSize';
 
 export default function AboutPage() {
+  // Base design size: 800px width, 1000px height (4:5 aspect ratio)
+  const BASE_WIDTH = 800;
+  const BASE_HEIGHT = 1000;
+
+  // Base positions in pixels (at base design size)
+  const YELLOW_RECT = {
+    width: 560, // 70% of 800
+    height: 660, // 70% of 1000 - 40px
+    top: 120, // 12% of 1000
+  };
+
+  // Wings image - full container size to prevent clipping
+  const WINGS = {
+    width: 800, // Full width of container
+    height: 1000, // Full height of container
+    top: 0,
+    left: 0,
+  };
+
+  const [containerRef, containerSize] = useContainerSize();
+  const scaleFactor = containerSize.width > 0 ? containerSize.width / BASE_WIDTH : 1;
   return (
     <section className="pt-28 pb-16 container-main">
       {/* Hero */}
@@ -49,7 +71,11 @@ export default function AboutPage() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="relative"
         >
-          <div className="relative aspect-[4/5] bg-ink overflow-hidden">
+          <div 
+            ref={containerRef}
+            className="relative aspect-[4/5] bg-ink"
+            style={{ overflow: 'visible' }}
+          >
             {/* Yellow rectangle background - animates in first */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -57,37 +83,35 @@ export default function AboutPage() {
               transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="absolute inset-0"
             >
-              <div className="absolute bg-yellow w-[70%] h-[70%] top-[12%] left-1/2 -translate-x-1/2" />
-            </motion.div>
-            
-            {/* Wings - animates in second */}
-            <motion.div
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1.10 }}
-              transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute inset-0 z-10"
-            >
-              <Image
-                src="/images/wings.png"
-                alt="Wings"
-                fill
-                className="object-contain"
-                priority
+              <div 
+                className="absolute bg-yellow"
+                style={{
+                  width: `${YELLOW_RECT.width * scaleFactor}px`,
+                  height: `${YELLOW_RECT.height * scaleFactor}px`,
+                  top: `${(YELLOW_RECT.top + 4) * scaleFactor}px`,
+                  left: '50%',
+                  transform: `translateX(calc(-50% - ${20 * scaleFactor}px))`,
+                }}
               />
             </motion.div>
             
-            {/* Tonya - animates in last */}
+            {/* Tonya with Wings - animates in second */}
             <motion.div
-              initial={{ opacity: 0, y: 120 }}
-              animate={{ opacity: 1, y: 80 }}
-              transition={{ delay: 0.7, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute inset-0 z-20 flex justify-center"
-              style={{ paddingTop: '16%' }}
+              initial={{ opacity: 0, scale: 1.1, y: 5 }}
+              animate={{ opacity: 1, scale: 1.10, y: 5 }}
+              transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute z-10"
+              style={{
+                width: `${WINGS.width * scaleFactor}px`,
+                height: `${WINGS.height * scaleFactor}px`,
+                top: `${(WINGS.top + 5) * scaleFactor}px`,
+                left: `${WINGS.left * scaleFactor}px`,
+              }}
             >
-              <div className="relative" style={{ width: '60%', height: '66%' }}>
+              <div className="relative w-full h-full">
                 <Image
-                  src="/images/tonya-about.png"
-                  alt="Tonya Zenin"
+                  src="/images/tonya-wings.png"
+                  alt="Tonya with Wings"
                   fill
                   className="object-contain"
                   priority
