@@ -22,6 +22,21 @@ const letterVariants = {
   }),
 };
 
+// Bounce animation for PURPOSE letters
+const bounceLetterVariants = {
+  hidden: { opacity: 0, y: 80, scale: 0.3 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: 1.4 + i * 0.08,
+      duration: 0.6,
+      ease: [0.34, 1.56, 0.64, 1], // Bouncy ease
+    },
+  }),
+};
+
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: (delay: number) => ({
@@ -92,6 +107,20 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
     initial="hidden"
     animate="visible"
     variants={letterVariants}
+    className="inline-block"
+    style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
+  >
+    {char === ' ' ? '\u00A0' : char}
+  </motion.span>
+);
+
+// Animated purpose letter component with bounce
+const AnimatedPurposeLetter = ({ char, index }: { char: string; index: number }) => (
+  <motion.span
+    custom={index}
+    initial="hidden"
+    animate="visible"
+    variants={bounceLetterVariants}
     className="inline-block"
     style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
   >
@@ -295,10 +324,7 @@ export default function Home() {
               transformOrigin: 'left',
             }}
           >
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.4, duration: 0.5 }}
+            <div
               className="text-[#FFE100] uppercase"
               style={{
                 fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
@@ -309,8 +335,10 @@ export default function Home() {
                 paddingLeft: '10px',
               }}
             >
-              {purposeText}
-            </motion.div>
+              {purposeText.split('').map((char, index) => (
+                <AnimatedPurposeLetter key={index} char={char} index={index} />
+              ))}
+            </div>
           </motion.div>
 
           {/* Description - White box (aligned right edge with PURPOSE box) */}
@@ -322,7 +350,7 @@ export default function Home() {
             className="absolute bg-white border border-black z-10"
             style={{
               left: '40.2%',
-              top: '577px',
+              top: '600px',
               width: '723px',
               padding: '24px',
               boxShadow: '12px 12px 0px 0px #000000',
@@ -345,7 +373,7 @@ export default function Home() {
             className="absolute flex gap-4"
             style={{
               left: '40.2%',
-              top: '750px',
+              top: '775px',
             }}
           >
             <MagneticButton href="/work" variant="primary">

@@ -16,6 +16,7 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [isPastHeroLogo, setIsPastHeroLogo] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
@@ -28,6 +29,16 @@ export default function Navigation() {
       }
       // Consider scrolled after a small amount of scrolling to prevent overlap
       setIsScrolled(scrollY > 50);
+      
+      // On home page, check if we've scrolled past the hero logo
+      // Hero logo is at ~557px from top, logo is ~207px tall, so roughly at ~764px total
+      // We'll show nav logo when scrolled past ~800px to be safe
+      if (isHomePage) {
+        setIsPastHeroLogo(scrollY > 800);
+      } else {
+        // On other pages, always show the logo
+        setIsPastHeroLogo(true);
+      }
     };
 
     // Check initial scroll position on mount (for page refresh scenarios)
@@ -35,7 +46,7 @@ export default function Navigation() {
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -61,30 +72,42 @@ export default function Navigation() {
           : 'bg-[#FFE100]/0 backdrop-blur-sm'
         : 'bg-ink/90 backdrop-blur-sm'
     }`}>
-      <nav className="container-main py-6 flex items-center justify-between">
+      <nav className="container-main py-6 flex items-center">
         {/* Logo - TZ mark */}
-        <Link href="/" className="relative z-50">
-          <motion.svg
-            viewBox="0 0 400 400"
-            className="w-12 h-12"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <path
-              d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
-              fill={isHomePage && !isScrolled && hasScrolled ? 'black' : '#6a6d75'}
-              className="transition-colors duration-300"
-            />
-            <path
-              d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
-              fill={isHomePage && !isScrolled && hasScrolled ? 'black' : '#6a6d75'}
-              className="transition-colors duration-300"
-            />
-          </motion.svg>
-        </Link>
+        {/* Hide on home page initially, show when past hero logo. Always visible on other pages */}
+        <AnimatePresence>
+          {(isPastHeroLogo || !isHomePage) && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Link href="/" className="relative z-50">
+                <motion.svg
+                  viewBox="0 0 400 400"
+                  className="w-12 h-12"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <path
+                    d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
+                    fill={isHomePage && !isScrolled && hasScrolled ? 'black' : '#6a6d75'}
+                    className="transition-colors duration-300"
+                  />
+                  <path
+                    d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
+                    fill={isHomePage && !isScrolled && hasScrolled ? 'black' : '#6a6d75'}
+                    className="transition-colors duration-300"
+                  />
+                </motion.svg>
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden md:flex items-center gap-8 ml-auto">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
