@@ -22,7 +22,66 @@ const letterVariants = {
   }),
 };
 
-// Bounce animation for PURPOSE letters
+// Reveal animation variants for PURPOSE black background
+const purposeRevealVariants = {
+  // OPTION 1: Slide in from left
+  slideFromLeft: {
+    hidden: { scaleX: 0, transformOrigin: 'left' },
+    visible: { 
+      scaleX: 1,
+      transition: { delay: 1.0, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+    },
+  },
+  // OPTION 2: Slide in from right
+  slideFromRight: {
+    hidden: { scaleX: 0, transformOrigin: 'right' },
+    visible: { 
+      scaleX: 1,
+      transition: { delay: 1.0, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+    },
+  },
+  // OPTION 3: Fade in
+  fadeIn: {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { delay: 1.0, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+    },
+  },
+  // OPTION 4: Clip path reveal (wipe effect)
+  clipReveal: {
+    hidden: { clipPath: 'inset(0 100% 0 0)' },
+    visible: { 
+      clipPath: 'inset(0 0% 0 0)',
+      transition: { delay: 1.0, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+    },
+  },
+  // OPTION 5: Scale from center
+  scaleFromCenter: {
+    hidden: { scale: 0, transformOrigin: 'center' },
+    visible: { 
+      scale: 1,
+      transition: { delay: 1.0, duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }
+    },
+  },
+};
+
+// Choose your reveal animation style:
+// 1: slideFromLeft, 2: slideFromRight, 3: fadeIn, 4: clipReveal, 5: scaleFromCenter
+const PURPOSE_REVEAL_STYLE = 1; // Change this number to switch styles
+
+const getPurposeRevealVariant = () => {
+  switch (PURPOSE_REVEAL_STYLE) {
+    case 1: return purposeRevealVariants.slideFromLeft;
+    case 2: return purposeRevealVariants.slideFromRight;
+    case 3: return purposeRevealVariants.fadeIn;
+    case 4: return purposeRevealVariants.clipReveal;
+    case 5: return purposeRevealVariants.scaleFromCenter;
+    default: return purposeRevealVariants.slideFromLeft;
+  }
+};
+
+// Bounce animation for PURPOSE letters - OPTION 1: Current (Bouncy)
 const bounceLetterVariants = {
   hidden: { opacity: 0, y: 80, scale: 0.3 },
   visible: (i: number) => ({
@@ -33,6 +92,82 @@ const bounceLetterVariants = {
       delay: 1.4 + i * 0.08,
       duration: 0.6,
       ease: [0.34, 1.56, 0.64, 1], // Bouncy ease
+    },
+  }),
+};
+
+// OPTION 2: Punchy Scale & Rotate (More dramatic)
+const punchyScaleRotateVariants = {
+  hidden: { opacity: 0, scale: 0, rotate: -180 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: [0, 1.3, 1],
+    rotate: [-180, 10, 0],
+    transition: {
+      delay: 1.4 + i * 0.05,
+      duration: 0.5,
+      ease: [0.68, -0.55, 0.27, 1.55], // Strong bounce
+    },
+  }),
+};
+
+// OPTION 3: Slam Down (Aggressive impact)
+const slamDownVariants = {
+  hidden: { opacity: 0, y: -150, scale: 1.5 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: [1.5, 0.9, 1],
+    transition: {
+      delay: 1.4 + i * 0.06,
+      duration: 0.4,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
+// OPTION 4: Explosive Pop (Quick and snappy)
+const explosivePopVariants = {
+  hidden: { opacity: 0, scale: 0, rotate: 360 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: [0, 1.4, 1],
+    rotate: [360, -10, 0],
+    transition: {
+      delay: 1.4 + i * 0.04,
+      duration: 0.35,
+      ease: [0.68, -0.6, 0.32, 1.6], // Sharp bounce
+    },
+  }),
+};
+
+// OPTION 5: Staggered Impact (Wave effect)
+const staggeredImpactVariants = {
+  hidden: { opacity: 0, y: 100, x: -50, scale: 0.5 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    x: 0,
+    scale: [0.5, 1.2, 1],
+    transition: {
+      delay: 1.4 + i * 0.07,
+      duration: 0.45,
+      ease: [0.34, 1.56, 0.64, 1],
+    },
+  }),
+};
+
+// OPTION 6: Quick Snap (Minimal but punchy)
+const quickSnapVariants = {
+  hidden: { opacity: 0, scale: 0.2, y: 50 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      delay: 1.4 + i * 0.03,
+      duration: 0.3,
+      ease: [0.25, 0.1, 0.25, 1.5], // Quick snap
     },
   }),
 };
@@ -114,13 +249,34 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
   </motion.span>
 );
 
-// Animated purpose letter component with bounce
+// Choose your animation style for PURPOSE:
+// 1: bounceLetterVariants (Current - Bouncy)
+// 2: punchyScaleRotateVariants (Scale & Rotate - More dramatic)
+// 3: slamDownVariants (Slam Down - Aggressive impact)
+// 4: explosivePopVariants (Explosive Pop - Quick and snappy)
+// 5: staggeredImpactVariants (Staggered Impact - Wave effect)
+// 6: quickSnapVariants (Quick Snap - Minimal but punchy)
+const PURPOSE_ANIMATION_STYLE = 6; // Change this number to switch styles
+
+const getPurposeVariants = () => {
+  switch (PURPOSE_ANIMATION_STYLE) {
+    case 1: return bounceLetterVariants;
+    case 2: return punchyScaleRotateVariants;
+    case 3: return slamDownVariants;
+    case 4: return explosivePopVariants;
+    case 5: return staggeredImpactVariants;
+    case 6: return quickSnapVariants;
+    default: return bounceLetterVariants;
+  }
+};
+
+// Animated purpose letter component
 const AnimatedPurposeLetter = ({ char, index }: { char: string; index: number }) => (
   <motion.span
     custom={index}
     initial="hidden"
     animate="visible"
-    variants={bounceLetterVariants}
+    variants={getPurposeVariants()}
     className="inline-block"
     style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
   >
@@ -310,22 +466,20 @@ export default function Home() {
             </div>
           </div>
 
-          {/* PURPOSE - Yellow text in black container with top clipped */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 1.0, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute bg-black overflow-hidden z-0"
+          {/* PURPOSE - Yellow text in black container with reveal animation */}
+          {/* Text starts italic, changes to Bodoni when black shape animates */}
+          <div
+            className="absolute z-0"
             style={{
               left: '48%',
               top: '450px',
               width: '611px',
               height: '113px',
-              transformOrigin: 'left',
             }}
           >
+            {/* PURPOSE text */}
             <div
-              className="text-[#FFE100] uppercase"
+              className="text-[#FFE100] uppercase absolute"
               style={{
                 fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
                 fontWeight: 700,
@@ -333,13 +487,25 @@ export default function Home() {
                 lineHeight: '1',
                 marginTop: '-22px',
                 paddingLeft: '10px',
+                zIndex: 2,
               }}
             >
-              {purposeText.split('').map((char, index) => (
-                <AnimatedPurposeLetter key={index} char={char} index={index} />
-              ))}
+              {purposeText}
             </div>
-          </motion.div>
+            
+            {/* Black background - animates in to reveal text */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={getPurposeRevealVariant()}
+              className="absolute bg-black overflow-hidden"
+              style={{
+                width: '100%',
+                height: '100%',
+                zIndex: 1,
+              }}
+            />
+          </div>
 
           {/* Description - White box (aligned right edge with PURPOSE box) */}
           <motion.div
@@ -483,7 +649,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 0.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}

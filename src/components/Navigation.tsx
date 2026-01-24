@@ -51,10 +51,8 @@ export default function Navigation() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   // On home page with yellow bg: use black text; elsewhere or when scrolled: use cream
-  // When yellow bar is transparent (initial load), use cream text for visibility
-  // Yellow bar is visible when: isHomePage && hasScrolled && !isScrolled
-  const isYellowBarVisible = isHomePage && hasScrolled && !isScrolled;
-  const textColorClass = isYellowBarVisible
+  // On home page, when not scrolled, always use black text (page has yellow background)
+  const textColorClass = (isHomePage && !isScrolled)
     ? 'text-black/80 hover:!text-black'
     : 'text-cream/80 hover:text-yellow';
   
