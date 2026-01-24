@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -53,14 +54,12 @@ export default function Navigation() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   // On home page with yellow bg: use black text; elsewhere or when scrolled: use cream
-  // When yellow bar is transparent (initial load), use cream text for visibility
-  // Yellow bar is visible when: isHomePage && hasScrolled && !isScrolled
-  const isYellowBarVisible = isHomePage && hasScrolled && !isScrolled;
-  const textColorClass = isYellowBarVisible
+  // On home page, when not scrolled, always use black text (page has yellow background)
+  const textColorClass = (isHomePage && !isScrolled)
     ? 'text-black/80 hover:!text-black'
     : 'text-cream/80 hover:text-yellow';
   
-  const hamburgerColorClass = isHomePage && !isScrolled && hasScrolled && !isOpen
+  const hamburgerColorClass = isHomePage && !isScrolled && !isOpen
     ? 'bg-black'
     : 'bg-cream';
 
@@ -71,10 +70,10 @@ export default function Navigation() {
         : isHomePage 
         ? hasScrolled
           ? 'bg-[#FFE100]/80 backdrop-blur-sm' 
-          : 'bg-[#FFE100]/0 backdrop-blur-sm'
+          : 'bg-[#FFE100] md:bg-[#FFE100]/0 backdrop-blur-sm'
         : 'bg-ink/90 backdrop-blur-sm'
     }`}>
-      <nav className="container-main py-6 flex items-center">
+      <nav className="container-main py-3 md:py-6 flex items-center">
         {/* Logo - TZ mark */}
         {/* Hide on home page initially, show when past hero logo. Always visible on other pages */}
         <AnimatePresence>
@@ -125,7 +124,7 @@ export default function Navigation() {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}
-          className="md:hidden relative z-50 w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+          className="md:hidden relative z-50 w-10 h-10 flex flex-col items-center justify-center gap-1.5 ml-auto"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
         >
           <motion.span
@@ -142,43 +141,114 @@ export default function Navigation() {
           />
         </button>
 
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-ink z-40 md:hidden"
-            >
-              <motion.ul
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.1, staggerChildren: 0.1 }}
-                className="flex flex-col items-center justify-center h-full gap-8"
-              >
-                {navLinks.map((link, index) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + index * 0.1 }}
+        {/* Mobile Menu Overlay - portaled to body so it covers full viewport (header backdrop-blur creates containing block that clips fixed overlay) */}
+        {typeof document !== 'undefined' &&
+          createPortal(
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed inset-0 top-0 left-0 right-0 bottom-0 w-full min-h-screen z-40 md:hidden flex flex-col"
+                  style={{ isolation: 'isolate' }}
+                  aria-hidden={!isOpen}
+                >
+                  {/* Yellow Header Bar */}
+                  <motion.div
+                    initial={{ y: -100 }}
+                    animate={{ y: 0 }}
+                    exit={{ y: -100 }}
+                    transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                    className="bg-yellow w-full flex items-center justify-between px-6 py-5"
                   >
-                    <Link
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="text-4xl font-display font-bold text-cream hover:text-yellow transition-colors duration-300"
+                    <div className="w-10" /> {/* Spacer for centering */}
+                    <button
+                      onClick={toggleMenu}
+                      className="absolute right-6 w-10 h-10 flex items-center justify-center group"
+                      aria-label="Close menu"
                     >
-                      {link.label}
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </motion.div>
+                      <motion.svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="text-ink"
+                        whileHover={{ scale: 1.1, rotate: 90 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <motion.path
+                          d="M18 6L6 18M6 6L18 18"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        />
+                      </motion.svg>
+                    </button>
+                  </motion.div>
+
+                  {/* Black Content Area */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="flex-1 bg-ink flex items-center justify-center"
+                  >
+                    <motion.ul
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 30 }}
+                      transition={{ delay: 0.2, staggerChildren: 0.08 }}
+                      className="flex flex-col items-start w-full max-w-sm px-8 space-y-1"
+                    >
+                      {navLinks.map((link, index) => {
+                        const isActive = pathname === link.href;
+                        return (
+                          <motion.li
+                            key={link.href}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.2 + index * 0.08, duration: 0.4 }}
+                            className="w-full"
+                          >
+                            <Link
+                              href={link.href}
+                              onClick={() => setIsOpen(false)}
+                              className={`group relative block w-full py-4 link-underline-mobile ${isActive ? 'is-active' : ''}`}
+                            >
+                              <motion.div
+                                whileTap={{ scale: 0.98 }}
+                                transition={{ duration: 0.15, ease: 'easeOut' }}
+                                className="relative"
+                              >
+                                <span
+                                  className={`text-3xl sm:text-4xl font-medium tracking-wide uppercase transition-all duration-300 ${
+                                    isActive
+                                      ? 'text-yellow'
+                                      : 'text-cream group-hover:text-yellow'
+                                  }`}
+                                >
+                                  {link.label}
+                                </span>
+                              </motion.div>
+                            </Link>
+                          </motion.li>
+                        );
+                      })}
+                    </motion.ul>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>,
+            document.body
           )}
-        </AnimatePresence>
       </nav>
     </header>
   );
