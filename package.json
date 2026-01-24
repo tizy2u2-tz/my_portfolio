@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build"
+    "export": "next build",
+    "type-check": "tsc --noEmit",
+    "check": "npm run type-check && npm run lint"
   },
   "dependencies": {
     "@fontsource/bodoni-moda": "^5.2.7",
