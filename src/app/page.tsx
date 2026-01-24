@@ -68,7 +68,7 @@ const purposeRevealVariants = {
 
 // Choose your reveal animation style:
 // 1: slideFromLeft, 2: slideFromRight, 3: fadeIn, 4: clipReveal, 5: scaleFromCenter
-const PURPOSE_REVEAL_STYLE = 1; // Change this number to switch styles
+const PURPOSE_REVEAL_STYLE: number = 1; // Change this number to switch styles
 
 const getPurposeRevealVariant = () => {
   switch (PURPOSE_REVEAL_STYLE) {
@@ -256,7 +256,7 @@ const AnimatedLetter = ({ char, index }: { char: string; index: number }) => (
 // 4: explosivePopVariants (Explosive Pop - Quick and snappy)
 // 5: staggeredImpactVariants (Staggered Impact - Wave effect)
 // 6: quickSnapVariants (Quick Snap - Minimal but punchy)
-const PURPOSE_ANIMATION_STYLE = 6; // Change this number to switch styles
+const PURPOSE_ANIMATION_STYLE: number = 6; // Change this number to switch styles
 
 const getPurposeVariants = () => {
   switch (PURPOSE_ANIMATION_STYLE) {
