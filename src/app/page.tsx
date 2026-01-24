@@ -539,7 +539,7 @@ export default function Home() {
             className="absolute flex gap-4"
             style={{
               left: '40.2%',
-              top: '775px',
+              top: '800px',
             }}
           >
             <MagneticButton href="/work" variant="primary">
@@ -551,105 +551,231 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Tablet/Mobile Layout - simplified responsive version */}
-        <div className="lg:hidden flex flex-col items-center justify-center min-h-screen px-6 py-20">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-black text-sm font-medium tracking-[0.96px] uppercase mb-4"
-          >
-            Tonya Zenin
-          </motion.p>
-          
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="text-black text-center mb-8"
-            style={{ fontSize: 'clamp(3rem, 12vw, 6rem)', lineHeight: 0.85 }}
-          >
-            <span style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 900, display: 'block' }}>Design</span>
-            <span style={{ fontFamily: "'Bodoni 72', serif", fontStyle: 'italic', display: 'block' }}>with</span>
-            <span style={{ fontFamily: "'Bodoni 72', serif", fontWeight: 700, display: 'block' }}>Purpose</span>
-          </motion.h1>
+        {/* Tablet/Mobile Layout - matching Figma design exactly */}
+        <div className="lg:hidden relative w-full min-h-screen bg-[#FFE100] overflow-hidden pb-20">
+          {/* Container with proper padding */}
+          <div className="relative w-full max-w-[390px] mx-auto" style={{ minHeight: '100vh', paddingBottom: '80px' }}>
+            
+            {/* TONYA ZENIN label */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="absolute text-black font-medium uppercase"
+              style={{ 
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: '10px',
+                letterSpacing: '0.6px',
+                left: '40px',
+                top: '70px',
+              }}
+            >
+              Tonya Zenin
+            </motion.p>
+            
+            {/* Design with - Headline */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="absolute text-black"
+              style={{ 
+                left: '34px',
+                top: '99px',
+                fontSize: 'min(84.67px, 21.7vw)',
+                lineHeight: 0.74,
+              }}
+            >
+              {/* Design */}
+              <div style={{ fontFamily: "'Bodoni Moda', serif", fontWeight: 900 }}>
+                Design
+              </div>
+              
+              {/* with */}
+              <div 
+                style={{ 
+                  fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
+                  fontStyle: 'italic',
+                  fontWeight: 400,
+                }}
+              >
+                with
+              </div>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="relative w-full max-w-sm mb-8"
-          >
-            <div className="relative w-full overflow-visible">
+            {/* PURPOSE - black box */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="absolute bg-black flex items-center"
+              style={{
+                transformOrigin: 'left',
+                left: '27px',
+                top: '235px',
+                width: 'calc(100% - 16px)',
+                maxWidth: '347px',
+                height: '80px',
+                padding: '3px 4px',
+              }}
+            >
+              <div
+                className="text-[#FFE100] uppercase"
+                style={{
+                  fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
+                  fontWeight: 700,
+                  fontSize: 'min(77.89px, 20vw)',
+                  lineHeight: '1',
+                }}
+              >
+                PURPOSE
+              </div>
+            </motion.div>
+
+            {/* Background colorful image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="absolute rounded-bl-[11px] rounded-tr-[11px] overflow-hidden"
+              style={{
+                left: '42px',
+                top: '306px',
+                width: '72%',
+                maxWidth: '281px',
+                height: '288px',
+              }}
+            >
+              <Image
+                src="/images/tonya-3.png"
+                alt="Colorful background"
+                fill
+                className="object-cover"
+                style={{ objectPosition: '-4.67% -34.03%', transform: 'scale(1.37)' }}
+                priority
+              />
+            </motion.div>
+
+            {/* Main portrait */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.0, duration: 0.8 }}
+              className="absolute"
+              style={{
+                left: '96px',
+                top: '288px',
+                width: '72%',
+                maxWidth: '281px',
+                height: '325px',
+              }}
+            >
               <Image
                 src="/images/tonya.png"
                 alt="Tonya Zenin"
-                width={507}
-                height={585}
-                className="w-full h-auto"
+                fill
+                className="object-cover object-top"
+                priority
               />
-              
-              {/* TZ Logo - locked position relative to profile photo (same ratio as desktop) */}
-              {/* Position: 75.4% from top, -33.7% from left (maintains same visual relationship) */}
-              {/* Scales proportionally with screen size */}
-              <div
-                className="absolute z-20"
-                style={{
-                  left: '-33.7%',
-                  top: '75.4%',
+            </motion.div>
+            
+            {/* TZ Logo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotate: -180 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ delay: 1.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute z-20"
+              style={{
+                left: '12px',
+                top: '528px',
+                width: '94px',
+                height: '94px',
+              }}
+            >
+              <svg
+                viewBox="0 0 400 400"
+                className="w-full h-full"
+              >
+                <path
+                  d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
+                  fill="black"
+                />
+                <path
+                  d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
+                  fill="black"
+                />
+              </svg>
+            </motion.div>
+
+            {/* Shadow box */}
+            <div 
+              className="absolute bg-black"
+              style={{
+                left: '33px',
+                top: '619px',
+                width: 'calc(100% - 7px)',
+                maxWidth: '350px',
+                height: '100px',
+              }}
+            />
+
+            {/* Description - White box */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.4, duration: 0.6 }}
+              className="absolute bg-white border border-black z-10"
+              style={{
+                left: '27px',
+                top: '611px',
+                width: 'calc(100% - 16px)',
+                maxWidth: '347px',
+                padding: '12px',
+              }}
+            >
+              <p 
+                className="text-black leading-[1.6] font-normal"
+                style={{ 
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: '12px',
                 }}
               >
-                <div 
-                  className="w-[207px] h-[207px]"
-                  style={{
-                    transform: 'scale(min(1, calc(100vw / 1440)))',
-                  }}
-                >
-                  <AnimatedTZLogo />
-                </div>
-              </div>
-            </div>
-          </motion.div>
+                I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
+              </p>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="bg-white border border-black max-w-md mb-8"
-            style={{
-              padding: '24px',
-              boxShadow: '12px 12px 0px 0px #000000',
-            }}
-          >
-            <p 
-              className="text-black text-base leading-[1.7] font-normal"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            {/* CTA Buttons - positioned below description box */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6, duration: 0.6 }}
+              className="absolute z-10 flex flex-col gap-3"
+              style={{
+                left: '27px',
+                right: '27px',
+                top: '740px',
+              }}
             >
-              I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0 }}
-            className="flex flex-wrap gap-4 justify-center"
-          >
-            <MagneticButton href="/work" variant="primary">
-              View Work
-            </MagneticButton>
-            <MagneticButton href="/contact" variant="secondary">
-              Get in Touch
-            </MagneticButton>
-          </motion.div>
+              <div className="w-full flex justify-center">
+                <MagneticButton href="/work" variant="primary">
+                  View Work
+                </MagneticButton>
+              </div>
+              <div className="w-full flex justify-center mb-16">
+                <MagneticButton href="/contact" variant="secondary">
+                  Get in Touch
+                </MagneticButton>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - hidden on mobile to avoid overlap with buttons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 0.5 }}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+          className="hidden lg:block absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
