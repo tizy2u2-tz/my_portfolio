@@ -22,7 +22,7 @@ export default function WorkPage() {
         className="mb-16"
       >
         <p className="text-yellow font-medium tracking-widest uppercase mb-4">Portfolio</p>
-        <h1 className="heading-lg mb-6">Selected Work</h1>
+        <h1 className="heading-lg mb-6 text-yellow">Selected Work</h1>
         <p className="body-lg max-w-2xl">
           A collection of brand, digital, and motion projects spanning enterprise tech, 
           campaigns, and personal explorations.
@@ -100,7 +100,7 @@ function FilterButton({ label, isActive, onClick }: FilterButtonProps) {
         px-4 py-2 text-sm font-medium tracking-wide uppercase transition-all duration-300
         ${isActive 
           ? 'bg-magenta text-white' 
-          : 'bg-transparent text-cream/60 border border-cream/20 hover:border-magenta hover:text-magenta'
+          : 'bg-transparent text-cream/60 border border-cream/25 hover:border-magenta hover:text-magenta'
         }
       `}
     >

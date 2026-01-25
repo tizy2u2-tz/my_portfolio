@@ -89,7 +89,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             {project.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="text-xs text-cream/40 border border-cream/20 px-2 py-1"
+                className="text-xs text-cream/40 border border-cream/25 px-2 py-1"
               >
                 {tag}
               </span>

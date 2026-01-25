@@ -39,28 +39,27 @@ export default function AboutPage() {
           transition={{ duration: 0.6 }}
         >
           <p className="text-yellow font-medium tracking-widest uppercase mb-4">About</p>
-          <h1 className="heading-lg mb-8">
+          <h1 className="heading-lg mb-8 text-yellow">
             Hey, I&apos;m Tonya.
           </h1>
           
           {/* Bio - casual, human tone */}
           <div className="space-y-6 body-md">
             <p>
-              I&apos;m a senior designer who loves making things look good and work even better. 
-              My sweet spot? Brand identity, digital experiences, and motion design—basically 
-              anything where I can blend bold visuals with smart strategy.
+              Hey, I&apos;m Tonya. I&apos;m a senior brand designer who loves creating designs that look great and function beautifully. 
+              My favorite areas are brand identity, digital experiences, and motion design, anywhere I can blend bold visuals with smart strategy.
             </p>
             <p>
-              I&apos;ve spent years working with enterprise tech companies, helping them stand out 
-              in a sea of sameness. Because let&apos;s be honest—B2B doesn&apos;t have to be boring. 
-              Some of my favorite projects have been transforming complex ideas into visuals 
-              that actually connect with people.
+              I&apos;ve spent years designing for enterprise tech companies, shaping brands and campaigns that need to communicate complex ideas with confidence and personality. 
+              I enjoy bringing structure to ambiguity and turning abstract concepts into visuals that feel intentional, clear, and human.
             </p>
             <p>
-              When I&apos;m not pushing pixels, you&apos;ll find me exploring street art, experimenting 
-              with new animation techniques, or probably reorganizing my Figma files for the 
-              hundredth time. I believe great design should feel effortless (even when it&apos;s not) 
-              and that the best work happens when you&apos;re not afraid to try something unexpected.
+              Lately, my process feels more relaxed and fluid. The tools I work with now give me far more creative freedom to design and build with flexibility I didn&apos;t have before. 
+              It&apos;s an exciting time to be a designer.
+            </p>
+            <p>
+              I enjoy experimenting with AI tools and learning new ways to work with them to make my process more efficient and exploratory. 
+              I stay curious and keep learning. When I&apos;m not designing, you&apos;ll usually find me painting outdoors with oils.
             </p>
           </div>
         </motion.div>
@@ -156,7 +155,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className={`p-8 border border-cream/10 transition-colors duration-300 ${index % 2 === 0 ? 'hover:border-yellow/50' : 'hover:border-blue/50'}`}
+              className={`p-8 border border-cream/25 transition-colors duration-300 ${index % 2 === 0 ? 'hover:border-yellow/50' : 'hover:border-blue/50'}`}
             >
               <span className={`text-3xl mb-4 block ${index % 2 === 0 ? 'text-yellow' : 'text-blue'}`}>{skill.icon}</span>
               <h3 className="text-xl font-display font-semibold mb-3">{skill.title}</h3>
@@ -195,27 +194,63 @@ export default function AboutPage() {
         <Resume />
       </motion.div>
 
+      {/* Social Links */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-8"
+      >
+        <div className="border-8 border-yellow p-12">
+          <h2 className="heading-md mb-8">Connect</h2>
+          <div className="flex gap-4">
+            {[
+              { name: 'LinkedIn', url: 'https://linkedin.com/in/tonyazenin', hover: 'hover:border-blue hover:text-blue' },
+              { name: 'Midjourney', url: 'https://www.midjourney.com/@tzee', hover: 'hover:border-yellow hover:text-yellow' },
+              { name: 'Instagram', url: 'https://instagram.com/tonyazenin', hover: 'hover:border-pink hover:text-pink' },
+              { name: 'Fine Art', url: 'https://www.tonyazenin.com/', hover: 'hover:border-yellow hover:text-yellow' },
+            ].map((social) => (
+              <motion.a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`px-4 py-2 text-sm border-2 border-cream/60 transition-colors duration-300 ${social.hover}`}
+                whileHover={{ y: -2, transition: { duration: 0.2 } }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {social.name}
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
       {/* Fun Facts (optional) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="border-t border-cream/10 pt-16"
+        className="border-t border-cream/10 pt-8"
       >
-        <h2 className="heading-md mb-8">A Few More Things</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { label: 'Coffee order', value: 'Oat milk latte', color: 'text-yellow' },
-            { label: 'Current obsession', value: 'AI experiments', color: 'text-blue' },
-            { label: 'Design tool', value: 'Figma forever', color: 'text-pink' },
-            { label: 'Hidden talent', value: 'Street art photography', color: 'text-yellow' },
-          ].map((fact) => (
-            <div key={fact.label} className="text-center p-4">
-              <p className="text-xs uppercase tracking-widest text-cream/40 mb-2">{fact.label}</p>
-              <p className={`font-display font-semibold ${fact.color}`}>{fact.value}</p>
-            </div>
-          ))}
+        <div className="border-8 border-blue p-12">
+          <h2 className="heading-md mb-8">A Few More Things</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {[
+              { label: 'Coffee order', value: 'matcha latte', color: 'text-yellow' },
+              { label: 'Current obsession', value: 'AI experiments', color: 'text-blue' },
+              { label: 'Design tool', value: 'Figma forever', color: 'text-pink' },
+              { label: 'Weekend adventure', value: 'motorcycle trips', color: 'text-blue' },
+              { label: 'Hidden talent', value: 'plein air painting', color: 'text-yellow' },
+            ].map((fact) => (
+              <div key={fact.label} className="text-center p-4">
+                <p className="text-xs uppercase tracking-widest text-cream/40 mb-2">{fact.label}</p>
+                <p className={`font-display font-semibold ${fact.color}`}>{fact.value}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
     </section>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navigation from '@/components/Navigation';
 import PageTransition from '@/components/PageTransition';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Tonya Zenin | Design Portfolio',
@@ -29,6 +30,9 @@ export default function RootLayout({
             {children}
           </main>
         </PageTransition>
+        
+        {/* Footer */}
+        <Footer />
       </body>
     </html>
   );

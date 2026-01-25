@@ -12,6 +12,7 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,8 +42,8 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-blue font-medium tracking-widest uppercase mb-4">Get in Touch</p>
-          <h1 className="heading-lg mb-8">
+          <p className="text-yellow font-medium tracking-widest uppercase mb-4">Get in Touch</p>
+          <h1 className="heading-lg mb-8 text-yellow">
             Let&apos;s create something together.
           </h1>
           <p className="body-lg mb-12">
@@ -55,10 +56,10 @@ export default function ContactPage() {
             <div>
               <h3 className="text-xs font-medium tracking-widest uppercase text-cream/40 mb-2">Email</h3>
               <a 
-                href="mailto:hello@tonyazenin.com" 
+                href="mailto:zenintonya@gmail.com" 
                 className="text-lg hover:text-blue transition-colors link-underline-blue"
               >
-                hello@tonyazenin.com
+                zenintonya@gmail.com
               </a>
             </div>
             <div>
@@ -72,16 +73,16 @@ export default function ContactPage() {
             <h3 className="text-xs font-medium tracking-widest uppercase text-cream/40 mb-4">Connect</h3>
             <div className="flex gap-4">
               {[
-                { name: 'LinkedIn', url: 'https://linkedin.com/in/tonyazenin' },
-                { name: 'Dribbble', url: 'https://dribbble.com/tonyazenin' },
-                { name: 'Instagram', url: 'https://instagram.com/tonyazenin' },
+                { name: 'LinkedIn', url: 'https://linkedin.com/in/tonyazenin', hover: 'hover:border-blue hover:text-blue' },
+                { name: 'Midjourney', url: 'https://www.midjourney.com/@tzee', hover: 'hover:border-yellow hover:text-yellow' },
+                { name: 'Instagram', url: 'https://instagram.com/tonyazenin', hover: 'hover:border-pink hover:text-pink' },
               ].map((social) => (
                 <a
                   key={social.name}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 text-sm border border-cream/20 hover:border-blue hover:text-blue transition-colors duration-300"
+                  className={`px-4 py-2 text-sm border border-cream/25 transition-colors duration-300 ${social.hover}`}
                 >
                   {social.name}
                 </a>
@@ -166,9 +167,29 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-secondary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  onMouseEnter={() => setIsButtonHovered(true)}
+                  onMouseLeave={() => setIsButtonHovered(false)}
+                  className="relative inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase w-full rounded-none transition-all duration-300 ease-out disabled:opacity-50 disabled:cursor-not-allowed bg-magenta text-white border-2 border-white overflow-hidden"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {/* Black wave overlay - sweeps from left to right on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-black"
+                    initial={{ x: '-100%' }}
+                    animate={isButtonHovered ? { x: '0%' } : { x: '-100%' }}
+                    transition={{
+                      duration: 0.6,
+                      ease: [0.4, 0, 0.2, 1],
+                    }}
+                  />
+                  <motion.span 
+                    className="relative z-10"
+                    style={{
+                      color: isButtonHovered ? '#FFE100' : '#FFFFFF',
+                      transition: 'color 0.3s ease 0.3s',
+                    }}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </motion.span>
                 </button>
               </MagneticWrapper>
             </form>

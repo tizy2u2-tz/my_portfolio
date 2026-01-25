@@ -18,6 +18,7 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isPastHeroLogo, setIsPastHeroLogo] = useState(false);
+  const [clickedLink, setClickedLink] = useState<string | null>(null);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
@@ -52,6 +53,10 @@ export default function Navigation() {
   }, [isHomePage]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleLinkClick = (href: string) => {
+    setClickedLink(href);
+  };
 
   // On home page with yellow bg: use black text; elsewhere or when scrolled: use cream
   // On home page, when not scrolled, always use black text (page has yellow background)
@@ -109,16 +114,24 @@ export default function Navigation() {
 
         {/* Desktop Navigation */}
         <ul className="hidden md:flex items-center gap-8 ml-auto">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 link-underline ${textColorClass}`}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const isClicked = clickedLink === link.href;
+            // On home page with yellow bg, clicked links should be black, not yellow
+            const clickedClass = isClicked 
+              ? (isHomePage && !isScrolled ? 'is-clicked-home' : 'is-clicked')
+              : '';
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={() => handleLinkClick(link.href)}
+                  className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 link-underline ${textColorClass} ${clickedClass}`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Mobile Menu Button */}
@@ -220,8 +233,11 @@ export default function Navigation() {
                           >
                             <Link
                               href={link.href}
-                              onClick={() => setIsOpen(false)}
-                              className={`group relative block w-full py-4 link-underline-mobile ${isActive ? 'is-active' : ''}`}
+                              onClick={() => {
+                                handleLinkClick(link.href);
+                                setIsOpen(false);
+                              }}
+                              className={`group relative block w-full py-4 link-underline-mobile ${isActive ? 'is-active' : ''} ${clickedLink === link.href ? 'is-clicked' : ''}`}
                             >
                               <motion.div
                                 whileTap={{ scale: 0.98 }}

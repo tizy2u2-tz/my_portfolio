@@ -305,7 +305,7 @@
 
   .btn-outline {
     @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase;
-    @apply border border-cream text-cream bg-transparent;
+    @apply border-2 border-yellow text-yellow bg-transparent;
     @apply transition-all duration-300 ease-out;
     @apply hover:bg-yellow hover:text-ink hover:border-yellow;
   }
@@ -363,6 +363,42 @@
 
   .link-underline:hover::after {
     opacity: 1;
+  }
+
+  /* Clicked state - yellow text and visible underline (for dark backgrounds) */
+  .link-underline.is-clicked {
+    @apply text-yellow;
+  }
+
+  .link-underline.is-clicked::before {
+    opacity: 1 !important;
+    background-color: #FFE100;
+  }
+
+  .link-underline.is-clicked:hover::before {
+    opacity: 1 !important;
+  }
+
+  .link-underline.is-clicked:hover::after {
+    opacity: 0;
+  }
+
+  /* Clicked state for home page - black text and underline (for yellow background) */
+  .link-underline.is-clicked-home {
+    @apply text-black;
+  }
+
+  .link-underline.is-clicked-home::before {
+    opacity: 1 !important;
+    background-color: #000000;
+  }
+
+  .link-underline.is-clicked-home:hover::before {
+    opacity: 1 !important;
+  }
+
+  .link-underline.is-clicked-home:hover::after {
+    opacity: 0;
   }
 
   @keyframes wave-slide {
@@ -437,6 +473,22 @@
   /* Hide static underline when wavy is active (on tap) */
   .link-underline-mobile:active.is-active::before {
     opacity: 0;
+  }
+
+  /* Clicked state for mobile */
+  .link-underline-mobile.is-clicked span {
+    @apply text-yellow;
+  }
+
+  .link-underline-mobile.is-clicked::before {
+    content: '';
+    @apply absolute left-0;
+    bottom: 12px;
+    width: 100%;
+    height: 2px;
+    background-color: #FFE100;
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
   }
 
   /* Section container */
