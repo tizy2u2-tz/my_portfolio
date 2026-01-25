@@ -52,7 +52,7 @@ const tools = [
   'Photoshop',
   'Lottie',
   'Framer',
-  'Webflow',
+  'Cursor',
 ];
 
 export default function Resume() {
@@ -120,7 +120,7 @@ export default function Resume() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05, duration: 0.3 }}
-              className="px-4 py-2 text-sm border border-cream/20 hover:border-yellow hover:text-yellow transition-colors duration-300"
+              className="px-4 py-2 text-sm border border-cream/25 hover:border-yellow hover:text-yellow transition-colors duration-300"
             >
               {tool}
             </motion.span>

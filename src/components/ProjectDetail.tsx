@@ -140,7 +140,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs text-cream/60 border border-cream/20 px-2 py-1"
+                    className="text-xs text-cream/60 border border-cream/25 px-2 py-1"
                   >
                     {tag}
                   </span>
