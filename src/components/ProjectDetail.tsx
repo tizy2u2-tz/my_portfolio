@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -239,25 +239,35 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               if (isOtherIphone) return null;
               if (isFirstIphone) {
                 return (
-                  <div key="iphone-banners" className="relative aspect-[4/3] bg-ink-light overflow-hidden md:col-span-2">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={iphoneBannerIndex}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="absolute inset-0"
-                      >
-                        <Image
-                          src={IPHONE_BANNER_IMAGES[iphoneBannerIndex]}
-                          alt={`${project.title} - Social banner ${iphoneBannerIndex + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
+                  <Fragment key="iphone-row">
+                    <div className="relative aspect-[4/3] bg-ink-light overflow-hidden">
+                      <Image
+                        src="/images/Resilience-campaign/iPhone 15 Pro-left.jpg"
+                        alt={`${project.title} - Social banner`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div key="iphone-carousel" className="relative aspect-[4/3] bg-ink-light overflow-hidden">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={iphoneBannerIndex}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className="absolute inset-0"
+                        >
+                          <Image
+                            src={IPHONE_BANNER_IMAGES[iphoneBannerIndex]}
+                            alt={`${project.title} - Social banner ${iphoneBannerIndex + 1}`}
+                            fill
+                            className="object-cover"
+                          />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                  </Fragment>
                 );
               }
               

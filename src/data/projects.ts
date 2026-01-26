@@ -30,9 +30,9 @@ export const projects: Project[] = [
     approach: 'Developed a striking visual system with bold, all-caps typography, a vibrant electric-green palette, and abstract vertical bar and data-stream graphics. Paired human portraits with high-contrast digital patterns for a modern, tech-forward look. Scaled across landing page, digital, and social media channels.',
     goal: 'Increase awareness and buyer interest for the Enterprise bundle among net-new enterprise, strategic, and government accounts. Educate IT and security leaders on cyber resilience strategies and position the brand as a trusted advisor. Drive early demand and account influence in priority global markets.',
     outcome: 'Reached 8K users across target markets with a 94% engagement rate. The campaign successfully increased brand awareness and positioned the brand as a trusted advisor in cyber resilience.',
-    thumbnail: '/images/Resilience-MacBook.jpg',
+    thumbnail: '/images/Resilience-campaign/Resilience-hero.jpg',
     images: [
-      '/images/Resilience-MacBook.jpg',
+      '/images/Resilience-campaign/Resilience-hero.jpg',
       '/images/Resilience-campaign/iPhone 15 Pro.jpg',
       '/images/Resilience-campaign/iPhone 15 Pro-1.jpg',
       '/images/Resilience-campaign/iPhone 15 Pro-2.jpg',
@@ -41,7 +41,6 @@ export const projects: Project[] = [
     year: '2025',
     client: 'Cohesity',
     featured: true,
-    hasLottie: true,
   },
   {
     slug: 'aws-reinvent-ooh-2024',
