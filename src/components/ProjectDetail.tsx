@@ -1,18 +1,31 @@
 'use client';
 
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Project, projects } from '@/data/projects';
 import LaptopVideoMockup from './LaptopVideoMockup';
+import VideoModal from './VideoModal';
 
 const IPHONE_BANNER_IMAGES = [
   '/images/Resilience-campaign/iPhone 15 Pro.jpg',
   '/images/Resilience-campaign/iPhone 15 Pro-1.jpg',
   '/images/Resilience-campaign/iPhone 15 Pro-2.jpg',
 ];
+
+const RESILIENCE_PHOTO_IMAGES = [
+  '/images/Resilience-campaign/resilience-photo-1.jpg',
+  '/images/Resilience-campaign/resilience-photo-2.jpg',
+  '/images/Resilience-campaign/resilience-photo-3.jpg',
+  '/images/Resilience-campaign/resilience-photo-4.jpg',
+  '/images/Resilience-campaign/resilience-photo-5.jpg',
+  '/images/Resilience-campaign/resilience-photo-6.jpg',
+  '/images/Resilience-campaign/resilience-photo-7.jpg',
+  '/images/Resilience-campaign/resilience-photo-8.jpg',
+];
+
 
 // Dynamic import with ssr: false to prevent document is not defined error
 const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
@@ -30,6 +43,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
 
   const [iphoneBannerIndex, setIphoneBannerIndex] = useState(0);
+  const [videoModalId, setVideoModalId] = useState<string | null>(null);
+
   useEffect(() => {
     if (project.slug !== 'resilience-everywhere-2025') return;
     const id = setInterval(() => {
@@ -48,7 +63,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       >
         <Link 
           href="/work" 
-          className="inline-flex items-center gap-2 text-cream/60 hover:text-yellow transition-colors mb-12"
+          className="font-body inline-flex items-center gap-2 text-sm text-cream/60 hover:text-yellow transition-colors mb-12"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -65,12 +80,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         className="mb-16"
       >
         <div className="flex flex-wrap items-center gap-4 mb-6">
-          <span className="px-3 py-1 text-xs font-medium tracking-wider uppercase bg-yellow text-ink">
+          <span className="font-body px-3 py-1 text-xs font-medium tracking-wider uppercase bg-yellow text-ink">
             {project.category}
           </span>
-          <span className="text-cream/40">{project.year}</span>
+          <span className="font-body text-sm text-cream/40">{project.year}</span>
           {project.client && (
-            <span className="text-cream/40">• {project.client}</span>
+            <span className="font-body text-sm text-cream/40">• {project.client}</span>
           )}
         </div>
         
@@ -147,17 +162,17 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <div className="sticky top-32 space-y-8">
             <div>
-              <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-3">Role</h3>
-              <p className="text-cream/80">{project.role}</p>
+              <h3 className="font-body text-xs font-medium tracking-widest uppercase text-yellow mb-3">Role</h3>
+              <p className="font-body text-sm md:text-base leading-relaxed text-cream/80">{project.role}</p>
             </div>
             
             <div>
-              <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-3">Tags</h3>
+              <h3 className="font-body text-xs font-medium tracking-widest uppercase text-yellow mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs text-cream/60 border border-cream/25 px-2 py-1"
+                    className="font-body text-xs text-cream/60 border border-cream/25 px-2 py-1"
                   >
                     {tag}
                   </span>
@@ -172,34 +187,34 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="lg:col-span-2 space-y-12"
+          className="lg:col-span-2 space-y-6"
         >
           {project.goal && (
             <section>
-              <h2 className="heading-md mb-4">Campaign Goal</h2>
-              <p className="body-md">{project.goal}</p>
+              <h2 className="font-body font-semibold text-xl md:text-2xl mb-2">Campaign Goal</h2>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70">{project.goal}</p>
             </section>
           )}
 
           <section>
-            <h2 className="heading-md mb-4">Challenge</h2>
-            <p className="body-md">{project.challenge}</p>
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-2">Challenge</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70">{project.challenge}</p>
           </section>
 
           <section>
-            <h2 className="heading-md mb-4">Approach</h2>
-            <p className="body-md">{project.approach}</p>
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-2">Approach</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70">{project.approach}</p>
           </section>
 
           <section>
-            <h2 className="heading-md mb-4">Outcome</h2>
-            <p className="body-md">{project.outcome}</p>
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-2">Outcome</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70">{project.outcome}</p>
           </section>
 
           {project.reflection && (
             <section>
-              <h2 className="heading-md mb-4">Reflection</h2>
-              <p className="body-md">{project.reflection}</p>
+              <h2 className="font-body font-semibold text-xl md:text-2xl mb-2">Reflection</h2>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70">{project.reflection}</p>
             </section>
           )}
         </motion.div>
@@ -214,10 +229,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           transition={{ duration: 0.6 }}
           className="mb-20"
         >
-          <h2 className="heading-md mb-8">Gallery</h2>
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.slug === 'resilience-everywhere-2025' && (
               <div key="imac-mockup" className="md:col-span-2">
+                <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Landing page Lottie animation</h3>
                 <LaptopVideoMockup
                   laptopImage="/images/Resilience-campaign/iMac-mock.jpg"
                   videoSrc="/images/Resilience-campaign/hero-animation_1.mp4"
@@ -233,44 +249,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 return null;
               }
 
-              // Resilience project: rotate through 3 iPhone banner images in a single slot
-              const isFirstIphone = project.slug === 'resilience-everywhere-2025' && image === IPHONE_BANNER_IMAGES[0];
-              const isOtherIphone = project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image) && image !== IPHONE_BANNER_IMAGES[0];
-              if (isOtherIphone) return null;
-              if (isFirstIphone) {
-                return (
-                  <Fragment key="iphone-row">
-                    <div className="relative aspect-[4/3] bg-ink-light overflow-hidden">
-                      <Image
-                        src="/images/Resilience-campaign/iPhone 15 Pro-left.jpg"
-                        alt={`${project.title} - Social banner`}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div key="iphone-carousel" className="relative aspect-[4/3] bg-ink-light overflow-hidden">
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={iphoneBannerIndex}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.5 }}
-                          className="absolute inset-0"
-                        >
-                          <Image
-                            src={IPHONE_BANNER_IMAGES[iphoneBannerIndex]}
-                            alt={`${project.title} - Social banner ${iphoneBannerIndex + 1}`}
-                            fill
-                            className="object-cover"
-                          />
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
-                  </Fragment>
-                );
-              }
-              
+              // Resilience: iPhone banners + YT thumb live in Social Assets section; skip in main grid
+              if (project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image)) return null;
+
               return (
                 <div key={index} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
                   {isVideo ? (
@@ -294,6 +275,105 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               );
             })}
           </div>
+
+          {project.slug === 'resilience-everywhere-2025' && (
+            <>
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-8 mb-6">Social and Video Assets</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <motion.button
+                  type="button"
+                  onClick={() => setVideoModalId('dydQQj0N-M4')}
+                  className="group relative block aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 text-left"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Image
+                    src="/images/Resilience-campaign/iPhone 15 Pro-left.jpg"
+                    alt={`${project.title} - Social banner`}
+                    fill
+                    className="object-cover transition duration-300 group-hover:brightness-90"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-14 h-14 rounded-full bg-yellow/90 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-ink ml-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </motion.button>
+                <motion.button
+                  type="button"
+                  onClick={() => setVideoModalId('OcgKjOiBRUo')}
+                  className="group relative block aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 text-left"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Image
+                    src="/images/Resilience-campaign/iPad-right.jpg"
+                    alt={`${project.title} - iPad`}
+                    fill
+                    className="object-cover transition duration-300 group-hover:brightness-90"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-14 h-14 rounded-full bg-yellow/90 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-ink ml-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </motion.button>
+                <div className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={iphoneBannerIndex}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={IPHONE_BANNER_IMAGES[iphoneBannerIndex]}
+                        alt={`${project.title} - Social banner ${iphoneBannerIndex + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              <VideoModal
+                isOpen={!!videoModalId}
+                onClose={() => setVideoModalId(null)}
+                videoId={videoModalId || ''}
+              />
+
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">Campaign photography style</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {RESILIENCE_PHOTO_IMAGES.map((src, i) => (
+                  <motion.div
+                    key={src}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.04 }}
+                    className="relative aspect-square bg-ink-light overflow-hidden rounded-sm border border-cream/20"
+                  >
+                    <Image
+                      src={src}
+                      alt={`${project.title} - Photo ${i + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
         </motion.section>
       )}
 
@@ -310,8 +390,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             href={`/work/${prevProject.slug}`}
             className="group"
           >
-            <span className="text-xs text-cream/40 uppercase tracking-widest">Previous</span>
-            <p className="text-lg font-display group-hover:text-yellow transition-colors">
+            <span className="font-body text-xs text-cream/40 uppercase tracking-widest">Previous</span>
+            <p className="font-body text-lg font-semibold group-hover:text-yellow transition-colors">
               ← {prevProject.title}
             </p>
           </Link>
@@ -322,8 +402,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             href={`/work/${nextProject.slug}`}
             className="group text-right"
           >
-            <span className="text-xs text-cream/40 uppercase tracking-widest">Next</span>
-            <p className="text-lg font-display group-hover:text-yellow transition-colors">
+            <span className="font-body text-xs text-cream/40 uppercase tracking-widest">Next</span>
+            <p className="font-body text-lg font-semibold group-hover:text-yellow transition-colors">
               {nextProject.title} →
             </p>
           </Link>

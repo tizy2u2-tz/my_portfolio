@@ -21,21 +21,21 @@ export default function LaptopVideoMockup({
 }: LaptopVideoMockupProps) {
   return (
     <div className={`relative w-full ${className}`}>
-      <div className="relative aspect-[4/5] w-full max-w-4xl mx-auto">
+      <div className="relative w-full aspect-[4/5]">
         <Image
           src={laptopImage}
           alt="Device mockup"
           fill
           className="object-contain"
           priority
-          sizes="(max-width: 768px) 100vw, 896px"
+          sizes="100vw"
         />
         {/* Video overlay on screen — positioned over iMac screen, scaled to 75.5%, offset down */}
         <div
           className="absolute overflow-hidden rounded-lg flex items-center justify-center"
           style={{
-            top: 'calc(9% + 76px)',
-            left: 'calc(9% + 3px)',
+            top: 'calc(16% - 4px)',
+            left: '9.33%',
             width: '82%',
             height: '62%',
           }}
