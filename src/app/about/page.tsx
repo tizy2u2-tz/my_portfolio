@@ -240,14 +240,21 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {[
               { label: 'Coffee order', value: 'matcha latte', color: 'text-yellow' },
-              { label: 'Current obsession', value: 'AI experiments', color: 'text-blue' },
+              { label: 'Current obsession', value: ['AI experiments', 'vibe coding'] as const, color: 'text-blue' },
               { label: 'Design tool', value: 'Figma forever', color: 'text-pink' },
-              { label: 'Weekend adventure', value: 'motorcycle trips', color: 'text-blue' },
               { label: 'Hidden talent', value: 'plein air painting', color: 'text-yellow' },
             ].map((fact) => (
               <div key={fact.label} className="text-center p-4">
                 <p className="text-xs uppercase tracking-widest text-cream/40 mb-2">{fact.label}</p>
-                <p className={`font-display font-semibold ${fact.color}`}>{fact.value}</p>
+                {Array.isArray(fact.value) ? (
+                  <div className={`font-display font-semibold ${fact.color} space-y-0.5`}>
+                    {fact.value.map((line) => (
+                      <p key={line}>{line}</p>
+                    ))}
+                  </div>
+                ) : (
+                  <p className={`font-display font-semibold ${fact.color}`}>{fact.value}</p>
+                )}
               </div>
             ))}
           </div>
