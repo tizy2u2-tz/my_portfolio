@@ -7,6 +7,7 @@ export interface Project {
   challenge: string;
   approach: string;
   outcome: string;
+  goal?: string;
   reflection?: string;
   thumbnail: string;
   images: string[];
@@ -26,16 +27,17 @@ export const projects: Project[] = [
     overview: 'Global campaign launch for enterprise data security, bringing bold visuals to life across digital and physical touchpoints.',
     role: 'Lead Designer. Owned creative direction, visual identity, and multi-channel asset production.',
     challenge: 'Creating a cohesive campaign that stands out in the crowded cybersecurity space while maintaining enterprise credibility.',
-    approach: 'Developed a striking visual system using bold typography and dynamic shield imagery, scaling across OOH, digital, and event materials.',
-    outcome: 'Campaign launched across multiple global markets, driving significant brand visibility at industry events.',
+    approach: 'Developed a striking visual system with bold, all-caps typography, a vibrant electric-green palette, and abstract vertical bar and data-stream graphics. Paired human portraits with high-contrast digital patterns for a modern, tech-forward look. Scaled across landing page, digital, and social media channels.',
+    goal: 'Increase awareness and buyer interest for the Enterprise bundle among net-new enterprise, strategic, and government accounts. Educate IT and security leaders on cyber resilience strategies and position the brand as a trusted advisor. Drive early demand and account influence in priority global markets.',
+    outcome: 'Reached 8K users across target markets with a 94% engagement rate. The campaign successfully increased brand awareness and positioned the brand as a trusted advisor in cyber resilience.',
     thumbnail: '/images/Resilience-MacBook.jpg',
     images: [
       '/images/Resilience-MacBook.jpg',
-      '/images/Resilience-campaign/hero-animation.gif',
-      '/images/Resilience-campaign/hero-thumb.jpg',
-      '/images/Resilience-campaign/LP Cyber Resilience IT.png',
+      '/images/Resilience-campaign/iPhone 15 Pro.jpg',
+      '/images/Resilience-campaign/iPhone 15 Pro-1.jpg',
+      '/images/Resilience-campaign/iPhone 15 Pro-2.jpg',
     ],
-    tags: ['Brand Campaign', 'Motion', 'OOH', 'Digital'],
+    tags: ['Brand Campaign', 'Motion', 'Digital', 'Social Media'],
     year: '2025',
     client: 'Cohesity',
     featured: true,

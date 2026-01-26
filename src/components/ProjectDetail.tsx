@@ -1,10 +1,18 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Project, projects } from '@/data/projects';
+import LaptopVideoMockup from './LaptopVideoMockup';
+
+const IPHONE_BANNER_IMAGES = [
+  '/images/Resilience-campaign/iPhone 15 Pro.jpg',
+  '/images/Resilience-campaign/iPhone 15 Pro-1.jpg',
+  '/images/Resilience-campaign/iPhone 15 Pro-2.jpg',
+];
 
 // Dynamic import with ssr: false to prevent document is not defined error
 const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
@@ -20,6 +28,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const currentIndex = projects.findIndex((p) => p.slug === project.slug);
   const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
   const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
+
+  const [iphoneBannerIndex, setIphoneBannerIndex] = useState(0);
+  useEffect(() => {
+    if (project.slug !== 'resilience-everywhere-2025') return;
+    const id = setInterval(() => {
+      setIphoneBannerIndex((i) => (i + 1) % 3);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [project.slug]);
 
   return (
     <article className="pt-28 pb-16 container-main">
@@ -157,6 +174,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="lg:col-span-2 space-y-12"
         >
+          {project.goal && (
+            <section>
+              <h2 className="heading-md mb-4">Campaign Goal</h2>
+              <p className="body-md">{project.goal}</p>
+            </section>
+          )}
+
           <section>
             <h2 className="heading-md mb-4">Challenge</h2>
             <p className="body-md">{project.challenge}</p>
@@ -192,12 +216,49 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="heading-md mb-8">Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {project.slug === 'resilience-everywhere-2025' && (
+              <div key="imac-mockup" className="md:col-span-2">
+                <LaptopVideoMockup
+                  laptopImage="/images/Resilience-campaign/iMac-mock.jpg"
+                  videoSrc="/images/Resilience-campaign/hero-animation_1.mp4"
+                  videoAlt="Resilience Everywhere 2025 hero animation"
+                />
+              </div>
+            )}
             {project.images.slice(1).map((image, index) => {
               const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
               
               // Skip the first image if it's a video (already shown in hero for AWS project)
               if (project.slug === 'aws-reinvent-ooh-2024' && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
                 return null;
+              }
+
+              // Resilience project: rotate through 3 iPhone banner images in a single slot
+              const isFirstIphone = project.slug === 'resilience-everywhere-2025' && image === IPHONE_BANNER_IMAGES[0];
+              const isOtherIphone = project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image) && image !== IPHONE_BANNER_IMAGES[0];
+              if (isOtherIphone) return null;
+              if (isFirstIphone) {
+                return (
+                  <div key="iphone-banners" className="relative aspect-[4/3] bg-ink-light overflow-hidden md:col-span-2">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={iphoneBannerIndex}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute inset-0"
+                      >
+                        <Image
+                          src={IPHONE_BANNER_IMAGES[iphoneBannerIndex]}
+                          alt={`${project.title} - Social banner ${iphoneBannerIndex + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                );
               }
               
               return (
