@@ -13,17 +13,18 @@ export default function AboutPage() {
   const BASE_HEIGHT = 1000;
 
   // Base positions in pixels (at base design size)
-  // Both images aligned at base line (bottom)
   const YELLOW_RECT = {
-    width: 678, // 70% of 800 * 1.21 (21% larger total)
-    height: 799, // 70% of 1000 - 40px * 1.21 (21% larger total)
+    width: 560, // 70% of 800
+    height: 660, // 70% of 1000 - 40px
+    top: 120, // 12% of 1000
   };
 
-  // Tonya about image - sized to match screenshot (slightly wider than tall)
-  const TONYA_ABOUT = {
-    width: 726, // 75% of container width * 1.21 (21% larger total)
-    height: 690, // Maintains approximately 1.05:1 aspect ratio * 1.21 (21% larger total)
-    left: 0, // Position from left edge
+  // Wings image - full container size to prevent clipping
+  const WINGS = {
+    width: 800, // Full width of container
+    height: 1000, // Full height of container
+    top: 0,
+    left: 0,
   };
 
   const [containerRef, containerSize] = useContainerSize();
@@ -72,52 +73,58 @@ export default function AboutPage() {
             className="relative aspect-[4/5] bg-ink"
             style={{ overflow: 'visible' }}
           >
-            {/* Background image - animates in first, aligned at base line */}
+            {/* Yellow rectangle background - animates in first */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="absolute inset-0"
             >
               <div 
-                className="absolute"
+                className="absolute bg-yellow"
                 style={{
                   width: `${YELLOW_RECT.width * scaleFactor}px`,
                   height: `${YELLOW_RECT.height * scaleFactor}px`,
-                  bottom: 0,
+                  top: `${(YELLOW_RECT.top + 4 + 70) * scaleFactor}px`,
                   left: '50%',
                   transform: `translateX(calc(-50% - ${20 * scaleFactor}px))`,
                 }}
-              >
-                <Image
-                  src="/images/about-picture-3.png"
-                  alt="Background"
-                  fill
-                  className="object-cover object-bottom"
-                  priority
-                />
-              </div>
+              />
             </motion.div>
             
-            {/* Tonya about image - animates in second, aligned at base line */}
+            {/* Tonya with Wings - animates in second with dynamic effect */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              initial={{ opacity: 0, scale: 0.8, y: 30, rotate: -5 }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1, 
+                y: 0,
+                rotate: 0,
+              }}
+              transition={{ 
+                delay: 0.5, 
+                duration: 1.2, 
+                ease: [0.34, 1.56, 0.64, 1],
+                scale: {
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                },
+              }}
               className="absolute z-10"
               style={{
-                width: `${TONYA_ABOUT.width * scaleFactor}px`,
-                height: `${TONYA_ABOUT.height * scaleFactor}px`,
-                bottom: 0,
-                left: `calc(50% - ${(TONYA_ABOUT.width / 2 + 100) * scaleFactor}px)`,
+                width: `${WINGS.width * scaleFactor}px`,
+                height: `${WINGS.height * scaleFactor}px`,
+                top: `${(WINGS.top + 5 + 70 + 40 - 4 - 2 - 2) * scaleFactor}px`,
+                left: `${WINGS.left * scaleFactor}px`,
               }}
             >
               <div className="relative w-full h-full">
                 <Image
-                  src="/images/tonya-about-2.png"
-                  alt="Tonya"
+                  src="/images/tonya-wings.png"
+                  alt="Tonya with Wings"
                   fill
-                  className="object-contain object-bottom"
+                  className="object-contain"
                   priority
                 />
               </div>
@@ -199,30 +206,31 @@ export default function AboutPage() {
         <Resume />
       </motion.div>
 
+      {/* Connect & A Few More Things */}
       {/* Social Links */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mb-8"
+        className="mb-4"
       >
-        <div className="border-8 border-yellow p-6 md:p-12">
-          <h2 className="heading-md mb-8">Connect</h2>
+        <div className="bg-blue p-6 md:p-12">
+          <h2 className="heading-md mb-8 text-white">Connect</h2>
           <div className="flex flex-wrap gap-4">
             {[
-              { name: 'LinkedIn', url: 'https://linkedin.com/in/tonyazenin', hover: 'hover:border-blue hover:text-blue' },
-              { name: 'Midjourney', url: 'https://www.midjourney.com/@tzee', hover: 'hover:border-yellow hover:text-yellow' },
-              { name: 'Instagram', url: 'https://instagram.com/tonyazenin', hover: 'hover:border-pink hover:text-pink' },
-              { name: 'Fine Art', url: 'https://www.tonyazenin.com/', hover: 'hover:border-yellow hover:text-yellow' },
+              { name: 'LinkedIn', url: 'https://linkedin.com/in/tonyazenin' },
+              { name: 'Midjourney', url: 'https://www.midjourney.com/@tzee' },
+              { name: 'Instagram', url: 'https://instagram.com/tonyazenin' },
+              { name: 'Fine Art', url: 'https://www.tonyazenin.com/' },
             ].map((social) => (
               <motion.a
                 key={social.name}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`px-4 py-2 text-sm border-2 border-cream/60 transition-colors duration-300 ${social.hover}`}
-                whileHover={{ y: -2, transition: { duration: 0.2 } }}
+                className="border-2 border-yellow text-yellow bg-transparent px-6 py-3 font-medium transition-all duration-300 rounded-sm hover:bg-yellow hover:text-ink"
+                whileHover={{ y: -2, scale: 1.02, transition: { duration: 0.2 } }}
                 whileTap={{ scale: 0.98 }}
               >
                 {social.name}
@@ -232,33 +240,32 @@ export default function AboutPage() {
         </div>
       </motion.div>
 
-      {/* Fun Facts (optional) */}
+      {/* Fun Facts */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="border-t border-cream/10 pt-8"
       >
-        <div className="border-8 border-blue p-6 md:p-12">
-          <h2 className="heading-md mb-8">A Few More Things</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+        <div className="bg-yellow p-6 md:p-12">
+          <h2 className="heading-md mb-8 text-ink">A Few More Things</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Coffee order', value: 'matcha latte', color: 'text-yellow' },
-              { label: 'Current obsession', value: ['AI experiments', 'vibe coding'] as const, color: 'text-blue' },
-              { label: 'Design tool', value: 'Figma forever', color: 'text-pink' },
-              { label: 'Hidden talent', value: 'plein air painting', color: 'text-yellow' },
+              { label: 'Coffee order', value: 'matcha latte' },
+              { label: 'Current obsession', value: ['AI experiments', 'vibe coding'] as const },
+              { label: 'Design tool', value: 'Figma forever' },
+              { label: 'Hidden talent', value: 'plein air painting' },
             ].map((fact) => (
-              <div key={fact.label} className="text-center p-4">
-                <p className="text-xs uppercase tracking-widest text-cream/40 mb-2">{fact.label}</p>
+              <div key={fact.label} className="bg-cream border border-cream/40 text-ink text-center p-6 rounded-sm">
+                <p className="text-xs uppercase tracking-widest opacity-60 mb-3">{fact.label}</p>
                 {Array.isArray(fact.value) ? (
-                  <div className={`font-display font-semibold ${fact.color} space-y-0.5`}>
+                  <div className="font-display font-semibold space-y-0.5">
                     {fact.value.map((line) => (
                       <p key={line}>{line}</p>
                     ))}
                   </div>
                 ) : (
-                  <p className={`font-display font-semibold ${fact.color}`}>{fact.value}</p>
+                  <p className="font-display font-semibold">{fact.value}</p>
                 )}
               </div>
             ))}

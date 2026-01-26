@@ -6,7 +6,7 @@ interface ExperienceItem {
   role: string;
   company: string;
   period: string;
-  description: string;
+  description: string | string[];
 }
 
 interface EducationItem {
@@ -15,44 +15,104 @@ interface EducationItem {
   year: string;
 }
 
+interface CertificationItem {
+  title: string;
+  issuer: string;
+}
+
+interface AwardItem {
+  title: string;
+}
+
 const experience: ExperienceItem[] = [
   {
-    role: 'Senior Designer',
-    company: 'Cohesity',
+    role: 'Art Director',
+    company: 'Cohesity — San Jose, CA',
     period: '2019 — Present',
-    description: 'Leading brand, digital, and motion design for enterprise data security. Owning creative direction for global campaigns, events, and product marketing.',
+    description: [
+      'Lead art direction and visual design across brand, digital marketing, campaigns, and global events.',
+      'Played a key role in evolving the brand toward a more modern, confident visual identity.',
+      'Directed major initiatives including AWS re:Invent, OOH placements (including Harmon Corner), digital billboards, booth environments, and large-scale event graphics.',
+      'Defined the visual system for Cohesity Catalyst, the company\'s largest virtual event, ensuring consistency across all digital touchpoints.',
+      'Partnered closely with marketing, product, and leadership teams to deliver award-winning campaigns with measurable impact.',
+      'Implemented and scaled a design system to improve brand consistency, efficiency, and collaboration across teams.',
+    ],
   },
   {
-    role: 'Designer',
-    company: 'Previous Company',
-    period: '2016 — 2019',
-    description: 'Brand identity and digital design for B2B tech clients. Developed visual systems and led design for marketing campaigns.',
+    role: 'Creative Lead / Manager',
+    company: 'A10 Networks — San Jose, CA',
+    period: '2015 — 2019',
+    description: [
+      'Led creative direction for brand, marketing campaigns, websites, and corporate communications.',
+      'Developed and directed integrated campaigns across digital, print, and experiential channels.',
+      'Defined the look and feel of the marketing website from concept through final delivery.',
+      'Collaborated with cross-functional teams to align creative output with business and product goals.',
+    ],
   },
   {
-    role: 'Junior Designer',
-    company: 'Agency Name',
-    period: '2014 — 2016',
-    description: 'Worked across branding, print, and digital projects for diverse clients. Foundation in design systems and production.',
+    role: 'Visual Designer',
+    company: 'Apple — Sunnyvale, CA',
+    period: '2014 — 2015',
+    description: [
+      'Translated business requirements into design concepts, wireframes, prototypes, and high-fidelity mockups.',
+      'Designed user flows, interactive prototypes, and final production-ready assets.',
+      'Participated in user research and usability testing initiatives.',
+      'Collaborated with cross-functional product teams to present and refine design solutions.',
+    ],
   },
 ];
 
 const education: EducationItem[] = [
   {
     degree: 'BFA in Graphic Design',
-    school: 'University Name',
-    year: '2014',
+    school: 'Khabarovsk, Russia',
+    year: '',
+  },
+];
+
+const certifications: CertificationItem[] = [
+  {
+    title: 'Web Design',
+    issuer: 'California College of Communications, Santa Clara, CA',
+  },
+  {
+    title: 'Mobile App Design: Design Principles & UX',
+    issuer: '',
+  },
+  {
+    title: 'Coding for Designers',
+    issuer: '',
+  },
+];
+
+const awards: AwardItem[] = [
+  {
+    title: 'GDUSA Digital Design Awards — 2021, 2022, 2023, 2024',
+  },
+  {
+    title: 'American InHouse Design Award — Best Brochure Design',
+  },
+  {
+    title: 'American InHouse Design Award — Best Collateral Design',
+  },
+  {
+    title: 'Multiple awards and recognitions in fine art as a landscape oil painter',
   },
 ];
 
 const tools = [
   'Figma',
   'Adobe Creative Suite',
+  'Adobe Firefly',
   'After Effects',
   'Illustrator',
   'Photoshop',
   'Lottie',
   'Framer',
   'Cursor',
+  'Midjourney',
+  'ChatGPT',
+  'HTML & CSS',
 ];
 
 export default function Resume() {
@@ -77,35 +137,77 @@ export default function Resume() {
               <div className="md:col-span-3">
                 <h4 className="text-lg font-display font-semibold">{item.role}</h4>
                 <p className="text-yellow mb-2">{item.company}</p>
-                <p className="text-cream/60 text-sm">{item.description}</p>
+                {Array.isArray(item.description) ? (
+                  <ul className="text-cream/60 text-sm space-y-1.5 list-disc pl-6">
+                    {item.description.map((bullet, idx) => (
+                      <li key={idx} className="leading-relaxed">{bullet}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-cream/60 text-sm">{item.description}</p>
+                )}
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Education */}
-      <div>
-        <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Education</h3>
-        <div className="space-y-4">
-          {education.map((item, index) => (
-            <motion.div
-              key={item.school}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.4 }}
-              className="grid grid-cols-1 md:grid-cols-4 gap-4"
-            >
-              <div className="md:col-span-1">
-                <span className="text-sm text-cream/40">{item.year}</span>
-              </div>
-              <div className="md:col-span-3">
+      {/* Education, Certifications & Honors & Awards */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr_1.2fr] gap-8 md:gap-12">
+        {/* Education */}
+        <div>
+          <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Education</h3>
+          <div className="space-y-4">
+            {education.map((item, index) => (
+              <motion.div
+                key={item.school}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+              >
                 <h4 className="text-lg font-display font-semibold">{item.degree}</h4>
                 <p className="text-cream/60">{item.school}</p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Certifications */}
+        <div>
+          <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Certifications</h3>
+          <div className="space-y-4">
+            {certifications.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+              >
+                <h4 className="text-lg font-body font-semibold">{item.title}</h4>
+                {item.issuer && <p className="text-cream/60">{item.issuer}</p>}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Honors & Awards */}
+        <div>
+          <h3 className="text-xs font-medium tracking-widest uppercase text-yellow mb-8">Honors & Awards</h3>
+          <div className="space-y-4">
+            {awards.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.4 }}
+              >
+                <p className="text-cream/60">{item.title}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
 
