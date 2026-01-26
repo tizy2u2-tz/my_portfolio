@@ -13,18 +13,17 @@ export default function AboutPage() {
   const BASE_HEIGHT = 1000;
 
   // Base positions in pixels (at base design size)
+  // Both images aligned at base line (bottom)
   const YELLOW_RECT = {
-    width: 560, // 70% of 800
-    height: 660, // 70% of 1000 - 40px
-    top: 120, // 12% of 1000
+    width: 678, // 70% of 800 * 1.21 (21% larger total)
+    height: 799, // 70% of 1000 - 40px * 1.21 (21% larger total)
   };
 
-  // Wings image - full container size to prevent clipping
-  const WINGS = {
-    width: 800, // Full width of container
-    height: 1000, // Full height of container
-    top: 0,
-    left: 0,
+  // Tonya about image - sized to match screenshot (slightly wider than tall)
+  const TONYA_ABOUT = {
+    width: 726, // 75% of container width * 1.21 (21% larger total)
+    height: 690, // Maintains approximately 1.05:1 aspect ratio * 1.21 (21% larger total)
+    left: 0, // Position from left edge
   };
 
   const [containerRef, containerSize] = useContainerSize();
@@ -46,19 +45,17 @@ export default function AboutPage() {
           {/* Bio - casual, human tone */}
           <div className="space-y-6 body-md">
             <p>
-              Hey, I&apos;m Tonya. I&apos;m a senior brand designer who loves creating designs that look great and function beautifully. 
+              I&apos;m a senior brand designer and art director who loves creating work that looks great and functions beautifully. 
               My favorite areas are brand identity, digital experiences, and motion design, anywhere I can blend bold visuals with smart strategy.
             </p>
             <p>
               I&apos;ve spent years designing for enterprise tech companies, shaping brands and campaigns that need to communicate complex ideas with confidence and personality. 
-              I enjoy bringing structure to ambiguity and turning abstract concepts into visuals that feel intentional, clear, and human.
+              I enjoy leading creative direction, bringing structure to ambiguity, and guiding ideas from early concept through final execution so the work feels intentional, clear, and human.
             </p>
             <p>
-              Lately, my process feels more relaxed and fluid. The tools I work with now give me far more creative freedom to design and build with flexibility I didn&apos;t have before. 
-              It&apos;s an exciting time to be a designer.
+              These days, the way I work feels much more fluid and natural, and I&apos;m able to move more freely between design and build. I enjoy experimenting with AI tools and learning new ways to work with them, which has made my process more efficient and exploratory. It&apos;s an exciting time to be a designer.
             </p>
             <p>
-              I enjoy experimenting with AI tools and learning new ways to work with them to make my process more efficient and exploratory. 
               I stay curious and keep learning. When I&apos;m not designing, you&apos;ll usually find me painting outdoors with oils.
             </p>
           </div>
@@ -75,44 +72,52 @@ export default function AboutPage() {
             className="relative aspect-[4/5] bg-ink"
             style={{ overflow: 'visible' }}
           >
-            {/* Yellow rectangle background - animates in first */}
+            {/* Background image - animates in first, aligned at base line */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="absolute inset-0"
             >
               <div 
-                className="absolute bg-yellow"
+                className="absolute"
                 style={{
                   width: `${YELLOW_RECT.width * scaleFactor}px`,
                   height: `${YELLOW_RECT.height * scaleFactor}px`,
-                  top: `${(YELLOW_RECT.top + 4) * scaleFactor}px`,
+                  bottom: 0,
                   left: '50%',
                   transform: `translateX(calc(-50% - ${20 * scaleFactor}px))`,
                 }}
-              />
+              >
+                <Image
+                  src="/images/about-picture-3.png"
+                  alt="Background"
+                  fill
+                  className="object-cover object-bottom"
+                  priority
+                />
+              </div>
             </motion.div>
             
-            {/* Tonya with Wings - animates in second */}
+            {/* Tonya about image - animates in second, aligned at base line */}
             <motion.div
-              initial={{ opacity: 0, scale: 1.1, y: 5 }}
-              animate={{ opacity: 1, scale: 1.10, y: 5 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="absolute z-10"
               style={{
-                width: `${WINGS.width * scaleFactor}px`,
-                height: `${WINGS.height * scaleFactor}px`,
-                top: `${(WINGS.top + 5) * scaleFactor}px`,
-                left: `${WINGS.left * scaleFactor}px`,
+                width: `${TONYA_ABOUT.width * scaleFactor}px`,
+                height: `${TONYA_ABOUT.height * scaleFactor}px`,
+                bottom: 0,
+                left: `calc(50% - ${(TONYA_ABOUT.width / 2 + 100) * scaleFactor}px)`,
               }}
             >
               <div className="relative w-full h-full">
                 <Image
-                  src="/images/tonya-wings.png"
-                  alt="Tonya with Wings"
+                  src="/images/tonya-about-2.png"
+                  alt="Tonya"
                   fill
-                  className="object-contain"
+                  className="object-contain object-bottom"
                   priority
                 />
               </div>
