@@ -82,8 +82,8 @@ export default function MagneticButton({
   }, [x, y]);
 
   const baseClasses = variant === 'primary'
-    ? 'inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100] border-2 border-black relative overflow-hidden min-w-[200px]'
-    : 'inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black relative overflow-hidden min-w-[200px]';
+    ? 'inline-flex items-center justify-center px-4 md:px-6 py-3 text-sm font-medium tracking-wide uppercase bg-black text-[#FFE100] border-2 border-black relative overflow-hidden min-w-[160px] md:min-w-[200px]'
+    : 'inline-flex items-center justify-center px-4 md:px-6 py-3 text-sm font-medium tracking-wide uppercase border-2 border-black text-black relative overflow-hidden min-w-[160px] md:min-w-[200px]';
 
   return (
     <motion.div

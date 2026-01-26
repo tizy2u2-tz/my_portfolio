@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   keywords: ['designer', 'brand design', 'motion design', 'digital design', 'portfolio'],
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

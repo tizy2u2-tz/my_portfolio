@@ -791,7 +791,7 @@ export default function Home() {
       </section>
 
       {/* Featured Work Section */}
-      <section className="py-32 container-main bg-ink">
+      <section className="py-16 md:py-24 lg:py-32 container-main bg-ink">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -827,7 +827,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-32 container-main bg-blue">
+      <section className="py-16 md:py-24 lg:py-32 container-main bg-blue">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

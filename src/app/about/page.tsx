@@ -32,7 +32,7 @@ export default function AboutPage() {
   return (
     <section className="pt-28 pb-16 container-main">
       {/* Hero */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center mb-16 md:mb-24 lg:mb-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -127,7 +127,7 @@ export default function AboutPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mb-32"
+        className="mb-16 md:mb-24 lg:mb-32"
       >
         <h2 className="heading-md mb-12">What I Do</h2>
         
@@ -171,7 +171,7 @@ export default function AboutPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mb-32"
+        className="mb-16 md:mb-24 lg:mb-32"
       >
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
           <div>
@@ -202,9 +202,9 @@ export default function AboutPage() {
         transition={{ duration: 0.6 }}
         className="mb-8"
       >
-        <div className="border-8 border-yellow p-12">
+        <div className="border-8 border-yellow p-6 md:p-12">
           <h2 className="heading-md mb-8">Connect</h2>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             {[
               { name: 'LinkedIn', url: 'https://linkedin.com/in/tonyazenin', hover: 'hover:border-blue hover:text-blue' },
               { name: 'Midjourney', url: 'https://www.midjourney.com/@tzee', hover: 'hover:border-yellow hover:text-yellow' },
@@ -235,9 +235,9 @@ export default function AboutPage() {
         transition={{ duration: 0.6 }}
         className="border-t border-cream/10 pt-8"
       >
-        <div className="border-8 border-blue p-12">
+        <div className="border-8 border-blue p-6 md:p-12">
           <h2 className="heading-md mb-8">A Few More Things</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
             {[
               { label: 'Coffee order', value: 'matcha latte', color: 'text-yellow' },
               { label: 'Current obsession', value: ['AI experiments', 'vibe coding'] as const, color: 'text-blue' },
