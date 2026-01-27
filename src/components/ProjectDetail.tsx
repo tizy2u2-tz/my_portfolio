@@ -478,7 +478,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
               <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">3D Graphics</h3>
               <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-                Developed a comprehensive 3D illustration system that brings depth and dimension to the Cohesity brand. These graphics serve as versatile visual elements across digital and print applications, enhancing the brand's modern aesthetic while maintaining clarity and impact.
+                Developed a comprehensive 3D illustration system that brings depth and dimension to the Cohesity brand. These graphics serve as versatile visual elements across digital and print applications, enhancing the brand&apos;s modern aesthetic while maintaining clarity and impact.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {project.images
