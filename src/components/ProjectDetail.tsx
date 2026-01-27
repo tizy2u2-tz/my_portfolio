@@ -256,14 +256,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               // Resilience: iPhone banners + YT thumb live in Social Assets section; skip in main grid
               if (project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image)) return null;
 
-              // Cohesity: Color palette, Event-Demo, CS-, and 3D graphics images live in dedicated sections; skip in main grid
+              // Cohesity: Color palette, Event-Demo, CS-, 3D graphics, brand elements, brand exploration, and typography images live in dedicated sections; skip in main grid
               if (project.slug === 'cohesity-rebrand' && (
                 COHESITY_COLOR_PALETTE_IMAGES.includes(image) || 
                 image.toLowerCase().includes('color') || 
                 image.toLowerCase().includes('palette') ||
                 image.toLowerCase().includes('event-demo') ||
                 image.toLowerCase().includes('/cs-') ||
-                image.toLowerCase().includes('3d-graphic')
+                image.toLowerCase().includes('3d-graphic') ||
+                image.toLowerCase().includes('brand-elements') ||
+                image.toLowerCase().includes('brand-exploration') ||
+                image.toLowerCase().includes('font-stress') ||
+                image.toLowerCase().includes('klavika-font')
               )) return null;
 
               const isKlavikaFont = image.includes('KLAVIKA-font.png');
@@ -514,6 +518,154 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                           <Image
                             src={image}
                             alt={`${project.title} - 3D graphic ${i + 1}`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">Typography</h3>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                Refined the typography system with careful attention to font stress, weight variations, and character spacing to ensure optimal readability and brand consistency across all applications.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {project.images
+                  .filter((image) => 
+                    image.toLowerCase().includes('klavika-font') ||
+                    image.toLowerCase().includes('font-stress')
+                  )
+                  .map((image, i) => {
+                    const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+                    return (
+                      <motion.div
+                        key={image}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        className={`relative ${image.toLowerCase().includes('klavika-font') ? 'bg-ink' : 'aspect-[4/3] bg-ink-light'} overflow-hidden rounded-sm border border-cream/20`}
+                      >
+                        {isVideo ? (
+                          <video
+                            src={image}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Typography ${i + 1}`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">Brand Elements</h3>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                Developed a comprehensive set of brand elements that work cohesively across various applications, ensuring visual consistency and brand recognition.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {project.images
+                  .filter((image) => 
+                    image.toLowerCase().includes('brand-elements')
+                  )
+                  .sort((a, b) => {
+                    // Sort brand-elements images by number
+                    const aMatch = a.match(/brand-elements-r2-(\d+)/i);
+                    const bMatch = b.match(/brand-elements-r2-(\d+)/i);
+                    if (aMatch && bMatch) {
+                      return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                    }
+                    return a.localeCompare(b);
+                  })
+                  .map((image, i) => {
+                    const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+                    return (
+                      <motion.div
+                        key={image}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20"
+                      >
+                        {isVideo ? (
+                          <video
+                            src={image}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Brand element ${i + 1}`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">Brand Exploration</h3>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                Early exploration and concept development that informed the final brand direction, exploring various visual approaches and design directions.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {project.images
+                  .filter((image) => 
+                    image.toLowerCase().includes('brand-exploration')
+                  )
+                  .sort((a, b) => {
+                    // Sort brand-exploration images by number
+                    const aMatch = a.match(/brand-exploration-(\d+)/i);
+                    const bMatch = b.match(/brand-exploration-(\d+)/i);
+                    if (aMatch && bMatch) {
+                      return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                    }
+                    return a.localeCompare(b);
+                  })
+                  .map((image, i) => {
+                    const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+                    return (
+                      <motion.div
+                        key={image}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20"
+                      >
+                        {isVideo ? (
+                          <video
+                            src={image}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Brand exploration ${i + 1}`}
                             fill
                             className="object-contain"
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
