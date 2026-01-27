@@ -264,6 +264,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 image.toLowerCase().includes('event-demo') ||
                 image.toLowerCase().includes('/cs-') ||
                 image.toLowerCase().includes('3d-graphic') ||
+                image.toLowerCase().includes('3d-object-animation') ||
                 image.toLowerCase().includes('brand-elements') ||
                 image.toLowerCase().includes('brand-exploration') ||
                 image.toLowerCase().includes('font-stress')
@@ -480,9 +481,16 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {project.images
                   .filter((image) => 
-                    image.toLowerCase().includes('3d-graphic')
+                    image.toLowerCase().includes('3d-graphic') ||
+                    image.toLowerCase().includes('3d-object-animation')
                   )
                   .sort((a, b) => {
+                    // Sort 3d-object-animation first, then 3d-graphic images by number
+                    const aIsAnimation = a.toLowerCase().includes('3d-object-animation');
+                    const bIsAnimation = b.toLowerCase().includes('3d-object-animation');
+                    if (aIsAnimation && !bIsAnimation) return -1;
+                    if (!aIsAnimation && bIsAnimation) return 1;
+                    
                     // Sort 3d-graphic images by number
                     const aMatch = a.match(/3d-graphic-(\d+)/);
                     const bMatch = b.match(/3d-graphic-(\d+)/);
