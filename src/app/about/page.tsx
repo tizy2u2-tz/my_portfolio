@@ -191,7 +191,7 @@ export default function AboutPage() {
           </div>
           <MagneticWrapper>
             <Link 
-              href="/resume.pdf" 
+              href="/TonyaZenin-resume.pdf" 
               target="_blank"
               className="mt-4 md:mt-0 btn-outline inline-flex items-center gap-2"
             >
