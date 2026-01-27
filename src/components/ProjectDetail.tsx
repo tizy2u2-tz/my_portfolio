@@ -26,6 +26,10 @@ const RESILIENCE_PHOTO_IMAGES = [
   '/images/Resilience-campaign/resilience-photo-8.jpg',
 ];
 
+const COHESITY_COLOR_PALETTE_IMAGES = [
+  '/images/Color-Palette.png',
+];
+
 
 // Dynamic import with ssr: false to prevent document is not defined error
 const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
@@ -107,8 +111,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             className="w-full h-full"
           />
         ) : (() => {
-          // For AWS project, use the first image if it's a video
-          if (project.slug === 'aws-reinvent-ooh-2024' && project.images[0]) {
+          // For AWS and Nasdaq projects, use the first image if it's a video (larger hero video)
+          if ((project.slug === 'aws-reinvent-ooh-2024' || project.slug === 'nasdaq-tower-animation-2019') && project.images[0]) {
             const firstImage = project.images[0];
             const isVideo = firstImage.endsWith('.mp4') || firstImage.endsWith('.mov') || firstImage.endsWith('.webm');
             if (isVideo) {
@@ -125,7 +129,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             }
           }
           
-          // Check if thumbnail is a video
+          // Check if thumbnail is a video (for other projects)
           const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
           if (isThumbnailVideo) {
             return (
@@ -221,7 +225,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       </div>
 
       {/* Project Images Gallery */}
-      {project.images.length > 1 && (
+      {project.images.length > 1 && project.slug !== 'nasdaq-tower-animation-2019' && (
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -252,8 +256,20 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               // Resilience: iPhone banners + YT thumb live in Social Assets section; skip in main grid
               if (project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image)) return null;
 
+              // Cohesity: Color palette, Event-Demo, CS-, and 3D graphics images live in dedicated sections; skip in main grid
+              if (project.slug === 'cohesity-rebrand' && (
+                COHESITY_COLOR_PALETTE_IMAGES.includes(image) || 
+                image.toLowerCase().includes('color') || 
+                image.toLowerCase().includes('palette') ||
+                image.toLowerCase().includes('event-demo') ||
+                image.toLowerCase().includes('/cs-') ||
+                image.toLowerCase().includes('3d-graphic')
+              )) return null;
+
+              const isKlavikaFont = image.includes('KLAVIKA-font.png');
+              
               return (
-                <div key={index} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
+                <div key={index} className={`relative ${isKlavikaFont ? 'bg-ink' : 'aspect-[4/3] bg-ink-light'} overflow-hidden`}>
                   {isVideo ? (
                     <video
                       src={image}
@@ -268,7 +284,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                       src={image}
                       alt={`${project.title} - Image ${index + 2}`}
                       fill
-                      className="object-cover"
+                      className={isKlavikaFont ? "object-contain" : "object-cover"}
                     />
                   )}
                 </div>
@@ -371,6 +387,141 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     />
                   </motion.div>
                 ))}
+              </div>
+            </>
+          )}
+
+          {project.slug === 'cohesity-rebrand' && (
+            <>
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">Color Palette Exploration</h3>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                Led an extensive color palette exploration to ensure optimal color performance across both digital and print applications. The process involved thorough research and testing across RGB and CMYK color spaces, evaluating how colors translate between digital screens and physical print materials. Conducted comprehensive print testing to verify color accuracy, consistency, and vibrancy across various substrates and printing methods. Performed A/B testing to validate color choices against brand objectives, user perception, and accessibility standards. This rigorous approach ensured the final color system maintains visual integrity and brand impact whether viewed on screen or in print.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {project.images
+                  .filter((image) => 
+                    COHESITY_COLOR_PALETTE_IMAGES.includes(image) || 
+                    image.toLowerCase().includes('color') || 
+                    image.toLowerCase().includes('palette') ||
+                    image.toLowerCase().includes('event-demo') ||
+                    image.toLowerCase().includes('/cs-')
+                  )
+                  .sort((a, b) => {
+                    // Sort order: Color-analogous, Color-complementary-split, Color-monochromatic first, then Color-Palette, then Event-Demo
+                    const aLower = a.toLowerCase();
+                    const bLower = b.toLowerCase();
+                    
+                    // First row: Color-analogous, Color-complementary-split, Color-monochromatic
+                    const firstRow = ['color-analogous', 'color-complementary-split', 'color-monochromatic'];
+                    const aFirstRow = firstRow.findIndex(name => aLower.includes(name));
+                    const bFirstRow = firstRow.findIndex(name => bLower.includes(name));
+                    
+                    if (aFirstRow !== -1 && bFirstRow !== -1) return aFirstRow - bFirstRow;
+                    if (aFirstRow !== -1) return -1;
+                    if (bFirstRow !== -1) return 1;
+                    
+                    // Second: Color-Palette
+                    if (aLower.includes('color-palette') && !bLower.includes('color-palette')) return -1;
+                    if (bLower.includes('color-palette') && !aLower.includes('color-palette')) return 1;
+                    
+                    // Third: Event-Demo images (keep their original order)
+                    const aEventDemo = aLower.includes('event-demo');
+                    const bEventDemo = bLower.includes('event-demo');
+                    if (aEventDemo && !bEventDemo && !bLower.includes('/cs-')) return -1;
+                    if (bEventDemo && !aEventDemo && !aLower.includes('/cs-')) return 1;
+                    
+                    // Fourth: CS- images (keep their original order)
+                    const aCS = aLower.includes('/cs-');
+                    const bCS = bLower.includes('/cs-');
+                    if (aCS && !bCS) return -1;
+                    if (bCS && !aCS) return 1;
+                    
+                    return 0;
+                  })
+                  .map((image, i) => {
+                    const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+                    return (
+                      <motion.div
+                        key={image}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20"
+                      >
+                        {isVideo ? (
+                          <video
+                            src={image}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Color palette ${i + 1}`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">3D Graphics</h3>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                Developed a comprehensive 3D illustration system that brings depth and dimension to the Cohesity brand. These graphics serve as versatile visual elements across digital and print applications, enhancing the brand's modern aesthetic while maintaining clarity and impact.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {project.images
+                  .filter((image) => 
+                    image.toLowerCase().includes('3d-graphic')
+                  )
+                  .sort((a, b) => {
+                    // Sort 3d-graphic images by number
+                    const aMatch = a.match(/3d-graphic-(\d+)/);
+                    const bMatch = b.match(/3d-graphic-(\d+)/);
+                    if (aMatch && bMatch) {
+                      return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                    }
+                    return a.localeCompare(b);
+                  })
+                  .map((image, i) => {
+                    const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+                    return (
+                      <motion.div
+                        key={image}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20"
+                      >
+                        {isVideo ? (
+                          <video
+                            src={image}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-contain"
+                          />
+                        ) : (
+                          <Image
+                            src={image}
+                            alt={`${project.title} - 3D graphic ${i + 1}`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
               </div>
             </>
           )}

@@ -539,7 +539,7 @@ export default function Home() {
             className="absolute flex gap-4"
             style={{
               left: '40.2%',
-              top: '800px',
+              top: '750px',
             }}
           >
             <MagneticButton href="/work" variant="primary">
@@ -753,7 +753,7 @@ export default function Home() {
               style={{
                 left: '27px',
                 right: '27px',
-                top: '740px',
+                top: '720px',
               }}
             >
               <div className="w-full flex justify-center">

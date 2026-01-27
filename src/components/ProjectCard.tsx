@@ -43,7 +43,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className="relative overflow-hidden bg-ink-light rounded-sm"
       >
-        {/* Project Image or Lottie */}
+        {/* Project Image, Video, or Lottie */}
         <div className="relative aspect-[4/3] overflow-hidden">
           {project.hasLottie && project.lottieFile ? (
             <LottiePlayer 
@@ -52,6 +52,15 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               showControls={false}
               autoplay={true}
               loop={true}
+            />
+          ) : project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm') ? (
+            <video
+              src={project.thumbnail}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
             <Image
