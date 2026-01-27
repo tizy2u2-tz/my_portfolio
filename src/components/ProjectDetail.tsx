@@ -103,13 +103,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className="relative aspect-video mb-20 bg-ink-light overflow-hidden"
+        className={`relative mb-20 bg-ink-light overflow-hidden ${project.hasLottie && project.lottieFile ? '' : 'aspect-video'}`}
+        style={project.hasLottie && project.lottieFile ? { padding: '3rem 1rem', minHeight: '500px' } : {}}
       >
         {project.hasLottie && project.lottieFile ? (
-          <LottiePlayer 
-            src={project.lottieFile} 
-            className="w-full h-full"
-          />
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full max-w-5xl mx-auto flex items-center justify-center">
+              <LottiePlayer 
+                src={project.lottieFile} 
+                className="w-full"
+              />
+            </div>
+          </div>
         ) : (() => {
           // For AWS and Nasdaq projects, use the first image if it's a video (larger hero video)
           if ((project.slug === 'aws-reinvent-ooh-2024' || project.slug === 'nasdaq-tower-animation-2019') && project.images[0]) {

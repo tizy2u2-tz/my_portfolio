@@ -44,15 +44,19 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         className="relative overflow-hidden bg-ink-light rounded-sm"
       >
         {/* Project Image, Video, or Lottie */}
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className={`relative aspect-[4/3] overflow-hidden ${project.hasLottie && project.lottieFile ? 'flex items-center justify-center' : ''}`}>
           {project.hasLottie && project.lottieFile ? (
-            <LottiePlayer 
-              src={project.lottieFile} 
-              className="w-full h-full"
-              showControls={false}
-              autoplay={true}
-              loop={true}
-            />
+            <div className="w-full h-full flex items-start justify-center pt-6 pb-2 px-4">
+              <div className="w-full h-full flex items-center justify-center">
+                <LottiePlayer 
+                  src={project.lottieFile} 
+                  className="w-full h-full"
+                  showControls={false}
+                  autoplay={true}
+                  loop={true}
+                />
+              </div>
+            </div>
           ) : project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm') ? (
             <video
               src={project.thumbnail}

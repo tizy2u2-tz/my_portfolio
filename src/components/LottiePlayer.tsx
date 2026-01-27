@@ -9,6 +9,7 @@ interface LottiePlayerProps {
   autoplay?: boolean;
   loop?: boolean;
   showControls?: boolean;
+  style?: React.CSSProperties;
 }
 
 export default function LottiePlayer({
@@ -17,6 +18,7 @@ export default function LottiePlayer({
   autoplay = true,
   loop = true,
   showControls = true,
+  style = {},
 }: LottiePlayerProps) {
   const playerRef = useRef<Player>(null);
 
@@ -45,7 +47,7 @@ export default function LottiePlayer({
         src={src}
         loop={loop}
         autoplay={autoplay}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%', maxWidth: '100%', maxHeight: '100%', ...style }}
         onEvent={(event: PlayerEvent) => {
           if (event === 'error') {
             console.error('Lottie player error');

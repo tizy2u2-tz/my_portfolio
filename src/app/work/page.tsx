@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from '@/components/ProjectCard';
-import { projects, categories } from '@/data/projects';
+import { visibleProjects, categories } from '@/data/projects';
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   
   const filteredProjects = activeFilter === 'All' 
-    ? projects 
-    : projects.filter(p => p.category === activeFilter);
+    ? visibleProjects 
+    : visibleProjects.filter(p => p.category === activeFilter);
 
   return (
     <section className="pt-28 pb-16 container-main min-h-screen">

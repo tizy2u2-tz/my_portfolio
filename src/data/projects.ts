@@ -44,23 +44,28 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-reinvent-ooh-2024',
-    title: 'AWS re:Invent OOH Media',
-    category: 'Brand',
-    overview: 'High-impact out-of-home media campaign for AWS re:Invent, maximizing brand presence in Las Vegas.',
-    role: 'Senior Designer. Led design of OOH assets including billboards, car wraps, and event signage.',
-    challenge: 'Standing out among thousands of tech brands competing for attention at AWS re:Invent.',
-    approach: 'Created eye-catching visuals with bold colors and clear messaging optimized for quick viewing at scale.',
-    outcome: 'Successful campaign presence throughout Las Vegas during the event, generating strong brand recall.',
+    title: 'AWS re:Invent OOH Media & Booth',
+    category: 'Event',
+    overview: 'Comprehensive brand presence campaign for AWS re:Invent, including out-of-home media, booth design, and event signage throughout Las Vegas. Created a cohesive visual experience that maximized brand visibility and engagement at one of the largest tech conferences.',
+    role: 'Senior Designer. Led design of OOH assets including billboards, car wraps, event signage, and booth design. Created a unified visual system that worked across all touchpoints.',
+    challenge: 'Standing out among thousands of tech brands competing for attention at AWS re:Invent while creating a cohesive brand experience across multiple media formats—from large-scale billboards to intimate booth interactions.',
+    approach: 'Developed a comprehensive visual system with bold colors and clear messaging optimized for quick viewing at scale. Designed booth elements that created an immersive brand experience, ensuring consistency from outdoor advertising to on-site engagement. Created eye-catching visuals that worked across billboards, vehicle wraps, and interactive booth spaces.',
+    outcome: 'Successful campaign presence throughout Las Vegas during the event, generating strong brand recall. The cohesive design system created a memorable brand experience that extended from street-level OOH media to the conference floor, maximizing visibility and engagement.',
     thumbnail: '/images/AWS-reInvent/AWS-OOH.gif',
     images: [
       '/images/AWS-reInvent/AWS-OOH_1.mp4',
-      '/images/AWS-reInvent/AWS-Booth.jpg',
       '/images/AWS-reInvent/231127_Cohesity_Harmon.jpg',
       '/images/AWS-reInvent/Cohesity_Harmon_Csm.jpeg',
-      '/images/AWS-reInvent/car-wrap-2.jpg',
-      '/images/AWS-reInvent/car-wrap.jpeg',
+      '/images/AWS-reInvent/wPoP_LV_HC_Cohesity.jpg',
+      '/images/AWS-reInvent/AWS-Booth.jpg',
+      '/images/AWS-reInvent/AWS-Booth-2.jpg',
+      '/images/AWS-reInvent/AWS-Booth-3.jpg',
+      '/images/AWS-reInvent/AWS-Booth-4.jpg',
+      '/images/AWS-reInvent/AWS-Booth-5.jpg',
+      '/images/AWS-reInvent/AWS-Booth-6.jpg',
+      '/images/AWS-reInvent/AWS-Booth-7.jpg',
     ],
-    tags: ['OOH', 'Brand', 'Event', 'Print'],
+    tags: ['OOH', 'Brand', 'Event', 'Booth Design', 'Print', 'Exhibit'],
     year: '2024',
     client: 'Cohesity',
     featured: true,
@@ -149,6 +154,24 @@ export const projects: Project[] = [
     hasLottie: true,
   },
   {
+    slug: '10-year-anniversary-lottie',
+    title: '10 Year Anniversary - Lottie',
+    category: 'Motion',
+    overview: 'To celebrate Cohesity\'s 10th anniversary, I brought another designer\'s graphic to life through a Lottie animation. The design was executed in After Effects and exported as a lightweight, web-friendly JSON file with the Lottie plugin. The animation was implemented on the home page of the company\'s website.',
+    role: 'Motion Designer. Brought another designer\'s graphic to life through Lottie animation, executed in After Effects.',
+    challenge: 'Translating a static graphic design into an engaging animation while maintaining the original design intent and ensuring web-friendly performance.',
+    approach: 'Executed the animation design in After Effects and exported as a lightweight, web-friendly JSON file using the Lottie plugin. Optimized for implementation on the company website home page.',
+    outcome: 'Successfully implemented the 10th anniversary animation on the company website home page, celebrating the milestone with engaging motion.',
+    thumbnail: '/images/placeholder.svg',
+    images: ['/images/placeholder.svg'],
+    tags: ['Motion', 'Animation', 'Lottie', 'Event', 'Brand'],
+    year: '2024',
+    client: 'Cohesity',
+    featured: false,
+    hasLottie: true,
+    lottieFile: '/lottie/Cohesity-turns-10.json',
+  },
+  {
     slug: 'catalyst-lottie-animation',
     title: 'Catalyst Lottie animation',
     category: 'Motion',
@@ -165,6 +188,40 @@ export const projects: Project[] = [
     featured: false,
     hasLottie: true,
     lottieFile: '/lottie/Catalyst-logo-text.json',
+  },
+  {
+    slug: 'brand-style-guide',
+    title: 'Brand Style Guide',
+    category: 'Brand',
+    overview: 'Teaming up with a brand agency, I took on the project of refreshing Cohesity\'s brand. My job was to build a brand-new style guide and create something modern and bold, something that really speaks to our audience. I focused on making the brand look fresh and appealing, blending new ideas with the brand\'s core values.',
+    role: 'Brand Designer. Collaborated with a brand agency to refresh Cohesity\'s visual identity and build a comprehensive brand style guide that establishes modern, bold visual standards.',
+    challenge: 'Creating a brand refresh that maintains the company\'s core values while establishing a modern, forward-looking identity that stands out in the competitive cybersecurity market and connects with the audience in a more meaningful way.',
+    approach: 'Worked closely with the brand agency to develop a comprehensive style guide that defines color palettes, typography systems, logo usage, spacing guidelines, and visual patterns. Focused on creating bold, modern visuals that blend innovation with brand heritage, ensuring the new identity speaks authentically to the audience while positioning Cohesity as a forward-thinking leader.',
+    outcome: 'Cohesity\'s brand now stands out in the crowd as a modern, forward-looking brand with bold personality that connects with the audience in more meaningful ways. The comprehensive style guide provides clear guidelines for consistent brand application across all touchpoints, ensuring visual cohesion and brand strength.',
+    thumbnail: '/images/style-guide/style-guide.png',
+    images: [
+      '/images/style-guide/style-guide.png',
+      '/images/style-guide/Contents.png',
+      '/images/style-guide/cohesity-style-guide-1.png',
+      '/images/style-guide/cohesity-style-guide-2.png',
+      '/images/style-guide/cohesity-style-guide-3.png',
+      '/images/style-guide/cohesity-style-guide-4.png',
+      '/images/style-guide/cohesity-style-guide-5.png',
+      '/images/style-guide/cohesity-style-guide-6.png',
+      '/images/style-guide/cohesity-style-guide-7.png',
+      '/images/style-guide/cohesity-style-guide-8.png',
+      '/images/style-guide/cohesity-style-guide-9.png',
+      '/images/style-guide/cohesity-style-guide-10.png',
+      '/images/style-guide/cohesity-style-guide-11.png',
+      '/images/style-guide/cohesity-style-guide-13.png',
+      '/images/style-guide/p51.png',
+      '/images/style-guide/p56.png',
+      '/images/style-guide/p57.png',
+    ],
+    tags: ['Brand', 'Style Guide', 'Visual Identity', 'Rebrand', 'Documentation'],
+    year: '2024',
+    client: 'Cohesity',
+    featured: true,
   },
   {
     slug: 'cohesity-design-system-2024',
@@ -255,6 +312,20 @@ export const projects: Project[] = [
   },
 ];
 
-export const featuredProjects = projects.filter((p) => p.featured);
+// Helper function to check if a project has real images (not just placeholders)
+// Projects with Lottie animations are visible even with placeholder images
+const hasRealImages = (project: Project): boolean => {
+  // If project has Lottie animation, it's visible even with placeholder images
+  if (project.hasLottie && project.lottieFile) return true;
+  
+  if (!project.images || project.images.length === 0) return false;
+  // Check if all images are placeholders
+  return !project.images.every(img => img.includes('placeholder.svg'));
+};
 
-export const categories = [...new Set(projects.map((p) => p.category))];
+// Filter out projects with no real images (temporarily hidden)
+export const visibleProjects = projects.filter(hasRealImages);
+
+export const featuredProjects = visibleProjects.filter((p) => p.featured);
+
+export const categories = [...new Set(visibleProjects.map((p) => p.category))];
