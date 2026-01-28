@@ -62,15 +62,21 @@ export default function ImageModal({ isOpen, onClose, imageSrc, alt }: ImageModa
             onClick={(e) => e.stopPropagation()}
             style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent' }}
           >
-            <div className="relative w-full min-h-full flex items-center justify-center">
+            <div className="relative flex items-center justify-center" style={{ width: '100vw', minHeight: '100vh' }}>
               <Image
                 src={imageSrc}
                 alt={alt}
                 width={1920}
                 height={1080}
                 sizes="100vw"
-                className="w-[100vw] h-auto object-contain block"
-                style={{ minWidth: '100vw' }}
+                className="object-contain"
+                style={{ 
+                  width: '100vw',
+                  height: 'auto',
+                  maxWidth: 'none',
+                  display: 'block'
+                }}
+                unoptimized
               />
             </div>
           </motion.div>
