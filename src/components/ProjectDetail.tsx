@@ -105,8 +105,24 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
-        className={`relative mb-20 bg-ink-light overflow-hidden ${project.hasLottie && project.lottieFile ? '' : 'aspect-video'}`}
-        style={project.hasLottie && project.lottieFile ? { padding: '3rem 1rem', minHeight: '500px' } : {}}
+        className={`relative mb-20 bg-ink-light overflow-hidden ${
+          project.hasLottie && project.lottieFile 
+            ? '' 
+            : (() => {
+                const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
+                const isFirstImageVideo = project.images[0] && (project.images[0].endsWith('.mp4') || project.images[0].endsWith('.mov') || project.images[0].endsWith('.webm'));
+                return (isThumbnailVideo || isFirstImageVideo) ? '' : 'aspect-video';
+              })()
+        }`}
+        style={
+          project.hasLottie && project.lottieFile 
+            ? { padding: '3rem 1rem', minHeight: '500px' } 
+            : (() => {
+                const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
+                const isFirstImageVideo = project.images[0] && (project.images[0].endsWith('.mp4') || project.images[0].endsWith('.mov') || project.images[0].endsWith('.webm'));
+                return (isThumbnailVideo || isFirstImageVideo) ? { padding: '2rem 1rem', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' } : {};
+              })()
+        }
       >
         {project.hasLottie && project.lottieFile ? (
           <div className="w-full h-full flex items-center justify-center">
@@ -130,7 +146,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-full h-full max-w-full max-h-[80vh] object-contain"
                 />
               );
             }
@@ -146,7 +162,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 loop
                 muted
                 playsInline
-                className="w-full h-full object-cover"
+                className="w-full h-full max-w-full max-h-[80vh] object-contain"
               />
             );
           }
@@ -230,6 +246,66 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           )}
         </motion.div>
       </div>
+
+      {/* Landing Pages - Resilience Everywhere */}
+      {project.slug === 'resilience-everywhere-2025' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Landing Pages</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
+            Created multiple landing pages targeting different audience segments, each tailored with specific messaging and content while maintaining visual consistency through the campaign style guide. Each page was optimized to resonate with its intended audience—from IT leaders to security professionals to enterprise executives—ensuring the right message reached the right people.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {project.images
+              .filter((image) => image.toLowerCase().includes('lp-cyber-resilience'))
+              .sort((a, b) => {
+                // Sort by number
+                const aMatch = a.match(/lp-cyber-resilience-(\d+)/i);
+                const bMatch = b.match(/lp-cyber-resilience-(\d+)/i);
+                if (aMatch && bMatch) {
+                  return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                }
+                return a.localeCompare(b);
+              })
+              .map((image, i) => {
+                const pageNumber = image.match(/lp-cyber-resilience-(\d+)/i)?.[1] || (i + 1).toString();
+                const audienceLabels = ['IT Leaders', 'Security Professionals', 'Enterprise Executives'];
+                const audienceLabel = audienceLabels[i] || `Audience ${pageNumber}`;
+                
+                return (
+                  <motion.div
+                    key={image}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <h3 className="font-body font-semibold text-lg mb-2">Landing Page {pageNumber} — {audienceLabel}</h3>
+                    </div>
+                    <div className="relative w-full bg-ink-light rounded-sm border border-cream/20 overflow-hidden">
+                      <div className="aspect-[9/16] md:aspect-[9/16] relative">
+                        <Image
+                          src={image}
+                          alt={`Landing Page ${pageNumber} - ${audienceLabel}`}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+          </div>
+        </motion.section>
+      )}
 
       {/* OOH Design Concepts - AWS re:Invent */}
       {project.slug === 'aws-reinvent-ooh-2024' && (
@@ -434,11 +510,103 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             {project.slug === 'resilience-everywhere-2025' && (
               <div key="imac-mockup" className="md:col-span-2">
                 <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Landing page Lottie animation</h3>
-                <LaptopVideoMockup
-                  laptopImage="/images/Resilience-campaign/iMac-mock.jpg"
-                  videoSrc="/images/Resilience-campaign/hero-animation_1.mp4"
-                  videoAlt="Resilience Everywhere 2025 hero animation"
-                />
+                <div>
+                  <LaptopVideoMockup
+                    laptopImage="/images/Resilience-campaign/iMac-mock.jpg"
+                    videoSrc="/images/Resilience-campaign/hero-animation_1.mp4"
+                    videoAlt="Resilience Everywhere 2025 hero animation"
+                  />
+                </div>
+                <div className="-mt-24 md:-mt-32">
+                  <h4 className="text-base md:text-lg font-semibold font-body mb-2 text-cream/80">Animation Storyboard</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+                    {project.images
+                      .filter((image) => image.toLowerCase().includes('hero-animation-frame'))
+                      .sort((a, b) => {
+                        // Sort by frame number
+                        const aMatch = a.match(/frame\s*(\d+)/i);
+                        const bMatch = b.match(/frame\s*(\d+)/i);
+                        if (aMatch && bMatch) {
+                          return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                        }
+                        return a.localeCompare(b);
+                      })
+                      .map((image, i) => {
+                        const frameMatch = image.match(/frame\s*(\d+)/i);
+                        const frameNumber = frameMatch ? frameMatch[1] : (i + 1).toString();
+                        return (
+                          <motion.div
+                            key={image}
+                            initial={{ opacity: 0, y: 8 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: i * 0.05 }}
+                            className="relative aspect-square bg-ink-light rounded-sm border border-cream/20 overflow-hidden"
+                          >
+                            <Image
+                              src={image}
+                              alt={`Animation Frame ${frameNumber}`}
+                              fill
+                              className="object-contain"
+                              sizes="(max-width: 768px) 50vw, 16vw"
+                            />
+                          </motion.div>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+            )}
+            {project.slug === 'resilience-everywhere-2025' && (
+              <div key="social-assets" className="md:col-span-2 mt-8">
+                <h3 className="text-lg md:text-xl font-semibold font-body mb-4">5 Best Practices Social Video</h3>
+                <div className="relative w-full max-w-4xl mx-auto aspect-video bg-ink-light rounded-sm border border-cream/20 overflow-hidden mb-8">
+                  <video
+                    src="/images/Resilience-campaign/5-best-practices-social-1200x627.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <h3 className="text-lg md:text-xl font-semibold font-body mb-4">5 Best Practices Carousel</h3>
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                  {project.images
+                    .filter((image) => {
+                      const lowerImage = image.toLowerCase();
+                      return lowerImage.includes('5-best-practices-carousel-slide') && lowerImage.endsWith('.png');
+                    })
+                    .sort((a, b) => {
+                      // Sort by slide number
+                      const aMatch = a.match(/slide-(\d+)/i);
+                      const bMatch = b.match(/slide-(\d+)/i);
+                      if (aMatch && bMatch) {
+                        return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                      }
+                      return a.localeCompare(b);
+                    })
+                    .map((image, i) => {
+                      return (
+                        <motion.div
+                          key={image}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: i * 0.1 }}
+                          className="relative aspect-square bg-ink-light rounded-sm border border-cream/20 overflow-hidden"
+                        >
+                          <Image
+                            src={image}
+                            alt={`5 Best Practices Carousel Slide ${i + 1}`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, 20vw"
+                          />
+                        </motion.div>
+                      );
+                    })}
+                </div>
               </div>
             )}
             {project.images.slice(1).map((image, index) => {
@@ -463,6 +631,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
               // Resilience: iPhone banners + YT thumb live in Social Assets section; skip in main grid
               if (project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image)) return null;
+              
+              // Resilience: Landing pages live in dedicated section; skip in main grid
+              if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('lp-cyber-resilience')) return null;
+              
+              // Resilience: 5-best-practices social assets live in dedicated section; skip in main grid
+              if (project.slug === 'resilience-everywhere-2025' && (
+                image.toLowerCase().includes('5-best-practices-social') ||
+                image.toLowerCase().includes('5-best-practices-carousel')
+              )) return null;
+              
+              // Resilience: hero-animation-frame images live in storyboard section; skip in main grid
+              if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('hero-animation-frame')) return null;
 
               // Cohesity: Color palette (except Color-Palette.png), Event-Demo, CS-, 3D graphics, brand elements, brand exploration, and typography images live in dedicated sections; skip in main grid
               if (project.slug === 'cohesity-rebrand' && (
@@ -487,7 +667,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                       loop
                       muted
                       playsInline
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   ) : (
                     <Image
