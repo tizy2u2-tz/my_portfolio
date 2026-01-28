@@ -20,7 +20,7 @@ export default function LaptopVideoMockup({
   className = '',
 }: LaptopVideoMockupProps) {
   return (
-    <div className={`relative w-full ${className}`}>
+    <div className={`relative w-full ${className}`} style={{ marginBottom: 0 }}>
       <div className="relative w-full aspect-[4/5]">
         <Image
           src={laptopImage}
