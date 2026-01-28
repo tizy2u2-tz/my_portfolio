@@ -609,12 +609,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 </div>
               </div>
             )}
-            {project.images.slice(1).map((image, index) => {
-              const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
-              
+            {project.images.slice(1).filter((image, index) => {
               // Skip the first image if it's a video (already shown in hero for AWS project)
               if (project.slug === 'aws-reinvent-ooh-2024' && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
-                return null;
+                return false;
+              }
+              
+              // Skip thumbnail if it's a video and appears in gallery (already shown in hero)
+              if (image === project.thumbnail && (image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm'))) {
+                return false;
               }
 
               // AWS: OOH, Booth design concepts, and animation files live in dedicated sections; skip in main grid
@@ -626,23 +629,23 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 image.toLowerCase().includes('mock_all') ||
                 image.toLowerCase().includes('media_wall')
               )) {
-                return null;
+                return false;
               }
 
               // Resilience: iPhone banners + YT thumb live in Social Assets section; skip in main grid
-              if (project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image)) return null;
+              if (project.slug === 'resilience-everywhere-2025' && IPHONE_BANNER_IMAGES.includes(image)) return false;
               
               // Resilience: Landing pages live in dedicated section; skip in main grid
-              if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('lp-cyber-resilience')) return null;
+              if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('lp-cyber-resilience')) return false;
               
               // Resilience: 5-best-practices social assets live in dedicated section; skip in main grid
               if (project.slug === 'resilience-everywhere-2025' && (
                 image.toLowerCase().includes('5-best-practices-social') ||
                 image.toLowerCase().includes('5-best-practices-carousel')
-              )) return null;
+              )) return false;
               
               // Resilience: hero-animation-frame images live in storyboard section; skip in main grid
-              if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('hero-animation-frame')) return null;
+              if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('hero-animation-frame')) return false;
 
               // Cohesity: Color palette (except Color-Palette.png), Event-Demo, CS-, 3D graphics, brand elements, brand exploration, and typography images live in dedicated sections; skip in main grid
               if (project.slug === 'cohesity-rebrand' && (
@@ -656,10 +659,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 image.toLowerCase().includes('brand-elements') ||
                 image.toLowerCase().includes('brand-exploration') ||
                 image.toLowerCase().includes('font-stress')
-              )) return null;
+              )) return false;
+
+              return true;
+            }).map((image, index) => {
+              const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
 
               return (
-                <div key={index} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
+                <div key={`${image}-${index}`} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
                   {isVideo ? (
                     <video
                       src={image}
