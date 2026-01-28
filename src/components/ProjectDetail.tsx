@@ -9,6 +9,7 @@ import { Project, projects } from '@/data/projects';
 import LaptopVideoMockup from './LaptopVideoMockup';
 import VideoModal from './VideoModal';
 import LocalVideoModal from './LocalVideoModal';
+import ImageModal from './ImageModal';
 
 const IPHONE_BANNER_IMAGES = [
   '/images/Resilience-campaign/iPhone 15 Pro.jpg',
@@ -50,6 +51,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const [iphoneBannerIndex, setIphoneBannerIndex] = useState(0);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [localVideoSrc, setLocalVideoSrc] = useState<string | null>(null);
+  const [imageModalSrc, setImageModalSrc] = useState<string | null>(null);
+  const [imageModalAlt, setImageModalAlt] = useState<string>('');
 
   useEffect(() => {
     if (project.slug !== 'resilience-everywhere-2025') return;
@@ -289,17 +292,34 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     <div>
                       <h3 className="font-body font-semibold text-lg mb-2">Landing Page {pageNumber} — {audienceLabel}</h3>
                     </div>
-                    <div className="relative w-full bg-ink-light rounded-sm border border-cream/20 overflow-hidden">
+                    <motion.button
+                      type="button"
+                      onClick={() => {
+                        setImageModalSrc(image);
+                        setImageModalAlt(`Landing Page ${pageNumber} - ${audienceLabel}`);
+                      }}
+                      className="group relative w-full bg-ink-light rounded-sm border border-cream/20 overflow-hidden cursor-pointer"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <div className="aspect-[9/16] md:aspect-[9/16] relative">
                         <Image
                           src={image}
                           alt={`Landing Page ${pageNumber} - ${audienceLabel}`}
                           fill
-                          className="object-contain"
+                          className="object-contain transition-opacity duration-300 group-hover:opacity-90"
                           sizes="(max-width: 768px) 100vw, 33vw"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors duration-300">
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-12 h-12 rounded-full bg-yellow/90 flex items-center justify-center shadow-lg">
+                            <svg className="w-6 h-6 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                            </svg>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </motion.button>
                   </motion.div>
                 );
               })}
@@ -1148,6 +1168,17 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           })()}
         </motion.section>
       )}
+
+      {/* Image Modal - Global */}
+      <ImageModal
+        isOpen={!!imageModalSrc}
+        onClose={() => {
+          setImageModalSrc(null);
+          setImageModalAlt('');
+        }}
+        imageSrc={imageModalSrc || ''}
+        alt={imageModalAlt}
+      />
 
       {/* Navigation */}
       <motion.nav
