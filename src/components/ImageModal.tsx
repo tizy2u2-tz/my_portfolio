@@ -63,16 +63,14 @@ export default function ImageModal({ isOpen, onClose, imageSrc, alt }: ImageModa
             style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent' }}
           >
             <div className="relative w-full min-h-full flex items-center justify-center">
-              <img
+              <Image
                 src={imageSrc}
                 alt={alt}
-                style={{ 
-                  width: '100vw',
-                  height: 'auto',
-                  minWidth: '100vw',
-                  objectFit: 'contain',
-                  display: 'block'
-                }}
+                width={1920}
+                height={1080}
+                sizes="100vw"
+                className="w-[100vw] h-auto object-contain block"
+                style={{ minWidth: '100vw' }}
               />
             </div>
           </motion.div>
