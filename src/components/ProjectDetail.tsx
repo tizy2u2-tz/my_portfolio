@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { Project, projects } from '@/data/projects';
 import LaptopVideoMockup from './LaptopVideoMockup';
 import VideoModal from './VideoModal';
+import LocalVideoModal from './LocalVideoModal';
 
 const IPHONE_BANNER_IMAGES = [
   '/images/Resilience-campaign/iPhone 15 Pro.jpg',
@@ -48,6 +49,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
   const [iphoneBannerIndex, setIphoneBannerIndex] = useState(0);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
+  const [localVideoSrc, setLocalVideoSrc] = useState<string | null>(null);
 
   useEffect(() => {
     if (project.slug !== 'resilience-everywhere-2025') return;
@@ -229,6 +231,195 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </motion.div>
       </div>
 
+      {/* OOH Design Concepts - AWS re:Invent */}
+      {project.slug === 'aws-reinvent-ooh-2024' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">OOH Design Concepts</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
+            Explored two distinct design directions for the out-of-home media campaign, each testing different approaches to visual hierarchy, messaging clarity, and impact at scale. The concepts were evaluated for their ability to capture attention in Las Vegas&apos;s competitive advertising landscape while maintaining brand consistency and clear communication.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {project.images
+              .filter((image) => image.toLowerCase().includes('ooh-opt'))
+              .sort((a, b) => {
+                // Sort by option number
+                const aMatch = a.match(/ooh-opt(\d+)/i);
+                const bMatch = b.match(/ooh-opt(\d+)/i);
+                if (aMatch && bMatch) {
+                  return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                }
+                return a.localeCompare(b);
+              })
+              .map((image, i) => {
+                const optionNumber = image.match(/ooh-opt(\d+)/i)?.[1] || (i + 1).toString();
+                return (
+                  <motion.div
+                    key={image}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="space-y-4"
+                  >
+                    <div className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20">
+                      <Image
+                        src={image}
+                        alt={`OOH Design Concept ${optionNumber}`}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-body font-semibold text-lg">Design option {optionNumber}</h3>
+                    </div>
+                  </motion.div>
+                );
+              })}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Booth Design Concepts - AWS re:Invent */}
+      {project.slug === 'aws-reinvent-ooh-2024' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Booth Design Concepts</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
+            Explored three distinct design concepts for the booth, each exploring different approaches to spatial layout, visual hierarchy, and attendee engagement. The concepts were evaluated for visibility, brand consistency, and their ability to create an immersive experience that connected seamlessly with the outdoor OOH campaign.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {project.images
+              .filter((image) => image.toLowerCase().includes('booth-opt'))
+              .sort((a, b) => {
+                // Sort by option number
+                const aMatch = a.match(/booth-opt(\d+)/i);
+                const bMatch = b.match(/booth-opt(\d+)/i);
+                if (aMatch && bMatch) {
+                  return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                }
+                return a.localeCompare(b);
+              })
+              .map((image, i) => {
+                const optionNumber = image.match(/booth-opt(\d+)/i)?.[1] || (i + 1).toString();
+                return (
+                  <motion.div
+                    key={image}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="space-y-4"
+                  >
+                    <div className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20">
+                      <Image
+                        src={image}
+                        alt={`Booth Design Concept ${optionNumber}`}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-body font-semibold text-lg">Design option {optionNumber}</h3>
+                    </div>
+                  </motion.div>
+                );
+              })}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Booth Animations - AWS re:Invent */}
+      {project.slug === 'aws-reinvent-ooh-2024' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Booth Animations</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
+            Created animated content for the booth&apos;s hanging LED cubes and media wall. I storyboarded the animations and designed all the graphics, collaborating with an agency partner who handled the animation production. The animations created dynamic, engaging visual experiences that brought the booth to life.
+          </p>
+          
+          {/* Storyboard with Play Button */}
+          <div className="mb-8">
+            <h3 className="font-body font-semibold text-lg md:text-xl mb-4">LED Media Wall Storyboard</h3>
+            <motion.button
+              type="button"
+              onClick={() => setLocalVideoSrc('/images/AWS-reInvent/COHESITY_MEDIA_WALL_1920x1080.mp4')}
+              className="group relative block w-full max-w-4xl mx-auto aspect-video bg-ink-light overflow-hidden rounded-sm border border-cream/20"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Image
+                src="/images/AWS-reInvent/LED-storyborard.png"
+                alt="LED Media Wall Storyboard"
+                fill
+                className="object-contain"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
+                <div className="w-20 h-20 rounded-full bg-yellow/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-ink ml-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+            </motion.button>
+          </div>
+
+          {/* Cube Animation Videos */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="font-body font-semibold text-lg md:text-xl mb-4">LED Cubes Animation</h3>
+              <div className="relative aspect-video bg-ink-light overflow-hidden rounded-sm border border-cream/20">
+                <video
+                  src="/images/AWS-reInvent/Cohesity-LED-cubes.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+            <div>
+              <h3 className="font-body font-semibold text-lg md:text-xl mb-4">Cubes Mockup</h3>
+              <div className="relative aspect-video bg-ink-light overflow-hidden rounded-sm border border-cream/20">
+                <video
+                  src="/images/AWS-reInvent/MOCK_ALL_v2.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <LocalVideoModal
+            isOpen={!!localVideoSrc}
+            onClose={() => setLocalVideoSrc(null)}
+            videoSrc={localVideoSrc || ''}
+          />
+        </motion.section>
+      )}
+
       {/* Project Images Gallery */}
       {project.images.length > 1 && project.slug !== 'nasdaq-tower-animation-2019' && (
         <motion.section
@@ -255,6 +446,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               
               // Skip the first image if it's a video (already shown in hero for AWS project)
               if (project.slug === 'aws-reinvent-ooh-2024' && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
+                return null;
+              }
+
+              // AWS: OOH, Booth design concepts, and animation files live in dedicated sections; skip in main grid
+              if (project.slug === 'aws-reinvent-ooh-2024' && (
+                image.toLowerCase().includes('ooh-opt') || 
+                image.toLowerCase().includes('booth-opt') ||
+                image.toLowerCase().includes('led-storyborard') ||
+                image.toLowerCase().includes('led-cubes') ||
+                image.toLowerCase().includes('mock_all') ||
+                image.toLowerCase().includes('media_wall')
+              )) {
                 return null;
               }
 
@@ -650,6 +853,112 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               </div>
             </>
           )}
+        </motion.section>
+      )}
+
+      {/* Related Projects - AWS re:Invent */}
+      {project.slug === 'aws-reinvent-ooh-2024' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+            As part of the comprehensive AWS re:Invent campaign, I also designed the vehicle wraps that created mobile brand presence throughout Las Vegas.
+          </p>
+          {(() => {
+            const carWrapProject = projects.find(p => p.slug === 'car-wrap-reinvent-2024');
+            if (!carWrapProject) return null;
+            
+            return (
+              <Link 
+                href={`/work/${carWrapProject.slug}`}
+                className="group block"
+              >
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    <div className="relative aspect-[4/3] md:col-span-1">
+                      <Image
+                        src={carWrapProject.thumbnail}
+                        alt={carWrapProject.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{carWrapProject.category}</span>
+                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                        {carWrapProject.title}
+                      </h3>
+                      <p className="text-cream/60 text-sm line-clamp-2">
+                        {carWrapProject.overview}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })()}
+        </motion.section>
+      )}
+
+      {/* Related Projects - Car Wrap */}
+      {project.slug === 'car-wrap-reinvent-2024' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+            The vehicle wraps were part of a larger comprehensive brand presence campaign for AWS re:Invent, which included out-of-home media, booth design, and animated content.
+          </p>
+          {(() => {
+            const awsProject = projects.find(p => p.slug === 'aws-reinvent-ooh-2024');
+            if (!awsProject) return null;
+            
+            return (
+              <Link 
+                href={`/work/${awsProject.slug}`}
+                className="group block"
+              >
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    <div className="relative aspect-[4/3] md:col-span-1">
+                      <Image
+                        src={awsProject.thumbnail}
+                        alt={awsProject.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{awsProject.category}</span>
+                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                        {awsProject.title}
+                      </h3>
+                      <p className="text-cream/60 text-sm line-clamp-2">
+                        {awsProject.overview}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })()}
         </motion.section>
       )}
 
