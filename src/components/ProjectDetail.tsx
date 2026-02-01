@@ -101,6 +101,17 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         <h1 className="heading-lg mb-6">{project.title}</h1>
         
         <p className="body-lg max-w-3xl">{project.overview}</p>
+        {project.websiteUrl && (
+          <a
+            href={project.websiteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 font-body text-sm font-medium text-yellow hover:underline focus:outline-none focus:ring-2 focus:ring-yellow focus:ring-offset-2 focus:ring-offset-ink"
+          >
+            View live simulator
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
+        )}
       </motion.header>
 
       {/* Hero Image or Lottie */}
@@ -636,6 +647,105 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 </div>
               </div>
             )}
+            {project.slug === 'incident-response-simulator' && (() => {
+              const base = '/images/incident-response-simulator';
+              const desktopImages = [`${base}/MacBook-1.png`, `${base}/MacBook-3.png`, `${base}/MacBookWF2.png`, `${base}/iMac-incident.png`];
+              const mobileImages = [`${base}/iPhone-1.png`, `${base}/iPhone-2.png`, `${base}/iPhone-3.png`, `${base}/iPhone-4.png`];
+              const wireframeImages = [`${base}/WF-StartScreen.png`, `${base}/WF-IncidentCommandTabView.png`, `${base}/WF-IncidentReport-PostGame.png`, `${base}/WF-MobileView-1.png`, `${base}/WF-MobileView-2.png`];
+              const renderImageGrid = (images: string[], sectionKey: string, altPrefix: string) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {images.map((image, i) => (
+                    <motion.div
+                      key={image}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.06 }}
+                      whileHover={{ y: -4 }}
+                      className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 group cursor-pointer"
+                      onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - ${altPrefix} ${i + 1}`); }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - ${altPrefix} ${i + 1}`); } }}
+                    >
+                      <Image src={image} alt={`${altPrefix} ${i + 1}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
+                    </motion.div>
+                  ))}
+                </div>
+              );
+              return (
+                <div key="incident-response-simulator" className="md:col-span-2 space-y-12">
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Start Screen</h3>
+                    <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
+                      Gamified entry point: players step into the simulator and put their incident response skills to the test under pressure.
+                    </p>
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4 }}
+                      whileHover={{ y: -4 }}
+                      className="relative aspect-video max-w-4xl bg-ink-light rounded-sm border border-cream/20 overflow-hidden group cursor-pointer"
+                      onClick={() => { setImageModalSrc(`${base}/laptop-simulator-2.jpg`); setImageModalAlt(`${project.title} - Start Screen`); }}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(`${base}/laptop-simulator-2.jpg`); setImageModalAlt(`${project.title} - Start Screen`); } }}
+                    >
+                      <Image src={`${base}/laptop-simulator-2.jpg`} alt="Start Screen" fill className="object-contain transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 896px" />
+                    </motion.div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Desktop Simulator</h3>
+                    <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
+                      Immersive desktop experience for event kiosks and cohesity.com: multi-stage gameplay from Identify through Recover and Lessons Learned.
+                    </p>
+                    {renderImageGrid(desktopImages, 'desktop', 'Desktop')}
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Mobile Simulator</h3>
+                    <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
+                      Dedicated mobile UI designed for smaller screens and touch—same flow, optimized for on-the-go use.
+                    </p>
+                    {renderImageGrid(mobileImages, 'mobile', 'Mobile')}
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Wireframes</h3>
+                    <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
+                      UX and structure: start screen, incident command tab view, post-game report, and mobile views.
+                    </p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+                      {wireframeImages.map((image, i) => {
+                        const isMobileView = image.toLowerCase().includes('mobileview');
+                        return (
+                          <motion.div
+                            key={image}
+                            initial={{ opacity: 0, y: 8 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: i * 0.05 }}
+                            whileHover={{ y: -2 }}
+                            className={`relative overflow-hidden rounded-sm border border-cream/20 group cursor-pointer bg-ink-light flex items-center justify-center ${isMobileView ? 'aspect-[3/4] p-2 ring-1 ring-cream/10' : 'aspect-[3/2]'}`}
+                            onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); }}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); } }}
+                          >
+                            <Image
+                              src={image}
+                              alt={`Wireframe ${i + 1}`}
+                              fill
+                              className={`transition-transform duration-300 group-hover:scale-105 ${isMobileView ? 'object-contain' : 'object-cover'}`}
+                              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                            />
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
             {project.images.slice(1).filter((image, index) => {
               // Skip the first image if it's a video (already shown in hero for AWS project)
               if (project.slug === 'aws-reinvent-ooh-2024' && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
@@ -673,6 +783,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               
               // Resilience: hero-animation-frame images live in storyboard section; skip in main grid
               if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('hero-animation-frame')) return false;
+
+              // Incident Response Simulator: all images live in dedicated sections below; skip in main grid
+              if (project.slug === 'incident-response-simulator') return false;
 
               // Cohesity: Color palette (except Color-Palette.png), Event-Demo, CS-, 3D graphics, brand elements, brand exploration, and typography images live in dedicated sections; skip in main grid
               if (project.slug === 'cohesity-rebrand' && (

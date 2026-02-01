@@ -17,6 +17,7 @@ export interface Project {
   featured: boolean;
   hasLottie?: boolean;
   lottieFile?: string;
+  websiteUrl?: string;
 }
 
 export const projects: Project[] = [
@@ -56,6 +57,40 @@ export const projects: Project[] = [
     year: '2025',
     client: 'Cohesity',
     featured: true,
+  },
+  {
+    slug: 'incident-response-simulator',
+    title: 'Cyber Incident Response Simulator',
+    category: 'Digital',
+    overview: 'A hands-on, gamified simulator that lets prospects and customers experience how ransomware attacks unfold and test their incident response under pressure. The experience demonstrates how Cohesity strengthens response and recovery—from identification and containment to eradication and recovery—for security and IT operations audiences.',
+    role: 'UX/UI Designer. Led wireframes, visual design, and interaction design for both desktop and a dedicated mobile version of the simulator. Designed for use in the cyber resilience campaign, at in-person events (including offline), and for sales and customer experience enablement.',
+    challenge: 'Translate a complex incident response workflow into a clear, engaging, gamified experience that works for security and IT audiences on desktop and mobile—and optionally without internet at events.',
+    approach: 'Created wireframes and UI designs for the full simulator flow: start screen, incident command and multi-stage gameplay (Identify, Contain, Eradicate, Recover, Lessons Learned), post-game report, and mobile-optimized views. Designed a separate mobile experience tailored to smaller screens and touch, while keeping the desktop version immersive for event kiosks and cohesity.com.',
+    outcome: 'The simulator launched as a core interactive asset in the cyber resilience campaign, used on cohesity.com and at in-person events to help audiences understand ransomware response and Cohesity’s role in recovery.',
+    goal: 'Help prospects and customers understand how ransomware attacks unfold and how their response under pressure impacts recovery. Demonstrate how Cohesity strengthens incident response and recovery. Support security operations, IT operations, campaign use, events (including offline), and sales enablement.',
+    thumbnail: '/images/incident-response-simulator/iPhone-1.png',
+    images: [
+      '/images/incident-response-simulator/iPhone-1.png',
+      '/images/incident-response-simulator/Start Screen.png',
+      '/images/incident-response-simulator/MacBook-1.png',
+      '/images/incident-response-simulator/MacBook-3.png',
+      '/images/incident-response-simulator/MacBookWF2.png',
+      '/images/incident-response-simulator/iMac-incident.png',
+      '/images/incident-response-simulator/laptop-simulator-2.jpg',
+      '/images/incident-response-simulator/iPhone-2.png',
+      '/images/incident-response-simulator/iPhone-3.png',
+      '/images/incident-response-simulator/iPhone-4.png',
+      '/images/incident-response-simulator/WF-StartScreen.png',
+      '/images/incident-response-simulator/WF-IncidentCommandTabView.png',
+      '/images/incident-response-simulator/WF-IncidentReport-PostGame.png',
+      '/images/incident-response-simulator/WF-MobileView-1.png',
+      '/images/incident-response-simulator/WF-MobileView-2.png',
+    ],
+    tags: ['UX', 'UI', 'Wireframes', 'Digital', 'Interactive', 'Desktop', 'Mobile', 'Campaign'],
+    year: '2025',
+    client: 'Cohesity',
+    featured: true,
+    websiteUrl: 'https://www.cohesity.com/incident-response-simulator/',
   },
   {
     slug: 'aws-reinvent-ooh-2024',
