@@ -338,7 +338,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">OOH Design Concepts</h2>
           <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
-            Explored two distinct design directions for the out-of-home media campaign, each testing different approaches to visual hierarchy, messaging clarity, and impact at scale. The concepts were evaluated for their ability to capture attention in Las Vegas&apos;s competitive advertising landscape while maintaining brand consistency and clear communication.
+            Two distinct design directions developed for the out-of-home campaign, testing visual hierarchy, messaging clarity, and impact at scale. Each concept was evaluated for visibility in high-traffic Las Vegas environments while maintaining strong brand consistency.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.images
@@ -393,7 +393,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Booth Design Concepts</h2>
           <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
-            Explored three distinct design concepts for the booth, each exploring different approaches to spatial layout, visual hierarchy, and attendee engagement. The concepts were evaluated for visibility, brand consistency, and their ability to create an immersive experience that connected seamlessly with the outdoor OOH campaign.
+            Three booth design concepts explored different approaches to spatial layout, visual hierarchy, and attendee flow. Each concept was evaluated for visibility, engagement, and how well it connected to the outdoor OOH campaign.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {project.images
@@ -448,7 +448,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Booth Animations</h2>
           <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
-            Created animated content for the booth&apos;s hanging LED cubes and media wall. I storyboarded the animations and designed all the graphics, collaborating with an agency partner who handled the animation production. The animations created dynamic, engaging visual experiences that brought the booth to life.
+            Animated content created for hanging LED cubes and the booth media wall. I storyboarded the animations and designed all graphics, collaborating with an agency partner on production to create dynamic, engaging motion that brought the booth environment to life.
           </p>
           
           {/* Storyboard with Play Button */}
