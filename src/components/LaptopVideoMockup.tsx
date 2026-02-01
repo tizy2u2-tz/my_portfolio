@@ -21,7 +21,7 @@ export default function LaptopVideoMockup({
 }: LaptopVideoMockupProps) {
   return (
     <div className={`relative w-full ${className}`} style={{ marginBottom: 0 }}>
-      <div className="relative w-full aspect-[4/5]">
+      <div className="relative w-full aspect-[1178/884]">
         <Image
           src={laptopImage}
           alt="Device mockup"
@@ -51,6 +51,7 @@ export default function LaptopVideoMockup({
               muted
               playsInline
               className="absolute inset-0 h-full w-full object-contain"
+              style={{ left: '1px', top: '-17px' }}
               aria-label={videoAlt}
             />
           </div>

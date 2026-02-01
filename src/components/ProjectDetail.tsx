@@ -261,7 +261,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Landing Pages</h2>
           <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
-            Created multiple landing pages targeting different audience segments, each tailored with specific messaging and content while maintaining visual consistency through the campaign style guide. Each page was optimized to resonate with its intended audience—from IT leaders to security professionals to enterprise executives—ensuring the right message reached the right people.
+            Designed multiple landing pages for different audience segments, each with tailored messaging while maintaining visual consistency through the campaign style guide. The pages were optimized to ensure the right message reached IT leaders, security professionals, and enterprise decision-makers.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {project.images
@@ -529,7 +529,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.slug === 'resilience-everywhere-2025' && (
               <div key="imac-mockup" className="md:col-span-2">
-                <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Landing page Lottie animation</h3>
+                <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Motion / Lottie Animation</h3>
+                <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                  Designed and integrated motion for landing pages using Lottie animations to reinforce key ideas and add clarity and emphasis without distraction.
+                </p>
                 <div>
                   <LaptopVideoMockup
                     laptopImage="/images/Resilience-campaign/iMac-mock.jpg"
@@ -537,7 +540,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     videoAlt="Resilience Everywhere 2025 hero animation"
                   />
                 </div>
-                <div className="-mt-24 md:-mt-32">
+                <div className="mt-6 md:mt-8">
                   <h4 className="text-base md:text-lg font-semibold font-body mb-2 text-cream/80">Animation Storyboard</h4>
                   <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
                     {project.images
@@ -579,7 +582,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             )}
             {project.slug === 'resilience-everywhere-2025' && (
               <div key="social-assets" className="md:col-span-2 mt-8">
-                <h3 className="text-lg md:text-xl font-semibold font-body mb-4">5 Best Practices Social Video</h3>
+                <h3 className="text-xl md:text-2xl font-semibold font-body mb-6">Social and Video Assets</h3>
+                <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                  Designed social and digital assets in collaboration with a copywriter. Provided visual direction and design for the campaign, while video production was handled by an agency partner. Ensured consistency across formats and platforms.
+                </p>
+                <h4 className="text-lg md:text-xl font-semibold font-body mb-4">5 Best Practices Social Video</h4>
                 <div className="relative w-full max-w-4xl mx-auto aspect-video bg-ink-light rounded-sm border border-cream/20 overflow-hidden mb-8">
                   <video
                     src="/images/Resilience-campaign/5-best-practices-social-1200x627.mp4"
@@ -590,7 +597,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <h3 className="text-lg md:text-xl font-semibold font-body mb-4">5 Best Practices Carousel</h3>
+                <h4 className="text-lg md:text-xl font-semibold font-body mb-4">5 Best Practices Carousel</h4>
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                   {project.images
                     .filter((image) => {
@@ -711,8 +718,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
           {project.slug === 'resilience-everywhere-2025' && (
             <>
-              <h3 className="text-xl md:text-2xl font-semibold font-body mt-8 mb-6">Social and Video Assets</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="mt-12 md:mt-16">
+                <h4 className="text-lg md:text-xl font-semibold font-body mb-4">Video and Social Assets</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <motion.button
                   type="button"
                   onClick={() => setVideoModalId('dydQQj0N-M4')}
@@ -777,6 +785,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   </AnimatePresence>
                 </div>
               </div>
+              </div>
 
               <VideoModal
                 isOpen={!!videoModalId}
@@ -785,6 +794,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               />
 
               <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">Campaign photography style</h3>
+              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+                Defined and applied a consistent photography treatment for the campaign. While the initial style was developed by an agency, our team generated and sourced imagery and applied the same visual treatment across multiple portraits to ensure cohesion and scalability.
+              </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {RESILIENCE_PHOTO_IMAGES.map((src, i) => (
                   <motion.div
