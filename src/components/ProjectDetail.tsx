@@ -691,9 +691,31 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               return true;
             }).map((image, index) => {
               const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
+              const alt = `${project.title} - Image ${index + 2}`;
 
               return (
-                <div key={`${image}-${index}`} className="relative aspect-[4/3] bg-ink-light overflow-hidden">
+                <motion.div
+                  key={`${image}-${index}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  whileHover={{ y: -4 }}
+                  className={`relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 group ${!isVideo ? 'cursor-pointer' : ''}`}
+                  onClick={!isVideo ? () => {
+                    setImageModalSrc(image);
+                    setImageModalAlt(alt);
+                  } : undefined}
+                  role={!isVideo ? 'button' : undefined}
+                  tabIndex={!isVideo ? 0 : undefined}
+                  onKeyDown={!isVideo ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setImageModalSrc(image);
+                      setImageModalAlt(alt);
+                    }
+                  } : undefined}
+                >
                   {isVideo ? (
                     <video
                       src={image}
@@ -706,12 +728,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   ) : (
                     <Image
                       src={image}
-                      alt={`${project.title} - Image ${index + 2}`}
+                      alt={alt}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   )}
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -1147,6 +1169,59 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             
             return (
               <Link 
+                href={`/work/${awsProject.slug}`}
+                className="group block"
+              >
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    <div className="relative aspect-[4/3] md:col-span-1">
+                      <Image
+                        src={awsProject.thumbnail}
+                        alt={awsProject.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{awsProject.category}</span>
+                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                        {awsProject.title}
+                      </h3>
+                      <p className="text-cream/60 text-sm line-clamp-2">
+                        {awsProject.overview}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })()}
+        </motion.section>
+      )}
+
+      {/* Related Projects - Brand Style Guide */}
+      {project.slug === 'brand-style-guide' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+            The visual identity and style guide established here were applied across Cohesity campaigns, including the comprehensive brand presence for AWS re:Invent.
+          </p>
+          {(() => {
+            const awsProject = projects.find(p => p.slug === 'aws-reinvent-ooh-2024');
+            if (!awsProject) return null;
+
+            return (
+              <Link
                 href={`/work/${awsProject.slug}`}
                 className="group block"
               >
