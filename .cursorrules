@@ -1,0 +1,6 @@
+# my_portfolio – Project rules
+
+## Dev server port
+- **Always run the app locally on port 3000** for this project.
+- Use `npm run dev` (which runs `next dev -p 3000`) or `./start-dev.sh`.
+- Each project/repo has its own port (e.g. another project uses 3003); this repo is 3000 only.
