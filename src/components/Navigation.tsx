@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/work', label: 'Work' },
+  { href: 'https://projects.tonyazenin.ai/', label: 'Experiments' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -55,7 +56,10 @@ export default function Navigation() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLinkClick = (href: string) => {
-    setClickedLink(href);
+    // Don't set click state for external links (e.g. Experiments); they open in new tab and shouldn't stay highlighted
+    if (!href.startsWith('http')) {
+      setClickedLink(href);
+    }
   };
 
   // On home page with yellow bg: use black text; elsewhere or when scrolled: use cream
@@ -125,6 +129,8 @@ export default function Navigation() {
                 <Link
                   href={link.href}
                   onClick={() => handleLinkClick(link.href)}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 link-underline ${textColorClass} ${clickedClass}`}
                 >
                   {link.label}
@@ -233,6 +239,8 @@ export default function Navigation() {
                           >
                             <Link
                               href={link.href}
+                              target={link.href.startsWith('http') ? '_blank' : undefined}
+                              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                               onClick={() => {
                                 handleLinkClick(link.href);
                                 setIsOpen(false);

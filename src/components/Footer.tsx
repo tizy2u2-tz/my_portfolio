@@ -9,7 +9,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Tonya Zenin
           </p>
           <p className="text-xs text-cream/70">
-            Designed with <span className="text-yellow">Cursor</span>
+            Build with <span className="text-yellow">Cursor</span>
           </p>
         </div>
       </div>

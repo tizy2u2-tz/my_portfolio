@@ -149,8 +149,8 @@ export default function AboutPage() {
               icon: '◆',
             },
             {
-              title: 'Digital Design',
-              description: 'Websites, apps, and digital experiences that look beautiful and actually work.',
+              title: 'Digital & Design Systems',
+              description: 'Websites, apps, design systems, and digital experiences that look beautiful and actually work.',
               icon: '◇',
             },
             {
@@ -189,7 +189,7 @@ export default function AboutPage() {
           </div>
           <MagneticWrapper>
             <Link 
-              href="/TonyaZenin-resume.pdf" 
+              href="/TonyaZenin_resume.pdf" 
               target="_blank"
               className="mt-4 md:mt-0 btn-outline inline-flex items-center gap-2"
             >

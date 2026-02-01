@@ -30,12 +30,11 @@ const experience: ExperienceItem[] = [
     company: 'Cohesity — San Jose, CA',
     period: '2019 — Present',
     description: [
-      'Lead art direction and visual design across brand, digital marketing, campaigns, and global events.',
-      'Played a key role in evolving the brand toward a more modern, confident visual identity.',
-      'Directed major initiatives including AWS re:Invent, OOH placements (including Harmon Corner), digital billboards, booth environments, and large-scale event graphics.',
-      'Defined the visual system for Cohesity Catalyst, the company\'s largest virtual event, ensuring consistency across all digital touchpoints.',
-      'Partnered closely with marketing, product, and leadership teams to deliver award-winning campaigns with measurable impact.',
-      'Implemented and scaled a design system to improve brand consistency, efficiency, and collaboration across teams.',
+      'Lead hands-on brand and visual design across web, digital campaigns, motion, events, and large-scale launches—ensuring consistency across brand systems and experiences.',
+      'Own the design system end to end, including setup, development, documentation, and ongoing maintenance to ensure brand consistency and scalability across teams.',
+      'Explore and apply AI tools within the design process to support rapid prototyping, iteration, and early exploration, while partnering with teams to evaluate opportunities for broader workflow integration.',
+      'Serve as design lead on major initiatives including AWS re:Invent, large-scale booth environments, digital billboards, and experiential brand moments.',
+      'Contribute to the evolution of the brand toward a more modern, confident visual identity.',
     ],
   },
   {
