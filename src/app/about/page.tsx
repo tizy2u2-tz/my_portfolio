@@ -46,18 +46,16 @@ export default function AboutPage() {
           {/* Bio - casual, human tone */}
           <div className="space-y-6 body-md">
             <p>
-              I&apos;m a senior brand designer and art director who loves creating work that looks great and functions beautifully. 
-              My favorite areas are brand identity, digital experiences, and motion design, anywhere I can blend bold visuals with smart strategy.
+              I&apos;m a senior multidisciplinary brand designer and art director working across brand identity, digital experiences, campaigns, and motion design. I focus on creating work that is visually strong, clear, and purposeful.
             </p>
             <p>
-              I&apos;ve spent years designing for enterprise tech companies, shaping brands and campaigns that need to communicate complex ideas with confidence and personality. 
-              I enjoy leading creative direction, bringing structure to ambiguity, and guiding ideas from early concept through final execution so the work feels intentional, clear, and human.
+              I&apos;ve spent years designing for technology companies, helping brands communicate complex ideas in ways that feel confident, human, and easy to understand. My work ranges from large campaign moments to the systems that keep brands consistent across web, motion, and other touchpoints. I enjoy shaping ideas early and carrying them through to final execution.
             </p>
             <p>
-              These days, the way I work feels much more fluid and natural, and I&apos;m able to move more freely between design and build. I enjoy experimenting with AI tools and learning new ways to work with them, which has made my process more efficient and exploratory. It&apos;s an exciting time to be a designer.
+              I&apos;m very hands-on in my work and comfortable moving between big-picture thinking and detailed design. Lately, I&apos;ve been exploring new tools and workflows, including AI-assisted design, to prototype ideas faster while staying grounded in craft and clarity.
             </p>
             <p>
-              I stay curious and keep learning. When I&apos;m not designing, you&apos;ll usually find me painting outdoors with oils.
+              When I&apos;m not designing, you&apos;ll usually find me painting outdoors with oils.
             </p>
           </div>
         </motion.div>

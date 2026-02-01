@@ -526,7 +526,7 @@ export default function Home() {
               className="text-black text-[18px] leading-[1.7] font-normal"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
+              I&apos;m a multidisciplinary brand designer specializing in brand, digital, motion, and campaign work. I create clear, thoughtful design that helps complex ideas feel human, intentional, and easy to connect with.
             </p>
           </motion.div>
 
@@ -740,7 +740,7 @@ export default function Home() {
                   fontSize: '12px',
                 }}
               >
-                I&apos;m a multi-disciplinary designer specializing in brand, digital, and campaign work, driven by bold ideas and a genuine passion for design. I create thoughtful, impactful solutions across every medium.
+                I&apos;m a multidisciplinary brand designer specializing in brand, digital, motion, and campaign work. I create clear, thoughtful design that helps complex ideas feel human, intentional, and easy to connect with.
               </p>
             </motion.div>
 
