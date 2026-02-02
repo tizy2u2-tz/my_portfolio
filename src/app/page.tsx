@@ -1,12 +1,18 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
 import MagneticButton from '@/components/MagneticButton';
 import MagneticWrapper from '@/components/MagneticWrapper';
 import { featuredProjects } from '@/data/projects';
+
+// Third word: Purpose → Intent → Impact (looped, pause between loops)
+const THIRD_WORDS = ['Purpose', 'Intent', 'Impact'];
+const THIRD_WORD_HOLD_MS = 2800;
+const thirdWordTransition = { duration: 0.68, ease: [0.25, 0.46, 0.45, 0.94] as const };
 
 // Staggered text animation for headline
 const letterVariants = {
@@ -284,41 +290,19 @@ const AnimatedPurposeLetter = ({ char, index }: { char: string; index: number })
   </motion.span>
 );
 
-// TZ Logo Component with roll-in and continuous rotation
-const AnimatedTZLogo = () => {
+// TZ Logo: roll-in on mount, then one full clockwise rotation (360°) per word change
+const AnimatedTZLogo = ({ rotationDegrees = 0 }: { rotationDegrees?: number }) => {
   return (
     <motion.div
       className="w-[207px] h-[207px]"
-      // Roll in from left: start completely off-screen
-      initial={{ 
-        x: '-100vw', 
-        rotate: -720,
-        opacity: 1,
-      }}
-      animate={{ 
-        x: 0, 
-        rotate: 0,
-        opacity: 1,
-      }}
-      transition={{
-        delay: 1.0,
-        duration: 1.4,
-        ease: [0.16, 1, 0.3, 1],
-      }}
+      initial={{ x: '-100vw', rotate: -720, opacity: 1 }}
+      animate={{ x: 0, rotate: 0, opacity: 1 }}
+      transition={{ delay: 1.0, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Inner container for continuous 360° rotation with pause */}
       <motion.div
         className="w-full h-full"
-        animate={{
-          rotate: [0, 0, 360, 360], // Pause → Rotate → Pause
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: [0.4, 0, 0.2, 1], // Smooth acceleration/deceleration
-          times: [0, 0.3, 0.7, 1], // 30% pause, 40% rotation, 30% pause
-          delay: 2.5, // Start after roll-in completes
-        }}
+        animate={{ rotate: rotationDegrees }}
+        transition={thirdWordTransition}
       >
         <svg
           viewBox="0 0 400 400"
@@ -344,10 +328,92 @@ const AnimatedTZLogo = () => {
 export default function Home() {
   const designText = "Design";
   const withText = "with";
-  const purposeText = "PURPOSE";
+
+  const [thirdWordIndex, setThirdWordIndex] = useState(0);
+  const [cumulativeLogoRotation, setCumulativeLogoRotation] = useState(0);
+  const logoRotationMountedRef = useRef(false);
+  const [wordWidths, setWordWidths] = useState<[number, number, number]>([0, 0, 0]);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const thirdWordTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (!logoRotationMountedRef.current) {
+      logoRotationMountedRef.current = true;
+      return;
+    }
+    setCumulativeLogoRotation((prev) => prev + 360);
+  }, [thirdWordIndex]);
+
+  useLayoutEffect(() => {
+    if (!measureRef.current) return;
+    const spans = measureRef.current.querySelectorAll('span');
+    if (spans.length >= 3) {
+      setWordWidths([
+        (spans[0] as HTMLElement).offsetWidth,
+        (spans[1] as HTMLElement).offsetWidth,
+        (spans[2] as HTMLElement).offsetWidth,
+      ]);
+    }
+  }, []);
+
+  useEffect(() => {
+    const len = THIRD_WORDS.length;
+    const schedule = (currentIndex: number) => {
+      if (thirdWordTimeoutRef.current) clearTimeout(thirdWordTimeoutRef.current);
+      const delay = THIRD_WORD_HOLD_MS;
+      thirdWordTimeoutRef.current = setTimeout(() => {
+        thirdWordTimeoutRef.current = null;
+        setThirdWordIndex((i) => {
+          const next = (i + 1) % len;
+          schedule(next);
+          return next;
+        });
+      }, delay);
+    };
+    schedule(0);
+    return () => {
+      if (thirdWordTimeoutRef.current) {
+        clearTimeout(thirdWordTimeoutRef.current);
+        thirdWordTimeoutRef.current = null;
+      }
+    };
+  }, []);
+
+  const maxWordWidth = Math.max(...wordWidths, 400);
+  const currentWordWidth = wordWidths[thirdWordIndex] || 400;
+  // Faster bar + word exit only for Impact → Purpose (we're now showing Purpose, index 0)
+  const isImpactToPurpose = thirdWordIndex === 0;
+  const barWidthTransition = isImpactToPurpose
+    ? { duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] as const }
+    : thirdWordTransition;
+  const wordExitTransition = isImpactToPurpose
+    ? { duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] as const }
+    : thirdWordTransition;
+  const barPaddingX = 24;
+  const barHeight = 119;
 
   return (
     <>
+      {/* Hidden: measure word widths for dynamic black bar (desktop font) */}
+      <div
+        ref={measureRef}
+        aria-hidden
+        className="absolute -left-[9999px] -top-[9999px] pointer-events-none invisible"
+        style={{
+          fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
+          fontWeight: 700,
+          fontSize: '140px',
+          lineHeight: 1,
+          textTransform: 'uppercase',
+        }}
+      >
+        {THIRD_WORDS.map((w) => (
+          <span key={w} className="whitespace-nowrap">
+            {w}
+          </span>
+        ))}
+      </div>
+
       {/* Hero Section - Figma-matched layout */}
       <section className="min-h-screen w-full relative bg-[#FFE100]">
         {/* Desktop Layout Container - centered with max-width */}
@@ -415,7 +481,7 @@ export default function Home() {
                 transform: 'scale(min(1, calc(100vw / 1440)))',
               }}
             >
-              <AnimatedTZLogo />
+              <AnimatedTZLogo rotationDegrees={cumulativeLogoRotation} />
             </div>
           </div>
 
@@ -466,45 +532,58 @@ export default function Home() {
             </div>
           </div>
 
-          {/* PURPOSE - Yellow text in black container with reveal animation */}
-          {/* Text starts italic, changes to Bodoni when black shape animates */}
+          {/* Third word: Purpose → Intent → Impact — black bar hugs current word */}
           <div
             className="absolute z-0"
             style={{
               left: '48%',
-              top: '450px',
-              width: '611px',
-              height: '113px',
+              top: '442px',
+              width: maxWordWidth + barPaddingX,
+              height: barHeight,
             }}
           >
-            {/* PURPOSE text */}
+            {/* Black bar — initial scaleX reveal, then width hugs current word */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1, width: currentWordWidth + barPaddingX }}
+              transition={{
+                width: barWidthTransition,
+                scaleX: { duration: 0.8, delay: 1, ease: [0.25, 0.46, 0.45, 0.94] },
+              }}
+              className="absolute bg-black overflow-hidden"
+              style={{ left: 0, top: 0, height: '100%', transformOrigin: 'left', zIndex: 1 }}
+            />
+            {/* Text — full-width clip area, word centered vertically (equal top/bottom margin) */}
             <div
-              className="text-[#FFE100] uppercase absolute"
+              className="text-[#FFE100] uppercase absolute overflow-hidden"
               style={{
+                left: 0,
+                top: 0,
+                width: maxWordWidth + barPaddingX,
+                height: '100%',
                 fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
                 fontWeight: 700,
                 fontSize: '140px',
-                lineHeight: '1',
-                marginTop: '-22px',
-                paddingLeft: '10px',
+                lineHeight: 1,
+                paddingLeft: 12,
                 zIndex: 2,
               }}
             >
-              {purposeText}
+              <div className="relative overflow-hidden" style={{ width: '100%', height: '100%' }}>
+                <AnimatePresence initial={false} mode="wait">
+                  <motion.span
+                    key={THIRD_WORDS[thirdWordIndex]}
+                    initial={{ x: '-100%', y: '-50%' }}
+                    animate={{ x: 0, y: '-50%' }}
+                    exit={{ x: '100%', y: '-50%', transition: wordExitTransition }}
+                    transition={thirdWordTransition}
+                    className="absolute left-0 top-[50%] whitespace-nowrap origin-left"
+                  >
+                    {THIRD_WORDS[thirdWordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
             </div>
-            
-            {/* Black background - animates in to reveal text */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={getPurposeRevealVariant()}
-              className="absolute bg-black overflow-hidden"
-              style={{
-                width: '100%',
-                height: '100%',
-                zIndex: 1,
-              }}
-            />
           </div>
 
           {/* Description - White box (aligned right edge with PURPOSE box) */}
@@ -603,34 +682,64 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* PURPOSE - black box */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute bg-black flex items-center"
-              style={{
-                transformOrigin: 'left',
-                left: '27px',
-                top: '235px',
-                width: 'calc(100% - 16px)',
-                maxWidth: '347px',
-                height: '80px',
-                padding: '3px 4px',
-              }}
-            >
-              <div
-                className="text-[#FFE100] uppercase"
-                style={{
-                  fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
-                  fontWeight: 700,
-                  fontSize: 'min(77.89px, 20vw)',
-                  lineHeight: '1',
-                }}
-              >
-                PURPOSE
-              </div>
-            </motion.div>
+            {/* Third word: Purpose → Intent → Impact — black bar hugs word (mobile) */}
+            {(() => {
+              const mobileScale = 78 / 140;
+              const mobileMaxW = Math.round(maxWordWidth * mobileScale) + barPaddingX;
+              const mobileCurrentW = Math.round((wordWidths[thirdWordIndex] || 400) * mobileScale) + barPaddingX;
+              return (
+                <div
+                  className="absolute"
+                  style={{
+                    left: '27px',
+                    top: '228px',
+                    width: mobileMaxW,
+                    height: 86,
+                  }}
+                >
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1, width: mobileCurrentW }}
+                    transition={{
+                      width: barWidthTransition,
+                      scaleX: { delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
+                    }}
+                    className="absolute left-0 top-0 bg-black overflow-hidden"
+                    style={{ height: 86, transformOrigin: 'left', zIndex: 1, paddingLeft: 12, paddingRight: 12 }}
+                  />
+                  <div
+                    className="text-[#FFE100] uppercase absolute overflow-hidden"
+                    style={{
+                      left: 0,
+                      top: 0,
+                      width: mobileMaxW,
+                      height: 86,
+                      fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
+                      fontWeight: 700,
+                      fontSize: 'min(77.89px, 20vw)',
+                      lineHeight: 1,
+                      paddingLeft: 12,
+                      zIndex: 2,
+                    }}
+                  >
+                    <div className="relative overflow-hidden" style={{ width: '100%', height: '100%' }}>
+                      <AnimatePresence initial={false} mode="wait">
+                        <motion.span
+                          key={THIRD_WORDS[thirdWordIndex]}
+                          initial={{ x: '-100%', y: '-50%' }}
+                          animate={{ x: 0, y: '-50%' }}
+                          exit={{ x: '100%', y: '-50%', transition: wordExitTransition }}
+                          transition={thirdWordTransition}
+                          className="absolute left-0 top-[50%] whitespace-nowrap origin-left"
+                        >
+                          {THIRD_WORDS[thirdWordIndex]}
+                        </motion.span>
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Background colorful image */}
             <motion.div
@@ -679,7 +788,7 @@ export default function Home() {
               />
             </motion.div>
             
-            {/* TZ Logo */}
+            {/* TZ Logo - rotation synced to third word */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, rotate: -180 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -692,19 +801,25 @@ export default function Home() {
                 height: '94px',
               }}
             >
-              <svg
-                viewBox="0 0 400 400"
+              <motion.div
                 className="w-full h-full"
+                animate={{ rotate: cumulativeLogoRotation }}
+                transition={thirdWordTransition}
               >
-                <path
-                  d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
-                  fill="black"
-                />
-                <path
-                  d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
-                  fill="black"
-                />
-              </svg>
+                <svg
+                  viewBox="0 0 400 400"
+                  className="w-full h-full"
+                >
+                  <path
+                    d="M200,3.66C91.56,3.66,3.66,91.56,3.66,200s87.9,196.34,196.34,196.34,196.34-87.9,196.34-196.34S308.44,3.66,200,3.66ZM336.99,312.85h-186.2c-37.57,0-59.29-25.05-59.29-64.71V62.34h36.74v50.1h168.66c25.05,0,38.41,10.44,38.41,26.72,0,8.77-1.67,16.29-6.26,21.71l-95.61,116.9h103.54v35.07Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M200.06,147.51h-71.81v105.21c0,18.79,8.77,25.05,27.56,25.05h37.94c2.51-9.1,8.96-17.64,18.83-30.06l81.83-100.2h-94.35Z"
+                    fill="black"
+                  />
+                </svg>
+              </motion.div>
             </motion.div>
 
             {/* Shadow box */}
