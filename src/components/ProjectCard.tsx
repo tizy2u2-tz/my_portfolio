@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
@@ -35,7 +36,17 @@ const getCategoryColors = (category: string) => {
 
 export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const colors = getCategoryColors(project.category);
-  
+  const carouselImages = project.heroCarouselImages?.length ? project.heroCarouselImages : [];
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  useEffect(() => {
+    if (carouselImages.length === 0) return;
+    const id = setInterval(() => {
+      setCarouselIndex((i) => (i + 1) % carouselImages.length);
+    }, 1422);
+    return () => clearInterval(id);
+  }, [carouselImages.length]);
+
   return (
     <Link href={`/work/${project.slug}`} className="group block">
       <motion.article
@@ -43,7 +54,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className="relative overflow-hidden bg-ink-light rounded-sm"
       >
-        {/* Project Image, Video, or Lottie */}
+        {/* Project Image, Video, Lottie, or Carousel */}
         <div className={`relative aspect-[4/3] overflow-hidden ${project.hasLottie && project.lottieFile ? 'flex items-center justify-center' : ''}`}>
           {project.hasLottie && project.lottieFile ? (
             <div className="w-full h-full flex items-start justify-center pt-6 pb-2 px-4">
@@ -56,6 +67,27 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                   loop={true}
                 />
               </div>
+            </div>
+          ) : carouselImages.length > 0 ? (
+            <div className="relative w-full h-full">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={carouselImages[carouselIndex]}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={carouselImages[carouselIndex]}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
           ) : project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm') ? (
             <video

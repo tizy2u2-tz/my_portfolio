@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -49,6 +49,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
 
   const [iphoneBannerIndex, setIphoneBannerIndex] = useState(0);
+  const [heroSlidesIndex, setHeroSlidesIndex] = useState(0);
+  const heroHasTransitionedRef = useRef(false);
+  const heroTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const heroSlidesLengthRef = useRef(0);
   const [videoModalId, setVideoModalId] = useState<string | null>(null);
   const [localVideoSrc, setLocalVideoSrc] = useState<string | null>(null);
   const [imageModalSrc, setImageModalSrc] = useState<string | null>(null);
@@ -61,6 +65,44 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     }, 2500);
     return () => clearInterval(id);
   }, [project.slug]);
+
+  const heroSlidesImages = project.slug === 'cohesity-rebrand' && project.heroSlidesImages?.length
+    ? project.heroSlidesImages
+    : [];
+
+  heroSlidesLengthRef.current = heroSlidesImages.length;
+
+  // Mark that we've left the first slide so subsequent slides (and loop-back to 0) use push initial
+  useEffect(() => {
+    if (heroSlidesImages.length > 0 && heroSlidesIndex !== 0) heroHasTransitionedRef.current = true;
+  }, [heroSlidesImages.length, heroSlidesIndex]);
+
+  // Cohesity Rebrand hero: 30 slides, single timeout, group pacing (every 3rd = accent beat)
+  useEffect(() => {
+    if (heroSlidesImages.length === 0) return;
+    const length = heroSlidesImages.length;
+    const schedule = (currentIndex: number) => {
+      if (heroTimeoutRef.current) clearTimeout(heroTimeoutRef.current);
+      const isAccent = (currentIndex % 3) === 0;
+      const delay = currentIndex === 0 ? 500 : (isAccent ? 1600 : 1100);
+      heroTimeoutRef.current = setTimeout(() => {
+        heroTimeoutRef.current = null;
+        setHeroSlidesIndex((i) => {
+          const len = heroSlidesLengthRef.current || length;
+          const next = len > 0 ? (i + 1) % len : 0;
+          schedule(next);
+          return next;
+        });
+      }, delay);
+    };
+    schedule(0);
+    return () => {
+      if (heroTimeoutRef.current) {
+        clearTimeout(heroTimeoutRef.current);
+        heroTimeoutRef.current = null;
+      }
+    };
+  }, [project.slug, heroSlidesImages.length]);
 
   return (
     <article className="pt-28 pb-16 container-main">
@@ -125,6 +167,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             : (() => {
                 const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
                 const isFirstImageVideo = project.images[0] && (project.images[0].endsWith('.mp4') || project.images[0].endsWith('.mov') || project.images[0].endsWith('.webm'));
+                if (project.slug === 'cohesity-rebrand' && (project.heroSlidesImages?.length ?? 0) > 0) return 'aspect-video min-h-[320px]';
                 return (isThumbnailVideo || isFirstImageVideo) ? '' : 'aspect-video';
               })()
         }`}
@@ -134,6 +177,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             : (() => {
                 const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
                 const isFirstImageVideo = project.images[0] && (project.images[0].endsWith('.mp4') || project.images[0].endsWith('.mov') || project.images[0].endsWith('.webm'));
+                if (project.slug === 'cohesity-rebrand' && (project.heroSlidesImages?.length ?? 0) > 0) {
+                  return { minHeight: '400px' };
+                }
                 return (isThumbnailVideo || isFirstImageVideo) ? { padding: '2rem 1rem', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' } : {};
               })()
         }
@@ -148,6 +194,66 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </div>
           </div>
         ) : (() => {
+          // Cohesity Rebrand: hero — push transitions (next from right, current exits left) + group pacing
+          if (project.slug === 'cohesity-rebrand' && heroSlidesImages.length > 0) {
+            const len = heroSlidesImages.length;
+            const safeIndex = Math.max(0, Math.min(heroSlidesIndex, len - 1));
+            const currentImage = heroSlidesImages[safeIndex];
+            const i = safeIndex;
+            const isAccentSlide = (i % 3) === 0; // group pacing: every 3rd slide = accent (longer hold, slightly longer transition)
+            const dir = i % 4;
+            const pushVariants = [
+              { initial: { x: '100%' }, animate: { x: 0 }, exit: { x: '-100%' } },
+              { initial: { x: '-100%' }, animate: { x: 0 }, exit: { x: '100%' } },
+              { initial: { y: '100%' }, animate: { y: 0 }, exit: { y: '-100%' } },
+              { initial: { y: '-100%' }, animate: { y: 0 }, exit: { y: '100%' } },
+            ];
+            const push = pushVariants[dir];
+            const isFirstSlideOnLoad = !heroHasTransitionedRef.current && i === 0;
+            const initial = isFirstSlideOnLoad ? { x: 0, y: 0 } : push.initial;
+            // Easing by quadrant (2–5% during hold); accent slightly more
+            // Easing variety: 3 curves for normal; one “hero” ease for accent
+            const easings = [
+              [0.25, 0.46, 0.45, 0.94],
+              [0.33, 1, 0.68, 1],
+              [0.4, 0, 0.2, 1],
+            ] as const;
+            const heroEase = [0.33, 1, 0.68, 1] as const;
+            const ease = isAccentSlide ? heroEase : easings[i % 3];
+            const transitionDuration = isAccentSlide ? 0.55 : 0.45;
+            // Overlapping push: both slides opaque; exiting on top so it cleanly reveals the next
+            const initialVariant = { ...initial, opacity: 1, zIndex: 0 };
+            const animateVariant = { ...push.animate, opacity: 1, zIndex: 0 };
+            const exitVariant = { ...push.exit, opacity: 1, zIndex: 1 };
+            return (
+              <div className="relative w-full h-full min-h-[400px] aspect-video overflow-hidden isolate bg-ink-light">
+                <AnimatePresence initial={false} mode="sync">
+                  <motion.div
+                    key={`${currentImage}-${i}`}
+                    initial={initialVariant}
+                    animate={animateVariant}
+                    exit={exitVariant}
+                    transition={{
+                      duration: transitionDuration,
+                      ease,
+                    }}
+                    className="absolute inset-0 min-w-full min-h-full w-full h-full bg-ink-light"
+                    style={{ backfaceVisibility: 'hidden', willChange: 'transform' }}
+                  >
+                    <Image
+                      src={currentImage}
+                      alt={`${project.title} — Presentation slide ${i + 1}`}
+                      fill
+                      className="object-cover object-center"
+                      sizes="100vw"
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            );
+          }
+
           // For AWS and Nasdaq projects, use the first image if it's a video (larger hero video)
           if ((project.slug === 'aws-reinvent-ooh-2024' || project.slug === 'nasdaq-tower-animation-2019') && project.images[0]) {
             const firstImage = project.images[0];

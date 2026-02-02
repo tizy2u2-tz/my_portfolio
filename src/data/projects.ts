@@ -18,6 +18,8 @@ export interface Project {
   hasLottie?: boolean;
   lottieFile?: string;
   websiteUrl?: string;
+  heroCarouselImages?: string[];
+  heroSlidesImages?: string[];
 }
 
 export const projects: Project[] = [
@@ -137,7 +139,7 @@ export const projects: Project[] = [
     challenge: 'Cohesity serves IT teams facing increasingly sophisticated threats. The brand needed to communicate urgency, trust, and momentum while reassuring customers who never get to rest.',
     approach: 'Led extensive color palette exploration, conducting thorough research across RGB and CMYK color spaces, print testing, and A/B testing to ensure optimal color performance across digital and print applications. Contributed to the brand rebrand, including typography and 3D illustration systems, while leading the web redesign from concept through execution to deliver a modern, cohesive digital experience.',
     outcome: 'A sharper, more modern brand system that strengthens Cohesity’s narrative of shrinking threats and growing opportunities across the industry.',
-    thumbnail: '/images/cohesity-rebrand-1.jpg',
+    thumbnail: '/images/cohesity-rebrand/thumb-animation/Brand-Direction-1.png',
     images: [
       '/images/cohesity-rebrand-1.jpg',
       '/images/Cover.png',
@@ -188,6 +190,19 @@ export const projects: Project[] = [
     year: '2024',
     client: 'Cohesity',
     featured: true,
+    heroCarouselImages: [
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-1.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-2.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-3.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-4.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-5.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-6.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-7.png',
+      '/images/cohesity-rebrand/thumb-animation/Brand-Direction-8.png',
+    ],
+    heroSlidesImages: Array.from({ length: 29 }, (_, i) =>
+      `/images/cohesity-rebrand/slides/re-brand-page-${String(i + 1).padStart(2, '0')}.png`
+    ),
   },
   {
     slug: 'swiss-cheese-animation-2024',
