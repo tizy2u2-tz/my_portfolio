@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { Project, projects } from '@/data/projects';
+import { Project, visibleProjects } from '@/data/projects';
 import LaptopVideoMockup from './LaptopVideoMockup';
 import VideoModal from './VideoModal';
 import LocalVideoModal from './LocalVideoModal';
@@ -44,9 +44,9 @@ interface ProjectDetailProps {
 }
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
-  const currentIndex = projects.findIndex((p) => p.slug === project.slug);
-  const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
-  const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
+  const currentIndex = visibleProjects.findIndex((p) => p.slug === project.slug);
+  const prevProject = currentIndex > 0 ? visibleProjects[currentIndex - 1] : null;
+  const nextProject = currentIndex >= 0 && currentIndex < visibleProjects.length - 1 ? visibleProjects[currentIndex + 1] : null;
 
   const [iphoneBannerIndex, setIphoneBannerIndex] = useState(0);
   const [heroSlidesIndex, setHeroSlidesIndex] = useState(0);
@@ -1330,7 +1330,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             As part of the comprehensive AWS re:Invent campaign, I also designed the vehicle wraps that created mobile brand presence throughout Las Vegas.
           </p>
           {(() => {
-            const carWrapProject = projects.find(p => p.slug === 'car-wrap-reinvent-2024');
+            const carWrapProject = visibleProjects.find(p => p.slug === 'car-wrap-reinvent-2024');
             if (!carWrapProject) return null;
             
             return (
@@ -1383,7 +1383,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             The vehicle wraps were part of a larger comprehensive brand presence campaign for AWS re:Invent, which included out-of-home media, booth design, and animated content.
           </p>
           {(() => {
-            const awsProject = projects.find(p => p.slug === 'aws-reinvent-ooh-2024');
+            const awsProject = visibleProjects.find(p => p.slug === 'aws-reinvent-ooh-2024');
             if (!awsProject) return null;
             
             return (
@@ -1436,7 +1436,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             The visual identity and style guide established here were applied across Cohesity campaigns, including the comprehensive brand presence for AWS re:Invent.
           </p>
           {(() => {
-            const awsProject = projects.find(p => p.slug === 'aws-reinvent-ooh-2024');
+            const awsProject = visibleProjects.find(p => p.slug === 'aws-reinvent-ooh-2024');
             if (!awsProject) return null;
 
             return (
