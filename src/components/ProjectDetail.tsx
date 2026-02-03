@@ -32,6 +32,39 @@ const COHESITY_COLOR_PALETTE_IMAGES = [
   '/images/Color-Palette.png',
 ];
 
+// Page wall thumbnails (web-redesign/png) — used for cohesity-website-redesign-2025 Gallery
+const PAGE_WALL_IMAGES = [
+  'AI conversational search.png',
+  'C5000 Series.png',
+  'C6000 Series.png',
+  'Careers-how-we-work.png',
+  'Cohesity Certified Platforms.png',
+  'Cohesity CX8000 Series.png',
+  'Cohesity Data Cloud.png',
+  'DataHawk Product.png',
+  'DataProtect Product.png',
+  'Events-Webinars-Home-page.png',
+  'FortKnox Product .png',
+  'Product AIta.png',
+  'Product NetBackup.png',
+  'SmartFiles Product.png',
+  'Solutions Overview.png',
+  'SpanFS Productpng.png',
+  'Threat Protection Product.png',
+  // -P2 set (8 additional pages)
+  'Alta Recovery Vault-P2.png',
+  'NetBackup Flex Scale Appliances -P2.png',
+  'NetBackup Self-Service-P2.png',
+  'NetBackup IT Analytics -P2.png',
+  'NetBackup Latest Release-P2.png',
+  'NetBackup Access Appliances -P2.png',
+  'Responsible AI - Solution-P2.jpg',
+].map((name) => ({
+  src: `/images/web-redesign/png/${encodeURIComponent(name)}`,
+  alt: name.replace(/\.(png|jpg|jpeg)$/i, ''),
+}));
+
+const PAGE_WALL_COLUMN_COUNT = 8; // distribute into 8 columns; responsive grid shows 2/4/6/8
 
 // Dynamic import with ssr: false to prevent document is not defined error
 const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
@@ -57,6 +90,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const [localVideoSrc, setLocalVideoSrc] = useState<string | null>(null);
   const [imageModalSrc, setImageModalSrc] = useState<string | null>(null);
   const [imageModalAlt, setImageModalAlt] = useState<string>('');
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(m.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    m.addEventListener('change', handler);
+    return () => m.removeEventListener('change', handler);
+  }, []);
 
   useEffect(() => {
     if (project.slug !== 'resilience-everywhere-2025') return;
@@ -367,6 +408,73 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </motion.div>
       </div>
 
+      {/* Key Pages - Cohesity Website Redesign 2025 */}
+      {project.slug === 'cohesity-website-redesign-2025' && (() => {
+        const keyPages = [
+          { src: '/images/web-redesign/Home-page-Day1.png', label: 'Home' },
+          { src: '/images/web-redesign/Day1-Company-page.png', label: 'Company' },
+          { src: '/images/web-redesign/Day1-Better-Together-1600.png', label: 'Better Together' },
+          { src: '/images/web-redesign/Day1-LP-1600.png', label: 'Landing Page' },
+        ];
+        return (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 pt-20 border-t border-cream/10"
+          >
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Key Pages</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-8 max-w-3xl">
+              The website redesign is part of the broader <Link href="/work/cohesity-rebrand" className="text-yellow hover:underline">Cohesity Rebrand</Link>. These key pages applied the new visual system—typography, color, and component patterns—to deliver a modern, cohesive experience across the site. Click any image to view full size.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+              {keyPages.map(({ src, label }, i) => (
+                <motion.div
+                  key={src}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="space-y-3"
+                >
+                  <h3 className="font-body font-semibold text-base text-cream/90">{label}</h3>
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      setImageModalSrc(src);
+                      setImageModalAlt(`${project.title} - ${label}`);
+                    }}
+                    className="group relative w-full bg-ink-light rounded-sm border border-cream/20 overflow-hidden cursor-pointer ring-1 ring-cream/10 hover:ring-cream/30 focus:outline-none focus:ring-2 focus:ring-yellow/50"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="aspect-[1/3.45] relative w-full">
+                      <Image
+                        src={src}
+                        alt={`${project.title} - ${label}`}
+                        fill
+                        className={`object-top w-full h-full transition-opacity duration-300 group-hover:opacity-90 ${label === 'Home' ? 'object-cover' : 'object-contain'}`}
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                      />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-12 h-12 rounded-full bg-yellow/90 flex items-center justify-center shadow-lg shrink-0">
+                          <svg className="w-6 h-6 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </div>
+                        <span className="mt-2 text-xs font-medium text-cream/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view full size</span>
+                      </div>
+                    </div>
+                  </motion.button>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        );
+      })()}
+
       {/* Landing Pages - Resilience Everywhere */}
       {project.slug === 'resilience-everywhere-2025' && (
         <motion.section
@@ -643,6 +751,61 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           className="mb-20"
         >
           <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Gallery</h2>
+          {project.slug === 'cohesity-website-redesign-2025' ? (
+            /* Page wall: masonry-like columns, 20px gaps, vertical drift by column, responsive 2/4/6/8 cols */
+            (() => {
+              const cols = PAGE_WALL_COLUMN_COUNT;
+              const columns: typeof PAGE_WALL_IMAGES[] = Array.from({ length: cols }, () => []);
+              PAGE_WALL_IMAGES.forEach((item, i) => columns[i % cols].push(item));
+              const driftAmplitude = prefersReducedMotion ? 0 : 24;
+              return (
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-5">
+                  {columns.map((columnImages, colIndex) => {
+                    const direction = colIndex % 2 === 0 ? 1 : -1;
+                    const duration = 5 + (colIndex % 3);
+                    return (
+                      <motion.div
+                        key={colIndex}
+                        className="flex flex-col gap-5"
+                        animate={prefersReducedMotion ? {} : { y: [0, direction * driftAmplitude, 0] }}
+                        transition={{
+                          duration,
+                          repeat: Infinity,
+                          repeatType: 'reverse',
+                          ease: 'easeInOut',
+                        }}
+                      >
+                        {columnImages.map(({ src, alt }, i) => (
+                          <motion.button
+                            key={`${colIndex}-${i}`}
+                            type="button"
+                            onClick={() => {
+                              setImageModalSrc(src);
+                              setImageModalAlt(alt);
+                            }}
+                            className="relative w-full rounded-sm overflow-hidden bg-ink-light border border-cream/20 text-left focus:outline-none focus:ring-2 focus:ring-yellow/50 cursor-pointer"
+                            whileHover={{ scale: 1.03, boxShadow: '0 12px 24px rgba(0,0,0,0.25)' }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <div className="relative w-full aspect-[3/4] min-h-[560px] overflow-hidden">
+                              <Image
+                                src={src}
+                                alt={alt}
+                                fill
+                                className="object-cover object-top"
+                                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) 16.66vw, 12.5vw"
+                              />
+                            </div>
+                          </motion.button>
+                        ))}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              );
+            })()
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {project.slug === 'resilience-everywhere-2025' && (
               <div key="imac-mockup" className="md:col-span-2">
@@ -923,6 +1086,14 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               // Incident Response Simulator: all images live in dedicated sections below; skip in main grid
               if (project.slug === 'incident-response-simulator') return false;
 
+              // Cohesity Website Redesign: key pages live in dedicated section; skip in main grid
+              if (project.slug === 'cohesity-website-redesign-2025' && (
+                image.includes('Home-page-Day1.png') ||
+                image.includes('Day1-Company-page.png') ||
+                image.includes('Day1-Better-Together-1600.png') ||
+                image.includes('Day1-LP-1600.png')
+              )) return false;
+
               // Cohesity: Color palette (except Color-Palette.png), Event-Demo, CS-, 3D graphics, brand elements, brand exploration, and typography images live in dedicated sections; skip in main grid
               if (project.slug === 'cohesity-rebrand' && (
                 (COHESITY_COLOR_PALETTE_IMAGES.includes(image) && !image.toLowerCase().includes('color-palette.png')) || 
@@ -986,6 +1157,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               );
             })}
           </div>
+          )}
 
           {project.slug === 'resilience-everywhere-2025' && (
             <>
@@ -1452,6 +1624,55 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </motion.section>
       )}
 
+      {/* Related Projects - Cohesity Website Redesign 2025 */}
+      {project.slug === 'cohesity-website-redesign-2025' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+            The website redesign applied the visual system from the broader Cohesity rebrand. Explore the rebrand project for the full brand evolution—color, typography, 3D, and campaign assets.
+          </p>
+          {(() => {
+            const rebrandProject = visibleProjects.find(p => p.slug === 'cohesity-rebrand');
+            if (!rebrandProject) return null;
+            return (
+              <Link href={`/work/${rebrandProject.slug}`} className="group block">
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    <div className="relative aspect-[4/3] md:col-span-1">
+                      <Image
+                        src={rebrandProject.thumbnail}
+                        alt={rebrandProject.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{rebrandProject.category}</span>
+                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                        {rebrandProject.title}
+                      </h3>
+                      <p className="text-cream/60 text-sm line-clamp-2">
+                        {rebrandProject.overview}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })()}
+        </motion.section>
+      )}
+
       {/* Related Projects - Brand Style Guide */}
       {project.slug === 'brand-style-guide' && (
         <motion.section
@@ -1504,6 +1725,53 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           })()}
         </motion.section>
       )}
+
+      {/* Related Projects - Cohesity Rebrand */}
+      {project.slug === 'cohesity-rebrand' && (() => {
+        const webRedesignProject = visibleProjects.find(p => p.slug === 'cohesity-website-redesign-2025');
+        if (!webRedesignProject) return null;
+        return (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 pt-20 border-t border-cream/10"
+          >
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+              The rebrand visual system was applied across the Cohesity website. The website redesign brought the new brand to life online—key pages, components, and a cohesive digital experience.
+            </p>
+            <Link href={`/work/${webRedesignProject.slug}`} className="group block">
+              <motion.div
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+                className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                  <div className="relative aspect-[4/3] md:col-span-1">
+                    <Image
+                      src={webRedesignProject.thumbnail}
+                      alt={webRedesignProject.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                    <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{webRedesignProject.category}</span>
+                    <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                      {webRedesignProject.title}
+                    </h3>
+                    <p className="text-cream/60 text-sm line-clamp-2">
+                      {webRedesignProject.overview}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+          </motion.section>
+        );
+      })()}
 
       {/* Image Modal - Global */}
       <ImageModal
