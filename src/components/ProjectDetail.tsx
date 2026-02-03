@@ -820,34 +820,64 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
                       UX and structure: start screen, incident command tab view, post-game report, and mobile views.
                     </p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-                      {wireframeImages.map((image, i) => {
-                        const isMobileView = image.toLowerCase().includes('mobileview');
-                        return (
-                          <motion.div
-                            key={image}
-                            initial={{ opacity: 0, y: 8 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: i * 0.05 }}
-                            whileHover={{ y: -2 }}
-                            className={`relative overflow-hidden rounded-sm border border-cream/20 group cursor-pointer bg-ink-light flex items-center justify-center ${isMobileView ? 'aspect-[3/4] p-2 ring-1 ring-cream/10' : 'aspect-[3/2]'}`}
-                            onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); }}
-                            role="button"
-                            tabIndex={0}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); } }}
-                          >
-                            <Image
-                              src={image}
-                              alt={`Wireframe ${i + 1}`}
-                              fill
-                              className={`transition-transform duration-300 group-hover:scale-105 ${isMobileView ? 'object-contain' : 'object-cover'}`}
-                              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                            />
-                          </motion.div>
-                        );
-                      })}
-                    </div>
+                    {(() => {
+                      const desktopWireframes = wireframeImages.filter((img) => !img.toLowerCase().includes('mobileview'));
+                      const mobileWireframes = wireframeImages.filter((img) => img.toLowerCase().includes('mobileview'));
+                      return (
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            {desktopWireframes.map((image, i) => (
+                              <motion.div
+                                key={image}
+                                initial={{ opacity: 0, y: 8 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: i * 0.05 }}
+                                whileHover={{ y: -2 }}
+                                className="relative aspect-[3/2] overflow-hidden rounded-sm border border-cream/20 group cursor-pointer bg-ink-light"
+                                onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); }}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); } }}
+                              >
+                                <Image
+                                  src={image}
+                                  alt={`Wireframe ${i + 1}`}
+                                  fill
+                                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                  sizes="(max-width: 768px) 100vw, 33vw"
+                                />
+                              </motion.div>
+                            ))}
+                          </div>
+                          <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+                            {mobileWireframes.map((image, i) => (
+                              <motion.div
+                                key={image}
+                                initial={{ opacity: 0, y: 8 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: (desktopWireframes.length + i) * 0.05 }}
+                                whileHover={{ y: -2 }}
+                                className="relative aspect-[3/4] overflow-hidden rounded-sm border border-cream/20 group cursor-pointer bg-ink-light flex items-center justify-center p-2 ring-1 ring-cream/10"
+                                onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${desktopWireframes.length + i + 1}`); }}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${desktopWireframes.length + i + 1}`); } }}
+                              >
+                                <Image
+                                  src={image}
+                                  alt={`Wireframe ${desktopWireframes.length + i + 1}`}
+                                  fill
+                                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                  sizes="(max-width: 768px) 50vw, 200px"
+                                />
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
               );

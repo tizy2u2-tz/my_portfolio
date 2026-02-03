@@ -58,24 +58,19 @@ export default function ImageModal({ isOpen, onClose, imageSrc, alt }: ImageModa
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 overflow-auto bg-ink"
+            className="fixed inset-0 overflow-auto bg-ink flex items-center justify-center p-4"
             onClick={(e) => e.stopPropagation()}
             style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent' }}
           >
-            <div className="relative flex items-center justify-center" style={{ width: '100vw', minHeight: '100vh' }}>
+            <div className="relative w-full min-h-[50vh] flex items-center justify-center">
               <Image
                 src={imageSrc}
                 alt={alt}
                 width={1920}
                 height={1080}
-                sizes="100vw"
-                className="object-contain"
-                style={{ 
-                  width: '100vw',
-                  height: 'auto',
-                  maxWidth: 'none',
-                  display: 'block'
-                }}
+                sizes="(max-width: 768px) 100vw, 90vw"
+                className="object-contain max-w-full h-auto"
+                style={{ display: 'block' }}
                 unoptimized
               />
             </div>

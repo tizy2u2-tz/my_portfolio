@@ -9,6 +9,7 @@
   min-height: 100vh;
   padding-top: 120px;
   padding-bottom: 80px;
+  overflow-x: hidden;
 }
 
 .ds-section {
@@ -709,6 +710,17 @@
   .ds-btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .ds-section {
+    padding: 0 12px;
+  }
+
+  .ds-page {
+    padding-top: 100px;
+    padding-bottom: 48px;
   }
 }
 

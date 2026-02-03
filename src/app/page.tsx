@@ -416,8 +416,8 @@ export default function Home() {
 
       {/* Hero Section - Figma-matched layout */}
       <section className="min-h-screen w-full relative bg-[#FFE100]">
-        {/* Desktop Layout Container - centered with max-width */}
-        <div className="hidden lg:block relative w-full max-w-[1440px] mx-auto h-screen">
+        {/* Desktop Layout Container - show from xl (1280px) to avoid overlap at 1024px tablet */}
+        <div className="hidden xl:block relative w-full max-w-[1440px] mx-auto h-screen">
           
           {/* tonya-3.png - Background colorful image with special corners */}
           <motion.div
@@ -630,10 +630,10 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Tablet/Mobile Layout - matching Figma design exactly */}
-        <div className="lg:hidden relative w-full min-h-screen bg-[#FFE100] overflow-hidden pb-20">
-          {/* Container with proper padding */}
-          <div className="relative w-full max-w-[390px] mx-auto" style={{ minHeight: '100vh', paddingBottom: '80px' }}>
+        {/* Tablet/Mobile Layout - shown below xl (1280px); tablet 1024px uses this to avoid overlap */}
+        <div className="xl:hidden relative w-full min-h-screen bg-[#FFE100] overflow-hidden pb-20">
+          {/* Container - slightly wider on md+ so tablet (1024px) doesn't look too narrow */}
+          <div className="relative w-full max-w-[390px] md:max-w-[420px] mx-auto" style={{ minHeight: '100vh', paddingBottom: '80px' }}>
             
             {/* TONYA ZENIN label */}
             <motion.p
@@ -643,7 +643,7 @@ export default function Home() {
               className="absolute text-black font-medium uppercase"
               style={{ 
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: '10px',
+                fontSize: '12px',
                 letterSpacing: '0.6px',
                 left: '40px',
                 top: '70px',
@@ -652,7 +652,7 @@ export default function Home() {
               Tonya Zenin
             </motion.p>
             
-            {/* Design with - Headline */}
+            {/* Design with - Headline (~7% smaller on mobile) */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -661,7 +661,7 @@ export default function Home() {
               style={{ 
                 left: '34px',
                 top: '99px',
-                fontSize: 'min(84.67px, 21.7vw)',
+                fontSize: 'min(78.7px, 20.2vw)',
                 lineHeight: 0.74,
               }}
             >
@@ -682,11 +682,12 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Third word: Purpose → Intent → Impact — black bar hugs word (mobile) */}
+            {/* Third word: Purpose → Intent → Impact — black bar hugs word (mobile, ~7% smaller) */}
             {(() => {
-              const mobileScale = 78 / 140;
+              const mobileScale = 72 / 140;
               const mobileMaxW = Math.round(maxWordWidth * mobileScale) + barPaddingX;
               const mobileCurrentW = Math.round((wordWidths[thirdWordIndex] || 400) * mobileScale) + barPaddingX;
+              const mobileBarHeight = 80;
               return (
                 <div
                   className="absolute"
@@ -694,7 +695,7 @@ export default function Home() {
                     left: '27px',
                     top: '228px',
                     width: mobileMaxW,
-                    height: 86,
+                    height: mobileBarHeight,
                   }}
                 >
                   <motion.div
@@ -705,7 +706,7 @@ export default function Home() {
                       scaleX: { delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
                     }}
                     className="absolute left-0 top-0 bg-black overflow-hidden"
-                    style={{ height: 86, transformOrigin: 'left', zIndex: 1, paddingLeft: 12, paddingRight: 12 }}
+                    style={{ height: mobileBarHeight, transformOrigin: 'left', zIndex: 1, paddingLeft: 12, paddingRight: 12 }}
                   />
                   <div
                     className="text-[#FFE100] uppercase absolute overflow-hidden"
@@ -713,10 +714,10 @@ export default function Home() {
                       left: 0,
                       top: 0,
                       width: mobileMaxW,
-                      height: 86,
+                      height: mobileBarHeight,
                       fontFamily: "'Bodoni 72', 'Bodoni 72 Oldstyle', 'Bodoni MT', 'Didot', serif",
                       fontWeight: 700,
-                      fontSize: 'min(77.89px, 20vw)',
+                      fontSize: 'min(72.4px, 18.6vw)',
                       lineHeight: 1,
                       paddingLeft: 12,
                       zIndex: 2,
@@ -859,7 +860,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* CTA Buttons - positioned below description box */}
+            {/* CTA Buttons - positioned below description box, more space above */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -868,7 +869,7 @@ export default function Home() {
               style={{
                 left: '27px',
                 right: '27px',
-                top: '720px',
+                top: '742px',
               }}
             >
               <div className="w-full flex justify-center">
@@ -885,12 +886,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator - hidden on mobile to avoid overlap with buttons */}
+        {/* Scroll indicator - hidden on mobile/tablet to avoid overlap with buttons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2, duration: 0.5 }}
-          className="hidden lg:block absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+          className="hidden xl:block absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}

@@ -32,7 +32,7 @@ export default function RootLayout({
         
         {/* Main content with page transitions */}
         <PageTransition>
-          <main>
+          <main className="overflow-x-hidden min-h-screen">
             {children}
           </main>
         </PageTransition>
