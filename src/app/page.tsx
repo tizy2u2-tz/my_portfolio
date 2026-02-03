@@ -928,7 +928,7 @@ export default function Home() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {featuredProjects.slice(0, 6).map((project, index) => (
+          {featuredProjects.slice(0, 8).map((project, index) => (
             <motion.div
               key={project.slug}
               initial={{ opacity: 0, y: 30 }}
