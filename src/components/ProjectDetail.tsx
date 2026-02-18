@@ -209,6 +209,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 const isThumbnailVideo = project.thumbnail.endsWith('.mp4') || project.thumbnail.endsWith('.mov') || project.thumbnail.endsWith('.webm');
                 const isFirstImageVideo = project.images[0] && (project.images[0].endsWith('.mp4') || project.images[0].endsWith('.mov') || project.images[0].endsWith('.webm'));
                 if (project.slug === 'cohesity-rebrand' && (project.heroSlidesImages?.length ?? 0) > 0) return 'aspect-video min-h-[320px]';
+                if (project.slug === 'incident-response-simulator') return 'min-h-[320px]';
                 return (isThumbnailVideo || isFirstImageVideo) ? '' : 'aspect-video';
               })()
         }`}
@@ -220,6 +221,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 const isFirstImageVideo = project.images[0] && (project.images[0].endsWith('.mp4') || project.images[0].endsWith('.mov') || project.images[0].endsWith('.webm'));
                 if (project.slug === 'cohesity-rebrand' && (project.heroSlidesImages?.length ?? 0) > 0) {
                   return { minHeight: '400px' };
+                }
+                if (project.slug === 'incident-response-simulator') {
+                  return { minHeight: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center' };
                 }
                 return (isThumbnailVideo || isFirstImageVideo) ? { padding: '2rem 1rem', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' } : {};
               })()
@@ -291,6 +295,22 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     />
                   </motion.div>
                 </AnimatePresence>
+              </div>
+            );
+          }
+
+          // Incident Response Simulator: single hero image (desktop + mobile composite)
+          if (project.slug === 'incident-response-simulator') {
+            return (
+              <div className="relative w-full aspect-video bg-ink-light overflow-hidden">
+                <Image
+                  src="/images/incident-response-simulator/desktop-mobile.png"
+                  alt={project.title}
+                  fill
+                  className="object-cover object-center"
+                  sizes="100vw"
+                  priority
+                />
               </div>
             );
           }
@@ -918,32 +938,69 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             )}
             {project.slug === 'incident-response-simulator' && (() => {
               const base = '/images/incident-response-simulator';
-              const desktopImages = [`${base}/MacBook-1.png`, `${base}/MacBook-3.png`, `${base}/MacBookWF2.png`, `${base}/iMac-incident.png`];
-              const mobileImages = [`${base}/iPhone-1.png`, `${base}/iPhone-2.png`, `${base}/iPhone-3.png`, `${base}/iPhone-4.png`];
-              const wireframeImages = [`${base}/WF-StartScreen.png`, `${base}/WF-IncidentCommandTabView.png`, `${base}/WF-IncidentReport-PostGame.png`, `${base}/WF-MobileView-1.png`, `${base}/WF-MobileView-2.png`];
-              const renderImageGrid = (images: string[], sectionKey: string, altPrefix: string) => (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {images.map((image, i) => (
-                    <motion.div
-                      key={image}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: i * 0.06 }}
-                      whileHover={{ y: -4 }}
-                      className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 group cursor-pointer"
-                      onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - ${altPrefix} ${i + 1}`); }}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - ${altPrefix} ${i + 1}`); } }}
-                    >
-                      <Image src={image} alt={`${altPrefix} ${i + 1}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
-                    </motion.div>
-                  ))}
-                </div>
-              );
+              const mobileBase = `${base}/mobile/`;
+              const mobileFolderFilenames = [
+                'Contain choices.png',
+                'Identify - choices.png',
+                'Identify - correct answer.png',
+                'Identify.png',
+                'Overlay-1.png',
+                'Overlay-2.png',
+                'Overlay.png',
+                'Start Screen.png',
+              ];
+              const mobileImages = mobileFolderFilenames.map((f) => `${mobileBase}${encodeURIComponent(f)}`);
+              const mobileScreensBelow = [`${base}/iPhone-1.png`, `${base}/iPhone-2.png`, `${base}/iPhone-3.png`, `${base}/iPhone-4.png`];
+              const desktopBase = `${base}/desktop/`;
+              const desktopFolderFilenames = [
+                'Initial Awareness - correct answer.png',
+                'Initial Awareness - wrong answer.png',
+                'Response failed.png',
+                'Start Screen - Tablet.png',
+                'Success screen.png',
+                'Time ran out.png',
+              ];
+              const desktopImages = desktopFolderFilenames.map((f) => `${desktopBase}${encodeURIComponent(f)}`);
+              const desktopScreensBelow = [`${base}/MacBook-1.png`, `${base}/MacBook-3.png`, `${base}/MacBookWF2.png`, `${base}/iMac-incident.png`];
+              // Optional: add tablet image paths here when you have exports (e.g. `${base}/Tablet-1.png`)
+              const tabletImages: string[] = [];
+              const wireframeImages = [`${base}/WF-StartScreen.png`, `${base}/WF-IncidentCommandTabView.png`, `${base}/WF-IncidentReport-PostGame.png`, `${base}/WF-MobileView-1.png`, `${base}/WF-MobileView-2.png`, `${base}/Mobile-Prototype.png`];
+              const renderImageGrid = (images: string[], sectionKey: string, altPrefix: string, deviceType: 'desktop' | 'mobile' | 'tablet' = 'desktop', noZoom = false) => {
+                const isMobile = deviceType === 'mobile';
+                const isTablet = deviceType === 'tablet';
+                const gridClass = isMobile ? 'grid-cols-2 md:grid-cols-4 max-w-4xl' : isTablet ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2';
+                const itemClass = isMobile ? 'aspect-[9/19.5] rounded-[2rem] max-w-[200px] mx-auto md:mx-0' : isTablet ? 'aspect-[3/4] rounded-xl max-w-md' : 'aspect-[4/3] rounded-lg';
+                const imageClass = (isMobile || isTablet) ? 'object-contain transition-transform duration-300 group-hover:scale-105' : 'object-cover transition-transform duration-300 group-hover:scale-105';
+                const sizes = isMobile ? '(max-width: 768px) 50vw, 200px' : isTablet ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 100vw, 50vw';
+                return (
+                  <div className={`grid gap-4 ${gridClass}`}>
+                    {images.map((image, i) => (
+                      <motion.div
+                        key={image}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.06 }}
+                        whileHover={noZoom ? undefined : { y: -4 }}
+                        className={`relative bg-ink-light overflow-hidden border border-cream/20 group ${noZoom ? '' : 'cursor-pointer'} ${itemClass}`}
+                        {...(noZoom ? {} : {
+                          onClick: () => { setImageModalSrc(image); setImageModalAlt(`${project.title} - ${altPrefix} ${i + 1}`); },
+                          role: 'button',
+                          tabIndex: 0,
+                          onKeyDown: (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - ${altPrefix} ${i + 1}`); } },
+                        })}
+                      >
+                        <Image src={image} alt={`${altPrefix} ${i + 1}`} fill className={imageClass} sizes={sizes} />
+                      </motion.div>
+                    ))}
+                  </div>
+                );
+              };
               return (
                 <div key="incident-response-simulator" className="md:col-span-2 space-y-12">
+                  <p className="text-sm md:text-base leading-relaxed text-cream/80 mb-2">
+                    Two design versions: tablet and mobile, plus desktop for events and web.
+                  </p>
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Start Screen</h3>
                     <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
@@ -964,19 +1021,79 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                       <Image src={`${base}/laptop-simulator-2.jpg`} alt="Start Screen" fill className="object-contain transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 896px" />
                     </motion.div>
                   </div>
-                  <div>
-                    <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Desktop Simulator</h3>
-                    <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
-                      Immersive desktop experience for event kiosks and cohesity.com: multi-stage gameplay from Identify through Recover and Lessons Learned.
-                    </p>
-                    {renderImageGrid(desktopImages, 'desktop', 'Desktop')}
-                  </div>
+                  {tabletImages.length > 0 && (
+                    <div>
+                      <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Tablet Simulator</h3>
+                      <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
+                        Tablet-optimized experience for larger touchscreens—same flow as mobile and desktop, tuned for in-event and on-the-go use.
+                      </p>
+                      {renderImageGrid(tabletImages, 'tablet', 'Tablet', 'tablet')}
+                    </div>
+                  )}
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Mobile Simulator</h3>
                     <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
                       Dedicated mobile UI designed for smaller screens and touch—same flow, optimized for on-the-go use.
                     </p>
-                    {renderImageGrid(mobileImages, 'mobile', 'Mobile')}
+                    {renderImageGrid(mobileImages, 'mobile', 'Mobile', 'mobile', true)}
+                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                      {mobileScreensBelow.map((image, i) => (
+                        <motion.div
+                          key={image}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: i * 0.05 }}
+                          className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-lg border border-cream/20 group"
+                        >
+                          <Image src={image} alt={`Mobile screen ${i + 1}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Desktop Simulator</h3>
+                    <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-4 max-w-3xl">
+                      Immersive desktop experience for event kiosks and cohesity.com: multi-stage gameplay from Identify through Recover and Lessons Learned.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {desktopImages.map((image, i) => (
+                        <motion.div
+                          key={image}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: i * 0.06 }}
+                          whileHover={{ y: -4 }}
+                          className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-lg border border-cream/20 group cursor-pointer"
+                          onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Desktop ${i + 1}`); }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Desktop ${i + 1}`); } }}
+                        >
+                          <Image src={image} alt={`Desktop ${i + 1}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+                        </motion.div>
+                      ))}
+                    </div>
+                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                      {desktopScreensBelow.map((image, i) => (
+                        <motion.div
+                          key={image}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: (desktopImages.length + i) * 0.05 }}
+                          whileHover={{ y: -4 }}
+                          className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-lg border border-cream/20 group cursor-pointer"
+                          onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Desktop screen ${i + 1}`); }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Desktop screen ${i + 1}`); } }}
+                        >
+                          <Image src={image} alt={`Desktop screen ${i + 1}`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
+                        </motion.div>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold font-body mb-3">Wireframes</h3>
@@ -984,59 +1101,63 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                       UX and structure: start screen, incident command tab view, post-game report, and mobile views.
                     </p>
                     {(() => {
-                      const desktopWireframes = wireframeImages.filter((img) => !img.toLowerCase().includes('mobileview'));
-                      const mobileWireframes = wireframeImages.filter((img) => img.toLowerCase().includes('mobileview'));
+                      const desktopWireframes = wireframeImages.slice(0, 3);
+                      const mobileWireframes = wireframeImages.slice(3, 6);
                       return (
                         <div className="space-y-6">
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                            {desktopWireframes.map((image, i) => (
-                              <motion.div
-                                key={image}
-                                initial={{ opacity: 0, y: 8 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: i * 0.05 }}
-                                whileHover={{ y: -2 }}
-                                className="relative aspect-[3/2] overflow-hidden rounded-sm border border-cream/20 group cursor-pointer bg-ink-light"
-                                onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); }}
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); } }}
-                              >
-                                <Image
-                                  src={image}
-                                  alt={`Wireframe ${i + 1}`}
-                                  fill
-                                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                  sizes="(max-width: 768px) 100vw, 33vw"
-                                />
-                              </motion.div>
-                            ))}
+                          <div className="w-fit max-w-full overflow-x-auto overflow-y-hidden">
+                            <div className="flex flex-nowrap gap-4 pb-2">
+                              {desktopWireframes.map((image, i) => (
+                                <motion.div
+                                  key={image}
+                                  initial={{ opacity: 0, y: 8 }}
+                                  whileInView={{ opacity: 1, y: 0 }}
+                                  viewport={{ once: true }}
+                                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                                  whileHover={{ y: -4 }}
+                                  className="relative aspect-[3/2] rounded-lg overflow-hidden border border-cream/20 group cursor-pointer bg-ink-light shrink-0 w-[280px] md:w-[320px]"
+                                  onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); }}
+                                  role="button"
+                                  tabIndex={0}
+                                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${i + 1}`); } }}
+                                >
+                                  <Image
+                                    src={image}
+                                    alt={`Wireframe ${i + 1}`}
+                                    fill
+                                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 280px, 320px"
+                                  />
+                                </motion.div>
+                              ))}
+                            </div>
                           </div>
-                          <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
-                            {mobileWireframes.map((image, i) => (
-                              <motion.div
-                                key={image}
-                                initial={{ opacity: 0, y: 8 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: (desktopWireframes.length + i) * 0.05 }}
-                                whileHover={{ y: -2 }}
-                                className="relative aspect-[3/4] overflow-hidden rounded-sm border border-cream/20 group cursor-pointer bg-ink-light flex items-center justify-center p-2 ring-1 ring-cream/10"
-                                onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${desktopWireframes.length + i + 1}`); }}
-                                role="button"
-                                tabIndex={0}
-                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${desktopWireframes.length + i + 1}`); } }}
-                              >
-                                <Image
-                                  src={image}
-                                  alt={`Wireframe ${desktopWireframes.length + i + 1}`}
-                                  fill
-                                  className="object-contain transition-transform duration-300 group-hover:scale-105"
-                                  sizes="(max-width: 768px) 50vw, 200px"
-                                />
-                              </motion.div>
-                            ))}
+                          <div className="w-fit max-w-full overflow-x-auto overflow-y-hidden">
+                            <div className="flex flex-nowrap gap-4 pb-2">
+                              {mobileWireframes.map((image, i) => (
+                                <motion.div
+                                  key={image}
+                                  initial={{ opacity: 0, y: 8 }}
+                                  whileInView={{ opacity: 1, y: 0 }}
+                                  viewport={{ once: true }}
+                                  transition={{ duration: 0.4, delay: (3 + i) * 0.05 }}
+                                  whileHover={{ y: -4 }}
+                                  className="relative aspect-[9/19.5] rounded-[2rem] overflow-hidden border border-cream/20 group cursor-pointer bg-ink-light shrink-0 max-w-[200px] w-[160px] md:w-[200px]"
+                                  onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${4 + i}`); }}
+                                  role="button"
+                                  tabIndex={0}
+                                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setImageModalSrc(image); setImageModalAlt(`${project.title} - Wireframe ${4 + i}`); } }}
+                                >
+                                  <Image
+                                    src={image}
+                                    alt={`Wireframe ${4 + i}`}
+                                    fill
+                                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 160px, 200px"
+                                  />
+                                </motion.div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       );
@@ -1517,6 +1638,53 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           )}
         </motion.section>
       )}
+
+      {/* Related Projects - Incident Response Simulator */}
+      {project.slug === 'incident-response-simulator' && (() => {
+        const resilienceProject = visibleProjects.find(p => p.slug === 'resilience-everywhere-2025');
+        if (!resilienceProject) return null;
+        return (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 pt-20 border-t border-cream/10"
+          >
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+              The simulator launched as a core interactive asset in the cyber resilience campaign. Explore the Resilience Everywhere campaign for the full brand story and multi-channel creative.
+            </p>
+            <Link href={`/work/${resilienceProject.slug}`} className="group block">
+              <motion.div
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+                className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                  <div className="relative aspect-[4/3] md:col-span-1">
+                    <Image
+                      src={resilienceProject.thumbnail}
+                      alt={resilienceProject.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                    <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{resilienceProject.category}</span>
+                    <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                      {resilienceProject.title}
+                    </h3>
+                    <p className="text-cream/60 text-sm line-clamp-2">
+                      {resilienceProject.overview}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+          </motion.section>
+        );
+      })()}
 
       {/* Related Projects - AWS re:Invent */}
       {project.slug === 'aws-reinvent-ooh-2024' && (

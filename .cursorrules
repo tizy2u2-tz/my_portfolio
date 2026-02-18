@@ -1,5 +1,8 @@
 # my_portfolio – Project rules
 
+## Images and assets
+- **Always put image assets in the `public/` tree** so Next.js can serve them. When adding or referencing new images (e.g. from `images/` or elsewhere), copy or move them into the matching path under `public/` (e.g. `public/images/incident-response-simulator/`) so URLs like `/images/...` work. Do this proactively; don’t wait for the user to ask.
+
 ## Dev server port
 - **Always run the app locally on port 3000** for this project.
 - Use `npm run dev` (which runs `next dev -p 3000`) or `./start-dev.sh`.

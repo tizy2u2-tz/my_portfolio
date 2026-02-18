@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -12,7 +11,8 @@ interface ImageModalProps {
 }
 
 /**
- * Modal that displays an image at larger scale. Close via backdrop click or Escape.
+ * Modal that displays an image at larger scale. Close via button, backdrop click, or Escape.
+ * Image uses natural dimensions so tall images are scrollable.
  */
 export default function ImageModal({ isOpen, onClose, imageSrc, alt }: ImageModalProps) {
   useEffect(() => {
@@ -43,37 +43,37 @@ export default function ImageModal({ isOpen, onClose, imageSrc, alt }: ImageModa
           aria-modal="true"
           aria-label="Image modal"
         >
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute top-4 right-4 md:top-6 md:right-6 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white transition-colors z-20"
-            aria-label="Close"
-          >
-            <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 overflow-auto bg-ink flex items-center justify-center p-4"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 overflow-y-auto overflow-x-hidden bg-ink p-4 pt-16 md:pt-20"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) onClose();
+            }}
             style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255, 255, 255, 0.3) transparent' }}
           >
-            <div className="relative w-full min-h-[50vh] flex items-center justify-center">
-              <Image
+            <div className="flex min-h-full min-w-0 justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={imageSrc}
                 alt={alt}
-                width={1920}
-                height={1080}
-                sizes="(max-width: 768px) 100vw, 90vw"
-                className="object-contain max-w-full h-auto"
-                style={{ display: 'block' }}
-                unoptimized
+                className="max-w-full w-full h-auto block object-contain"
+                onClick={(e) => e.stopPropagation()}
+                draggable={false}
               />
             </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="fixed top-4 right-4 md:top-6 md:right-6 z-[60] w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/70 hover:bg-black/90 flex items-center justify-center text-white transition-colors border border-white/20 shadow-lg"
+              aria-label="Close"
+            >
+              <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </motion.div>
         </motion.div>
       )}
