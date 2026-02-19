@@ -91,6 +91,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   const [imageModalSrc, setImageModalSrc] = useState<string | null>(null);
   const [imageModalAlt, setImageModalAlt] = useState<string>('');
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [pageWallRevealCycle, setPageWallRevealCycle] = useState(1);
+  const pageWallSectionRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollYRef = useRef(0);
+  const scrollDirectionRef = useRef<'up' | 'down'>('down');
+  const pageWallWasInViewRef = useRef(false);
   useEffect(() => {
     const m = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(m.matches);
@@ -98,6 +103,39 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     m.addEventListener('change', handler);
     return () => m.removeEventListener('change', handler);
   }, []);
+
+  useEffect(() => {
+    if (project.slug !== 'cohesity-website-redesign-2025') return;
+    const node = pageWallSectionRef.current;
+    if (!node) return;
+
+    lastScrollYRef.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y > lastScrollYRef.current) scrollDirectionRef.current = 'down';
+      else if (y < lastScrollYRef.current) scrollDirectionRef.current = 'up';
+      lastScrollYRef.current = y;
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const isInView = entry.isIntersecting && entry.intersectionRatio >= 0.18;
+        if (isInView && !pageWallWasInViewRef.current && scrollDirectionRef.current === 'down') {
+          setPageWallRevealCycle((v) => v + 1);
+        }
+        pageWallWasInViewRef.current = isInView;
+      },
+      { threshold: [0, 0.18, 0.4] }
+    );
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    observer.observe(node);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
+    };
+  }, [project.slug]);
 
   useEffect(() => {
     if (project.slug !== 'resilience-everywhere-2025') return;
@@ -777,22 +815,19 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               const cols = PAGE_WALL_COLUMN_COUNT;
               const columns: typeof PAGE_WALL_IMAGES[] = Array.from({ length: cols }, () => []);
               PAGE_WALL_IMAGES.forEach((item, i) => columns[i % cols].push(item));
-              const driftAmplitude = prefersReducedMotion ? 0 : 24;
               return (
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-5">
+                <div ref={pageWallSectionRef} className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-5">
                   {columns.map((columnImages, colIndex) => {
-                    const direction = colIndex % 2 === 0 ? 1 : -1;
-                    const duration = 5 + (colIndex % 3);
                     return (
                       <motion.div
-                        key={colIndex}
+                        key={`${colIndex}-${pageWallRevealCycle}`}
                         className="flex flex-col gap-5"
-                        animate={prefersReducedMotion ? {} : { y: [0, direction * driftAmplitude, 0] }}
+                        initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{
-                          duration,
-                          repeat: Infinity,
-                          repeatType: 'reverse',
-                          ease: 'easeInOut',
+                          duration: 0.72,
+                          delay: colIndex * 0.14,
+                          ease: [0.22, 1, 0.36, 1],
                         }}
                       >
                         {columnImages.map(({ src, alt }, i) => (
@@ -803,7 +838,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                               setImageModalSrc(src);
                               setImageModalAlt(alt);
                             }}
-                            className="relative w-full rounded-sm overflow-hidden bg-ink-light border border-cream/20 text-left focus:outline-none focus:ring-2 focus:ring-yellow/50 cursor-pointer"
+                            className="group relative w-full rounded-sm overflow-hidden bg-ink-light border border-cream/20 text-left focus:outline-none focus:ring-2 focus:ring-yellow/50 cursor-pointer"
                             whileHover={{ scale: 1.03, boxShadow: '0 12px 24px rgba(0,0,0,0.25)' }}
                             whileTap={{ scale: 0.98 }}
                             transition={{ duration: 0.2 }}
@@ -813,9 +848,16 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 src={src}
                                 alt={alt}
                                 fill
-                                className="object-cover object-top"
+                                className="object-cover object-top transition-opacity duration-300 group-hover:opacity-90"
                                 sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) 16.66vw, 12.5vw"
                               />
+                              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
+                                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-12 h-12 rounded-full bg-yellow/90 flex items-center justify-center shadow-lg shrink-0">
+                                  <svg className="w-6 h-6 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                                  </svg>
+                                </div>
+                              </div>
                             </div>
                           </motion.button>
                         ))}
@@ -877,6 +919,66 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         );
                       })}
                   </div>
+                </div>
+              </div>
+            )}
+            {project.slug === 'hpe-discover-tao-event-animation-2025' && (
+              <div key="hpe-animation" className="md:col-span-2 space-y-8">
+                {project.images
+                  .filter((img) => img.endsWith('.jpg') || img.endsWith('.jpeg') || img.endsWith('.png'))
+                  .map((image) => (
+                    <motion.div
+                      key={image}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4 }}
+                      className="relative w-full max-w-4xl mx-auto"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => { setImageModalSrc(image); setImageModalAlt(`${project.title} - Artwork mockup`); }}
+                        className="block w-full rounded-sm overflow-hidden border border-cream/20 focus:outline-none focus:ring-2 focus:ring-yellow/50"
+                      >
+                        <div className="relative aspect-[4/3] bg-ink-light">
+                          <Image
+                            src={image}
+                            alt={`${project.title} - Artwork mockup`}
+                            fill
+                            className="object-contain"
+                            sizes="(max-width: 768px) 100vw, 896px"
+                          />
+                        </div>
+                      </button>
+                    </motion.div>
+                  ))}
+                <div className="space-y-8">
+                  {project.images
+                    .filter((img) => img.endsWith('.mp4') || img.endsWith('.mov') || img.endsWith('.webm'))
+                    .map((video, i) => {
+                      const isPortrait = video.includes('360x717');
+                      return (
+                        <motion.div
+                          key={video}
+                          initial={{ opacity: 0, y: 12 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: i * 0.1 }}
+                          className="relative w-full max-w-5xl mx-auto"
+                        >
+                          <div className={`relative w-full bg-ink-light rounded-sm border border-cream/20 overflow-hidden ${isPortrait ? 'aspect-[9/19] max-w-[370px] mx-auto' : 'aspect-video'}`}>
+                            <video
+                              src={video}
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                 </div>
               </div>
             )}
@@ -1206,6 +1308,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
               // Incident Response Simulator: all images live in dedicated sections below; skip in main grid
               if (project.slug === 'incident-response-simulator') return false;
+
+              // HPE Discover: mockup and videos live in dedicated section; skip in main grid
+              if (project.slug === 'hpe-discover-tao-event-animation-2025') return false;
 
               // Cohesity Website Redesign: key pages live in dedicated section; skip in main grid
               if (project.slug === 'cohesity-website-redesign-2025' && (

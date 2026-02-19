@@ -5,30 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Resume from '@/components/Resume';
 import MagneticWrapper from '@/components/MagneticWrapper';
-import { useContainerSize } from '@/hooks/useContainerSize';
+
+const PROFILE_IMAGE = '/images/tonya-about.png';
+const PROFILE_BG_IMAGE = '/images/about-bg.png';
 
 export default function AboutPage() {
-  // Base design size: 800px width, 1000px height (4:5 aspect ratio)
-  const BASE_WIDTH = 800;
-  const BASE_HEIGHT = 1000;
-
-  // Base positions in pixels (at base design size)
-  const YELLOW_RECT = {
-    width: 560, // 70% of 800
-    height: 660, // 70% of 1000 - 40px
-    top: 120, // 12% of 1000
-  };
-
-  // Wings image - full container size to prevent clipping
-  const WINGS = {
-    width: 800, // Full width of container
-    height: 1000, // Full height of container
-    top: 0,
-    left: 0,
-  };
-
-  const [containerRef, containerSize] = useContainerSize();
-  const scaleFactor = containerSize.width > 0 ? containerSize.width / BASE_WIDTH : 1;
   return (
     <section className="pt-28 pb-16 container-main">
       {/* Hero */}
@@ -63,70 +44,49 @@ export default function AboutPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="relative"
+          transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="relative w-full max-w-[500px] mx-auto lg:mx-0"
         >
-          <div 
-            ref={containerRef}
-            className="relative aspect-[4/5] bg-ink"
-            style={{ overflow: 'visible' }}
-          >
-            {/* Yellow rectangle background - animates in first */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute inset-0"
-            >
-              <div 
-                className="absolute bg-yellow"
-                style={{
-                  width: `${YELLOW_RECT.width * scaleFactor}px`,
-                  height: `${YELLOW_RECT.height * scaleFactor}px`,
-                  top: `${(YELLOW_RECT.top + 4 + 70) * scaleFactor}px`,
-                  left: '50%',
-                  transform: `translateX(calc(-50% - ${20 * scaleFactor}px))`,
-                }}
-              />
-            </motion.div>
-            
-            {/* Tonya with Wings - animates in second with dynamic effect */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 30, rotate: -5 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1, 
-                y: 0,
-                rotate: 0,
-              }}
-              transition={{ 
-                delay: 0.5, 
-                duration: 1.2, 
-                ease: [0.34, 1.56, 0.64, 1],
-                scale: {
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 15,
-                },
-              }}
-              className="absolute z-10"
-              style={{
-                width: `${WINGS.width * scaleFactor}px`,
-                height: `${WINGS.height * scaleFactor}px`,
-                top: `${(WINGS.top + 5 + 70 + 40 - 4 - 2 - 2) * scaleFactor}px`,
-                left: `${WINGS.left * scaleFactor}px`,
-              }}
-            >
-              <div className="relative w-full h-full">
+          {/* Black frame (border); inner box = same for both layers so they base-align */}
+          <div className="relative aspect-square bg-ink overflow-hidden rounded-sm p-3 md:p-4">
+            <div className="relative w-full h-full">
+              {/* Background layer - same box as top, base-aligned */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="absolute inset-0"
+              >
                 <Image
-                  src="/images/tonya-wings.png"
-                  alt="Tonya with Wings"
+                  src={PROFILE_BG_IMAGE}
+                  alt=""
                   fill
-                  className="object-contain"
+                  className="object-contain object-center"
                   priority
+                  aria-hidden
                 />
-              </div>
-            </motion.div>
+              </motion.div>
+              {/* Top layer - same box, object-contain object-bottom = same base line */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.88, y: 24 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{
+                  delay: 0.5,
+                  duration: 1,
+                  ease: [0.34, 1.56, 0.64, 1],
+                }}
+                className="absolute inset-0 z-10"
+              >
+                <Image
+                  src={PROFILE_IMAGE}
+                  alt="Tonya"
+                  fill
+                  className="object-contain object-bottom"
+                  priority
+                  sizes="(max-width: 768px) 90vw, (max-width: 1024px) 420px, 500px"
+                />
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>
