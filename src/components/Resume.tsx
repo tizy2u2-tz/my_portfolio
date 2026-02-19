@@ -112,6 +112,7 @@ const tools = [
   'Midjourney',
   'ChatGPT',
   'HTML & CSS',
+  'Weavy',
 ];
 
 export default function Resume() {
