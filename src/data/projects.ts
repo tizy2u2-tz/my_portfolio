@@ -18,6 +18,7 @@ export interface Project {
   hasLottie?: boolean;
   lottieFile?: string;
   websiteUrl?: string;
+  websiteUrlLabel?: string;
   heroCarouselImages?: string[];
   heroSlidesImages?: string[];
 }
@@ -207,7 +208,7 @@ export const projects: Project[] = [
   {
     slug: 'aws-reinvent-ooh-2024',
     title: 'AWS re:Invent 2023',
-    category: 'Out-of-Home Media & Booth Design',
+    category: 'Events & Experiential',
     overview: 'Comprehensive brand presence for AWS re:Invent, spanning out-of-home media, booth design, and event signage across Las Vegas. The goal was to create a bold, cohesive brand experience that stood out at one of the largest and most competitive tech conferences in the world.',
     role: 'Senior Brand Designer. Led the design of the out-of-home campaign and event environment, including billboards, vehicle wraps, event signage, booth graphics, and animated content. Defined a unified visual system that connected street-level awareness with on-site engagement.',
     challenge: 'AWS re:Invent brings together thousands of technology brands competing for attention across the city and on the conference floor. The challenge was to stand out at scale while maintaining a clear, consistent brand experience across many formats, from massive billboards to close-up booth interactions.',
@@ -273,6 +274,7 @@ export const projects: Project[] = [
     client: 'Cohesity',
     featured: true,
     websiteUrl: 'https://www.cohesity.com/incident-response-simulator/',
+    websiteUrlLabel: 'View live simulator',
   },
   {
     slug: 'swiss-cheese-animation-2024',
@@ -299,7 +301,7 @@ export const projects: Project[] = [
   {
     slug: 'car-wrap-reinvent-2024',
     title: 'Car Wrap for AWS re:Invent',
-    category: 'Experiential',
+    category: 'Events & Experiential',
     overview: 'Fleet vehicle wraps creating mobile brand presence throughout Las Vegas during AWS re:Invent. Part of a comprehensive brand experience campaign that included out-of-home media, booth design, and event signage.',
     role: 'Senior Designer. Vehicle wrap design optimized for maximum visual impact, created as part of the larger AWS re:Invent brand presence campaign.',
     challenge: 'Designing for unconventional curved surfaces while maintaining brand integrity and readability. Ensuring the vehicle wraps worked cohesively with the broader campaign visual system, creating a unified brand experience from street-level to conference floor.',
@@ -480,19 +482,31 @@ export const projects: Project[] = [
   },
   {
     slug: 'cohesity-design-system-2024',
-    title: 'Design System',
+    title: 'Cohesity Design System',
     category: 'Design System',
-    overview: 'Comprehensive design system establishing visual consistency across all brand touchpoints.',
-    role: 'Design System Lead. Defined components, patterns, and documentation for cross-team adoption.',
-    challenge: 'Unifying disparate design approaches across multiple teams and product lines.',
-    approach: 'Built a scalable component library with clear guidelines, ensuring consistency while allowing flexibility.',
-    outcome: 'Design system adopted company-wide, reducing design debt and accelerating production timelines.',
-    thumbnail: '/images/placeholder.svg',
-    images: ['/images/placeholder.svg'],
+    overview: 'A scalable design system that codified the Cohesity rebrand into tokens, components, and patterns for product and marketing teams.',
+    role: 'Design System Lead. Defined color, typography, components, and documentation for cross-team adoption.',
+    challenge: 'After the rebrand, disparate teams needed a shared visual language — one source of truth for color, type, UI components, and usage guidelines across product and web.',
+    approach: 'Built a component library and token system grounded in the new brand palette, with interactive documentation and live examples for designers and engineers.',
+    outcome: 'Design system adopted across product and marketing, reducing design debt and accelerating production timelines for web and UI surfaces.',
+    thumbnail: '/images/design-system/cover.png',
+    images: [
+      '/images/design-system/cover.png',
+      '/images/design-system/color-palette.png',
+      '/images/design-system/buttons.png',
+      '/images/design-system/typography.png',
+      '/images/design-system/icons.png',
+      '/images/design-system/cards.png',
+      '/images/design-system/navigation.png',
+      '/images/design-system/forms.png',
+      '/images/design-system/dashboard.png',
+    ],
     tags: ['Design System', 'Brand', 'UI', 'Documentation'],
-    year: '2024',
+    year: '2025',
     client: 'Cohesity',
     featured: true,
+    websiteUrl: 'https://projects.tonyazenin.ai/projects/design-system-demo',
+    websiteUrlLabel: 'View interactive demo',
   },
   {
     slug: 'virtual-conference-2023',

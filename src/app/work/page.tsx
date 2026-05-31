@@ -6,6 +6,7 @@ import ProjectCard from '@/components/ProjectCard';
 import ExternalProjectCard from '@/components/ExternalProjectCard';
 import { visibleProjects, categories } from '@/data/projects';
 import { COHESITY_3D_RELATED_PROJECTS } from '@/data/cohesity-3d-related';
+import { COHESITY_DESIGN_SYSTEM_RELATED_PROJECTS } from '@/data/cohesity-design-system-related';
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string>('All');
@@ -14,8 +15,13 @@ export default function WorkPage() {
     ? visibleProjects
     : visibleProjects.filter((p) => p.category === activeFilter);
 
-  const external3DProjects = activeFilter === '3D' ? COHESITY_3D_RELATED_PROJECTS : [];
-  const hasResults = filteredProjects.length > 0 || external3DProjects.length > 0;
+  const externalProjects =
+    activeFilter === '3D'
+      ? COHESITY_3D_RELATED_PROJECTS
+      : activeFilter === 'Design System'
+        ? COHESITY_DESIGN_SYSTEM_RELATED_PROJECTS
+        : [];
+  const hasResults = filteredProjects.length > 0 || externalProjects.length > 0;
 
   return (
     <section className="pt-28 pb-16 container-main min-h-screen">
@@ -74,7 +80,7 @@ export default function WorkPage() {
               <ProjectCard project={project} />
             </motion.div>
           ))}
-          {external3DProjects.map((project, index) => (
+          {externalProjects.map((project, index) => (
             <motion.div
               key={project.href}
               layout

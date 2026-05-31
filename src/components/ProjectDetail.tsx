@@ -13,6 +13,10 @@ import ImageModal from './ImageModal';
 import Cohesity3DGallery from './Cohesity3DGallery';
 import { COHESITY_3D_RELATED_PROJECTS } from '@/data/cohesity-3d-related';
 
+const DESIGN_SYSTEM_GALLERY_PREVIEWS: Record<string, string> = {
+  '/images/design-system/typography.png': '/images/design-system/typography-preview.png',
+};
+
 const IPHONE_BANNER_IMAGES = [
   '/images/Resilience-campaign/iPhone 15 Pro.jpg',
   '/images/Resilience-campaign/iPhone 15 Pro-1.jpg',
@@ -231,7 +235,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             rel="noopener noreferrer"
             className="mt-4 inline-flex items-center gap-2 font-body text-sm font-medium text-yellow hover:underline focus:outline-none focus:ring-2 focus:ring-yellow focus:ring-offset-2 focus:ring-offset-ink"
           >
-            View live simulator
+            {project.websiteUrlLabel ?? 'View live site'}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </a>
         )}
@@ -1417,6 +1421,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             }).map((image, index) => {
               const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
               const alt = `${project.title} - Image ${index + 2}`;
+              const isDesignSystemDoc = project.slug === 'cohesity-design-system-2024';
+              const galleryImageClass = isDesignSystemDoc
+                ? 'object-contain p-2 bg-white transition-transform duration-300 group-hover:scale-[1.02]'
+                : 'object-cover transition-transform duration-300 group-hover:scale-105';
+              const displaySrc = isDesignSystemDoc && DESIGN_SYSTEM_GALLERY_PREVIEWS[image]
+                ? DESIGN_SYSTEM_GALLERY_PREVIEWS[image]
+                : image;
 
               return (
                 <motion.div
@@ -1452,10 +1463,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     />
                   ) : (
                     <Image
-                      src={image}
+                      src={displaySrc}
                       alt={alt}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className={galleryImageClass}
                     />
                   )}
                 </motion.div>
@@ -1918,53 +1929,32 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       )}
 
       {/* Related Projects - Cohesity Website Redesign 2025 */}
-      {project.slug === 'cohesity-website-redesign-2025' && (
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-20 pt-20 border-t border-cream/10"
-        >
-          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
-          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-            The website redesign applied the visual system from the broader Cohesity rebrand. Explore the rebrand project for the full brand evolution—color, typography, 3D, and campaign assets.
-          </p>
-          {(() => {
-            const rebrandProject = visibleProjects.find(p => p.slug === 'cohesity-rebrand');
-            if (!rebrandProject) return null;
-            return (
-              <Link href={`/work/${rebrandProject.slug}`} className="group block">
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                    <div className="relative aspect-[4/3] md:col-span-1">
-                      <Image
-                        src={rebrandProject.thumbnail}
-                        alt={rebrandProject.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
-                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{rebrandProject.category}</span>
-                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
-                        {rebrandProject.title}
-                      </h3>
-                      <p className="text-cream/60 text-sm line-clamp-2">
-                        {rebrandProject.overview}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
-            );
-          })()}
-        </motion.section>
-      )}
+      {project.slug === 'cohesity-website-redesign-2025' && (() => {
+        const relatedProjects = ['cohesity-rebrand', 'cohesity-design-system-2024']
+          .map((slug) => visibleProjects.find((p) => p.slug === slug))
+          .filter((p): p is Project => !!p);
+        if (relatedProjects.length === 0) return null;
+
+        return (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 pt-20 border-t border-cream/10"
+          >
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+              The website redesign applied the visual system from the Cohesity rebrand and design system—tokens, components, and patterns scaled across key pages and product surfaces.
+            </p>
+            <div className="grid grid-cols-1 gap-6">
+              {relatedProjects.map((relatedProject) => (
+                <RelatedProjectCard key={relatedProject.slug} project={relatedProject} />
+              ))}
+            </div>
+          </motion.section>
+        );
+      })()}
 
       {/* Related Projects - Brand Style Guide */}
       {project.slug === 'brand-style-guide' && (
@@ -2021,8 +2011,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
       {/* Related Projects - Cohesity Rebrand */}
       {project.slug === 'cohesity-rebrand' && (() => {
-        const webRedesignProject = visibleProjects.find(p => p.slug === 'cohesity-website-redesign-2025');
-        if (!webRedesignProject) return null;
+        const relatedProjects = ['cohesity-design-system-2024', 'cohesity-website-redesign-2025']
+          .map((slug) => visibleProjects.find((p) => p.slug === slug))
+          .filter((p): p is Project => !!p);
+        if (relatedProjects.length === 0) return null;
+
         return (
           <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -2033,35 +2026,41 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           >
             <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
             <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-              The rebrand visual system was applied across the Cohesity website. The website redesign brought the new brand to life online—key pages, components, and a cohesive digital experience.
+              The rebrand visual system extended into a company-wide design system and the Cohesity website—codifying tokens and components, then scaling them across product and marketing.
             </p>
-            <Link href={`/work/${webRedesignProject.slug}`} className="group block">
-              <motion.div
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
-                className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                  <div className="relative aspect-[4/3] md:col-span-1">
-                    <Image
-                      src={webRedesignProject.thumbnail}
-                      alt={webRedesignProject.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6 md:col-span-2 flex flex-col justify-center">
-                    <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{webRedesignProject.category}</span>
-                    <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
-                      {webRedesignProject.title}
-                    </h3>
-                    <p className="text-cream/60 text-sm line-clamp-2">
-                      {webRedesignProject.overview}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
+            <div className="grid grid-cols-1 gap-6">
+              {relatedProjects.map((relatedProject) => (
+                <RelatedProjectCard key={relatedProject.slug} project={relatedProject} />
+              ))}
+            </div>
+          </motion.section>
+        );
+      })()}
+
+      {/* Related Projects - Cohesity Design System */}
+      {project.slug === 'cohesity-design-system-2024' && (() => {
+        const relatedProjects = ['cohesity-rebrand', 'cohesity-website-redesign-2025']
+          .map((slug) => visibleProjects.find((p) => p.slug === slug))
+          .filter((p): p is Project => !!p);
+        if (relatedProjects.length === 0) return null;
+
+        return (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 pt-20 border-t border-cream/10"
+          >
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+              The design system translated the rebrand into reusable tokens and components, then scaled across the Cohesity website and product UI.
+            </p>
+            <div className="grid grid-cols-1 gap-6">
+              {relatedProjects.map((relatedProject) => (
+                <RelatedProjectCard key={relatedProject.slug} project={relatedProject} />
+              ))}
+            </div>
           </motion.section>
         );
       })()}
@@ -2110,5 +2109,37 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         ) : <div />}
       </motion.nav>
     </article>
+  );
+}
+
+function RelatedProjectCard({ project }: { project: Project }) {
+  return (
+    <Link href={`/work/${project.slug}`} className="group block">
+      <motion.div
+        whileHover={{ y: -4 }}
+        transition={{ duration: 0.3 }}
+        className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+          <div className="relative aspect-[4/3] md:col-span-1">
+            <Image
+              src={project.thumbnail}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          </div>
+          <div className="p-6 md:col-span-2 flex flex-col justify-center">
+            <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">
+              {project.category}
+            </span>
+            <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+              {project.title}
+            </h3>
+            <p className="text-cream/60 text-sm line-clamp-2">{project.overview}</p>
+          </div>
+        </div>
+      </motion.div>
+    </Link>
   );
 }

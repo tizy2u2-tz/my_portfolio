@@ -7,7 +7,19 @@ import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
 import MagneticButton from '@/components/MagneticButton';
 import MagneticWrapper from '@/components/MagneticWrapper';
-import { featuredProjects } from '@/data/projects';
+import { featuredProjects, type Project } from '@/data/projects';
+
+function getHomepageFeaturedProjects(projects: Project[]) {
+  const ordered = projects.slice(0, 8);
+  const rebrandIndex = ordered.findIndex((p) => p.slug === 'cohesity-rebrand');
+  const websiteIndex = ordered.findIndex((p) => p.slug === 'cohesity-website-redesign-2025');
+  if (rebrandIndex !== -1 && websiteIndex !== -1) {
+    [ordered[rebrandIndex], ordered[websiteIndex]] = [ordered[websiteIndex], ordered[rebrandIndex]];
+  }
+  return ordered;
+}
+
+const homepageFeaturedProjects = getHomepageFeaturedProjects(featuredProjects);
 
 // Third word: Purpose → Intent → Impact (looped, pause between loops)
 const THIRD_WORDS = ['Purpose', 'Intent', 'Impact'];
@@ -928,7 +940,7 @@ export default function Home() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {featuredProjects.slice(0, 8).map((project, index) => (
+          {homepageFeaturedProjects.map((project, index) => (
             <motion.div
               key={project.slug}
               initial={{ opacity: 0, y: 30 }}
