@@ -29,6 +29,10 @@ const getCategoryColors = (category: string) => {
       return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
     case 'design system':
       return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
+    case '3d':
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
+    case 'interactive':
+      return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
     default:
       return { badge: 'bg-magenta text-white', titleHover: 'group-hover:text-magenta', line: 'bg-magenta' };
   }

@@ -10,6 +10,8 @@ import LaptopVideoMockup from './LaptopVideoMockup';
 import VideoModal from './VideoModal';
 import LocalVideoModal from './LocalVideoModal';
 import ImageModal from './ImageModal';
+import Cohesity3DGallery from './Cohesity3DGallery';
+import { COHESITY_3D_RELATED_PROJECTS } from '@/data/cohesity-3d-related';
 
 const IPHONE_BANNER_IMAGES = [
   '/images/Resilience-campaign/iPhone 15 Pro.jpg',
@@ -799,8 +801,84 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </motion.section>
       )}
 
+      {/* 3D Illustration — structured gallery */}
+      {project.slug === 'cohesity-3d-illustration' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <p className="text-yellow font-medium tracking-widest uppercase text-xs mb-4">Visual system</p>
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-4">From icons to campaigns</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-12 max-w-3xl">
+            The 3D system scales from individual objects to full compositions and finished marketing assets.
+            Each layer below shows how the same visual language moves from building blocks to in-market deliverables.
+          </p>
+          <Cohesity3DGallery
+            onImageClick={(src, alt) => {
+              setImageModalSrc(src);
+              setImageModalAlt(alt);
+            }}
+          />
+        </motion.section>
+      )}
+
+      {/* Related Projects - 3D Illustration */}
+      {project.slug === 'cohesity-3d-illustration' && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-20 pt-20 border-t border-cream/10"
+        >
+          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+            Beyond brand illustration, I build interactive 3D experiments—real-time WebGL scenes and playable prototypes that explore motion, interaction, and immersive storytelling.
+          </p>
+          <div className="space-y-6">
+            {COHESITY_3D_RELATED_PROJECTS.map((related) => (
+              <a
+                key={related.href}
+                href={related.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    <div className="relative aspect-[4/3] md:col-span-1 bg-ink">
+                      <Image
+                        src={related.thumbnail}
+                        alt={related.title}
+                        fill
+                        className={`transition-transform duration-500 group-hover:scale-105 ${related.thumbnailClassName ?? 'object-cover'}`}
+                      />
+                    </div>
+                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
+                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">
+                        {related.category}
+                      </span>
+                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
+                        {related.title}
+                      </h3>
+                      <p className="text-cream/60 text-sm line-clamp-2">{related.description}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </a>
+            ))}
+          </div>
+        </motion.section>
+      )}
+
       {/* Project Images Gallery */}
-      {project.images.length > 1 && project.slug !== 'nasdaq-tower-animation-2019' && (
+      {project.images.length > 1 && project.slug !== 'nasdaq-tower-animation-2019' && project.slug !== 'cohesity-3d-illustration' && (
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1306,6 +1384,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               // Resilience: hero-animation-frame images live in storyboard section; skip in main grid
               if (project.slug === 'resilience-everywhere-2025' && image.toLowerCase().includes('hero-animation-frame')) return false;
 
+              // 3D Illustration: all images live in dedicated sections; skip in main grid
+              if (project.slug === 'cohesity-3d-illustration') return false;
+
               // Incident Response Simulator: all images live in dedicated sections below; skip in main grid
               if (project.slug === 'incident-response-simulator') return false;
 
@@ -1327,8 +1408,6 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 (image.toLowerCase().includes('palette') && !image.toLowerCase().includes('color-palette.png')) ||
                 image.toLowerCase().includes('event-demo') ||
                 image.toLowerCase().includes('/cs-') ||
-                image.toLowerCase().includes('3d-graphic') ||
-                image.toLowerCase().includes('3d-object-animation') ||
                 image.toLowerCase().includes('brand-elements') ||
                 image.toLowerCase().includes('brand-exploration') ||
                 image.toLowerCase().includes('font-stress')
@@ -1560,65 +1639,6 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                           <Image
                             src={image}
                             alt={`${project.title} - Color palette ${i + 1}`}
-                            fill
-                            className="object-contain"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                        )}
-                      </motion.div>
-                    );
-                  })}
-              </div>
-
-              <h3 className="text-xl md:text-2xl font-semibold font-body mt-16 mb-6">3D Graphics</h3>
-              <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-                Developed a comprehensive 3D illustration system that brings depth and dimension to the Cohesity brand. These graphics serve as versatile visual elements across digital and print applications, enhancing the brand&apos;s modern aesthetic while maintaining clarity and impact.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {project.images
-                  .filter((image) => 
-                    image.toLowerCase().includes('3d-graphic') ||
-                    image.toLowerCase().includes('3d-object-animation')
-                  )
-                  .sort((a, b) => {
-                    // Sort 3d-object-animation first, then 3d-graphic images by number
-                    const aIsAnimation = a.toLowerCase().includes('3d-object-animation');
-                    const bIsAnimation = b.toLowerCase().includes('3d-object-animation');
-                    if (aIsAnimation && !bIsAnimation) return -1;
-                    if (!aIsAnimation && bIsAnimation) return 1;
-                    
-                    // Sort 3d-graphic images by number
-                    const aMatch = a.match(/3d-graphic-(\d+)/);
-                    const bMatch = b.match(/3d-graphic-(\d+)/);
-                    if (aMatch && bMatch) {
-                      return parseInt(aMatch[1]) - parseInt(bMatch[1]);
-                    }
-                    return a.localeCompare(b);
-                  })
-                  .map((image, i) => {
-                    const isVideo = image.endsWith('.mp4') || image.endsWith('.mov') || image.endsWith('.webm');
-                    return (
-                      <motion.div
-                        key={image}
-                        initial={{ opacity: 0, y: 12 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: i * 0.05 }}
-                        className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20"
-                      >
-                        {isVideo ? (
-                          <video
-                            src={image}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-full h-full object-contain"
-                          />
-                        ) : (
-                          <Image
-                            src={image}
-                            alt={`${project.title} - 3D graphic ${i + 1}`}
                             fill
                             className="object-contain"
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"

@@ -3,14 +3,19 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from '@/components/ProjectCard';
+import ExternalProjectCard from '@/components/ExternalProjectCard';
 import { visibleProjects, categories } from '@/data/projects';
+import { COHESITY_3D_RELATED_PROJECTS } from '@/data/cohesity-3d-related';
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   
-  const filteredProjects = activeFilter === 'All' 
-    ? visibleProjects 
-    : visibleProjects.filter(p => p.category === activeFilter);
+  const filteredProjects = activeFilter === 'All'
+    ? visibleProjects
+    : visibleProjects.filter((p) => p.category === activeFilter);
+
+  const external3DProjects = activeFilter === '3D' ? COHESITY_3D_RELATED_PROJECTS : [];
+  const hasResults = filteredProjects.length > 0 || external3DProjects.length > 0;
 
   return (
     <section className="pt-28 pb-16 container-main min-h-screen">
@@ -24,7 +29,7 @@ export default function WorkPage() {
         <p className="text-yellow font-medium tracking-widest uppercase mb-4">Portfolio</p>
         <h1 className="heading-lg mb-6 text-yellow">Selected Work</h1>
         <p className="body-lg max-w-2xl">
-          A collection of brand, digital, and motion projects spanning enterprise tech, 
+          A collection of brand, digital, motion, and 3D projects spanning enterprise tech,
           campaigns, and personal explorations.
         </p>
       </motion.div>
@@ -69,11 +74,23 @@ export default function WorkPage() {
               <ProjectCard project={project} />
             </motion.div>
           ))}
+          {external3DProjects.map((project, index) => (
+            <motion.div
+              key={project.href}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ delay: (filteredProjects.length + index) * 0.05, duration: 0.3 }}
+            >
+              <ExternalProjectCard project={project} />
+            </motion.div>
+          ))}
         </AnimatePresence>
       </motion.div>
 
       {/* Empty state */}
-      {filteredProjects.length === 0 && (
+      {!hasResults && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
