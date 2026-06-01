@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" class="iso-dash-animated" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1107 639">
+  <!-- Generator: Adobe Illustrator 30.1.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 136)  -->
+  <defs>
+    <style>
+      .st0, .st1 {
+        fill: none;
+      }
+
+      .st2 {
+        fill: #000000;
+      }
+
+      .st1 {
+        stroke: #00dd68;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .st3 {
+        fill: #009e60;
+      }
+
+      .st4 {
+        fill: #00dd68;
+      }
+
+      .st5 {
+        fill: #2bfa65;
+      }
+
+      .st6 {
+        fill: #6bfb90;
+      }
+
+      .st7 {
+        fill: #fc0080;
+      }
+
+      .st8 {
+        fill: url(#linear-gradient);
+      }
+
+      .st9 {
+        fill: #18252c;
+      }
+
+      .st10 {
+        fill: #18252c;
+      }
+
+      .st11 {
+        isolation: isolate;
+      }
+
+      .st12 {
+        fill: #ffb8f8;
+      }
+
+      .st13 {
+        fill: #9ba2a9;
+      }
+
+      .st14 {
+        fill: #5e5e5e;
+      }
+
+      .st15 {
+        fill: #5c5c5c;
+      }
+
+      .st16 {
+        fill: #f2f2f2;
+      }
+
+      .st17 {
+        fill: #f2f2f2;
+      }
+
+      .st18 {
+        fill: #00fd92;
+      }
+
+      .st19 {
+        clip-path: url(#clippath);
+      }
+
+      .st20 {
+        fill: #00dd68;
+      }
+
+      /* ========== CSS animation (ISO Graphic Dash) ========== */
+      .iso-dash-animated .iso-floor,
+      .iso-dash-animated .iso-card-main,
+      .iso-dash-animated .iso-card-top,
+      .iso-dash-animated .iso-chip,
+      .iso-dash-animated .iso-rails .st5 {
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      /* Start existing animation timeline when SVG enters viewport. */
+      @supports selector(:in-view) {
+        .iso-dash-animated .st1,
+        .iso-dash-animated .iso-floor .st8,
+        .iso-dash-animated .iso-floor .st2,
+        .iso-dash-animated .iso-rails .st5,
+        .iso-dash-animated .iso-card-main,
+        .iso-dash-animated .iso-card-top,
+        .iso-dash-animated .iso-chip {
+          animation-play-state: paused;
+        }
+
+        .iso-dash-animated:in-view .st1,
+        .iso-dash-animated:in-view .iso-floor .st8,
+        .iso-dash-animated:in-view .iso-floor .st2,
+        .iso-dash-animated:in-view .iso-rails .st5,
+        .iso-dash-animated:in-view .iso-card-main,
+        .iso-dash-animated:in-view .iso-card-top,
+        .iso-dash-animated:in-view .iso-chip {
+          animation-play-state: running;
+        }
+      }
+
+      .iso-dash-animated .st1 {
+        stroke-dasharray: 2600;
+        stroke-dashoffset: 2600;
+        animation:
+          iso-outline-draw 1.7s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+          iso-outline-surge 2.6s ease-in-out 1.9s infinite;
+      }
+
+      .iso-dash-animated .iso-floor .st8,
+      .iso-dash-animated .iso-floor .st2 {
+        opacity: 0;
+        transform: translateY(22px) scale(0.95);
+        animation: iso-pop-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .iso-dash-animated .iso-floor .st8 { animation-delay: 0.12s; }
+      .iso-dash-animated .iso-floor .st2 { animation-delay: 0.28s; }
+
+      .iso-dash-animated .iso-rails .st5 {
+        opacity: 0;
+        transform: translateY(14px) scale(0.92);
+        animation:
+          iso-rail-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+          iso-rail-thrust 1.25s ease-in-out 1.15s infinite;
+      }
+      .iso-dash-animated .iso-rails polygon:nth-child(1) { animation-delay: 0.34s, 1.15s; }
+      .iso-dash-animated .iso-rails polygon:nth-child(2) { animation-delay: 0.42s, 1.22s; }
+      .iso-dash-animated .iso-rails polygon:nth-child(3) { animation-delay: 0.5s, 1.29s; }
+      .iso-dash-animated .iso-rails polygon:nth-child(4) { animation-delay: 0.58s, 1.36s; }
+      .iso-dash-animated .iso-rails polygon:nth-child(5) { animation-delay: 0.66s, 1.43s; }
+
+      .iso-dash-animated .iso-card-main,
+      .iso-dash-animated .iso-card-top,
+      .iso-dash-animated .iso-chip {
+        opacity: 0;
+        transform: translateY(24px) scale(0.95) rotate(-2deg);
+        animation: iso-card-enter 0.78s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .iso-dash-animated .iso-card-main {
+        animation:
+          iso-card-enter 0.78s cubic-bezier(0.16, 1, 0.3, 1) 0.38s forwards,
+          iso-card-bob 3.4s ease-in-out 1.45s infinite;
+      }
+      .iso-dash-animated .iso-card-top {
+        animation:
+          iso-card-enter 0.74s cubic-bezier(0.16, 1, 0.3, 1) 0.56s forwards,
+          iso-card-bob-fast 2.3s ease-in-out 1.35s infinite;
+      }
+      .iso-dash-animated .iso-chip {
+        animation:
+          iso-card-enter 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.72s forwards,
+          iso-chip-jump 1.9s ease-in-out 1.3s infinite;
+      }
+
+      @keyframes iso-outline-draw {
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes iso-outline-surge {
+        0%, 100% { stroke-width: 2.2px; }
+        50% { stroke-width: 2.9px; }
+      }
+      @keyframes iso-pop-in {
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes iso-rail-in {
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes iso-rail-thrust {
+        0%, 100% { transform: translateY(0) scale(1); }
+        35% { transform: translateY(-9px) scale(1.08); }
+        60% { transform: translateY(2px) scale(0.98); }
+      }
+      @keyframes iso-card-enter {
+        to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+      }
+      @keyframes iso-card-bob {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        40% { transform: translateY(-7px) rotate(-0.6deg); }
+        70% { transform: translateY(3px) rotate(0.35deg); }
+      }
+      @keyframes iso-card-bob-fast {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-9px) rotate(0.8deg); }
+      }
+      @keyframes iso-chip-jump {
+        0%, 100% { transform: translateY(0) scale(1); }
+        45% { transform: translateY(-10px) scale(1.12); }
+        75% { transform: translateY(2px) scale(0.97); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .iso-dash-animated .st1,
+        .iso-dash-animated .iso-floor .st8,
+        .iso-dash-animated .iso-floor .st2,
+        .iso-dash-animated .iso-rails .st5,
+        .iso-dash-animated .iso-card-main,
+        .iso-dash-animated .iso-card-top,
+        .iso-dash-animated .iso-chip {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+
+        .iso-dash-animated .st1 {
+          stroke-dashoffset: 0;
+          stroke-width: 3px;
+        }
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="532.11" y1="18.01" x2="544.48" y2="499.01" gradientTransform="translate(0 656) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b0b0b"/>
+      <stop offset=".5" stop-color="#2b2b2b"/>
+      <stop offset=".75" stop-color="#737373"/>
+      <stop offset=".92" stop-color="#737373"/>
+      <stop offset="1" stop-color="#737373"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="537.43" y1="226.13" x2="544.26" y2="491.65" gradientTransform="translate(0 656) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset=".1" stop-color="#121212"/>
+      <stop offset=".3" stop-color="#313131"/>
+      <stop offset=".4" stop-color="#474747"/>
+      <stop offset=".5" stop-color="#545454"/>
+      <stop offset=".7" stop-color="#595959"/>
+      <stop offset="1" stop-color="#000"/>
+    </linearGradient>
+    <clipPath id="clippath">
+      <polygon class="st0" points="705.75 391.1 711.11 370.33 730.83 381.77 725.47 402.54 705.75 391.1"/>
+    </clipPath>
+  </defs>
+  <g class="iso-floor">
+    <path class="st8" d="M520.16,180.65l-299.76,173.07c-13.75,7.94-13.75,27.79,0,35.73l299.76,173.07c11.63,6.72,25.97,6.72,37.6,0l299.76-173.07c13.75-7.94,13.75-27.79,0-35.73l-299.76-173.07c-11.63-6.72-25.97-6.72-37.6,0Z"/>
+    <g class="iso-rails">
+      <polygon class="st5" points="409.01 349.64 305.4 408.85 331.61 423.98 434.36 364.66 409.01 349.64"/>
+      <polygon class="st5" points="411.42 397.83 348.58 432.61 374.79 447.75 436.77 412.86 411.42 397.83"/>
+      <polygon class="st5" points="475.34 408.85 391.76 456.37 417.97 471.51 500.69 423.87 475.34 408.85"/>
+      <polygon class="st5" points="559.41 408.85 434.94 480.14 461.15 495.27 584.77 423.87 559.41 408.85"/>
+      <polygon class="st5" points="576.9 447.75 478.12 503.9 504.33 519.04 602.25 462.77 576.9 447.75"/>
+    </g>
+    <path class="st2" d="M220.4,376.74l299.76-173.07c11.63-6.72,25.97-6.72,37.6,0l299.76,173.07c2.69,1.55,4.84,3.56,6.48,5.84,6.74-9.4,4.58-23.5-6.48-29.89l-299.76-173.07c-11.63-6.72-25.97-6.72-37.6,0l-299.76,173.07c-11.07,6.39-13.22,20.49-6.48,29.89,1.64-2.28,3.8-4.29,6.48-5.84h0Z"/>
+    <path class="st1" d="M513.82,116.21l-381.3,220.14c-27.12,15.66-27.12,54.8,0,70.45l381.3,220.14c15.56,8.98,34.73,8.98,50.29,0l381.3-220.14c27.12-15.66,27.12-54.8,0-70.45l-381.3-220.14c-15.56-8.98-34.73-8.98-50.29,0h0Z"/>
+  </g>
+  <path class="st9" d="M599.1,392.33l-87.68-50.97c-1.22-.71-1.97-2.01-1.97-3.42v-3.38l44.96-26.46,102.26,52.81v6.23l-43.67,25.22c-4.3,2.48-9.6,2.48-13.9-.02h0Z"/>
+  <path class="st14" d="M599.09,389.17l-87.41-50.82c-2.94-1.71-2.97-5.95-.06-7.7l42.79-25.71,102.26,59.04-43.66,25.21c-4.31,2.49-9.62,2.48-13.92-.02h0Z"/>
+  <path class="st17" d="M488.52,57.73l-41.65,175.77c-2.06,10.66,2.85,21.46,12.24,26.9l270.98,157.03c7.87,4.56,17.89,0,19.62-8.93l41.65-175.77c2.06-10.66-2.85-21.46-12.24-26.9L508.14,48.8c-7.87-4.56-17.89,0-19.62,8.93h0Z"/>
+  <path class="st17" d="M619.21,113.17l-111.08-64.37c-7.87-4.56-17.89,0-19.62,8.93l-41.65,175.77c-2.06,10.66,2.85,21.46,12.24,26.9l108.42,62.82,51.69-210.05Z"/>
+  <path class="st3" d="M452.3,210.55l-5.44,22.94c-2.06,10.66,2.85,21.46,12.24,26.9l270.98,157.03c7.87,4.56,17.89,0,19.62-8.93l5.47-23.08-302.87-174.86h0Z"/>
+  <path class="st13" d="M779.12,205.83L508.14,48.8c-4.32-2.51-9.29-2.26-13.18-.05,3.44-1.18,7.39-.96,10.9,1.08l270.98,157.03c9.39,5.45,14.31,16.24,12.24,26.9l-41.65,175.77c-.78,4.03-3.24,7.17-6.44,8.98,4.27-1.46,7.76-5.06,8.72-10.01l41.65-175.77c2.06-10.66-2.85-21.46-12.24-26.9Z"/>
+  <path class="st4" d="M571.88,197.04l-79.49-46.02c-.43-.25-.98-.02-1.1.47l-.9,4.43c-.11.46.09.94.5,1.18l79.5,46.06c.43.25.98.02,1.1-.47l.88-4.47c.11-.46-.09-.94-.5-1.17h.01Z"/>
+  <path class="st3" d="M594.55,151.27l-87.41-50.83c-.27-.16-.61-.01-.69.29l-9.12,36.67c-.07.29.06.59.31.74l87.42,50.85c.27.16.61,0,.69-.29l9.11-36.69c.07-.29-.06-.59-.31-.74h0Z"/>
+  <g class="iso-gauge">
+    <path class="st10" d="M705.2,182.31c-24.36-14.19-52.81-2.58-63.23,25.8s.98,63.22,25.34,77.41c24.36,14.19,52.81,2.58,63.23-25.8,10.42-28.38-.98-63.22-25.34-77.41h0ZM709.56,247.5c-5.49,14.94-20.47,21.06-33.29,13.59s-18.83-25.81-13.34-40.76c5.49-14.94,20.47-21.06,33.29-13.59s18.83,25.81,13.34,40.76Z"/>
+    <path class="st4" d="M703.64,246.67c-5.65,14.53-20.42,20.39-33.08,13.02-12.82-7.47-18.83-25.81-13.34-40.76,5.49-14.94,20.47-21.06,33.29-13.59.05.03.11.06.16.1l8.84-24.51s-.02,0-.03-.02c-24.36-14.19-52.81-2.58-63.23,25.8s.98,63.22,25.34,77.41c24.36,14.19,52.81,2.58,63.23-25.8v-.02l-21.19-11.63h.01Z"/>
+    <path class="st18" d="M703.86,246.1c-.07.19-.14.38-.22.57l21.19,11.63c10.41-28.37-.98-63.17-25.31-77.37l-8.84,24.51c12.71,7.53,18.64,25.78,13.18,40.66h0Z"/>
+  </g>
+  <path class="st20" d="M582.42,271.28c11.37,7.83,25.83,7.32,38.46,11.83,6.38,2.28,11.79,6.14,16.71,10.73,4.83,4.51,9.19,9.49,14.08,13.94,4.91,4.47,10.34,8.17,16.61,10.45,6.65,2.42,13.75,3.31,20.79,3.57,13.68.5,27.41-1.52,41.04.28,11.51,1.53,23.89,5.63,31.03,15.38.85,1.16,1.6,2.37,2.28,3.64.35.65,1.33.07.98-.58-5.6-10.44-16.55-15.98-27.73-18.44-13.1-2.89-26.36-1.56-39.64-1.36-7.35.11-14.78-.11-21.97-1.72-6.99-1.56-13.44-4.54-19.05-9.01-10.18-8.12-17.68-19.6-29.45-25.68-12.31-6.36-26.93-5.38-39.3-11.51-1.48-.74-2.91-1.58-4.27-2.52-.61-.42-1.18.57-.58.98h0v.02Z"/>
+  <g class="iso-card-main">
+    <path class="st15" d="M417.86,205.3l17.62-66.09c2.05-8.2,11.39-12.15,18.71-7.92l152.11,88.11c5.02,2.91,7.52,8.78,6.12,14.42l-17.44,66.45c-2.04,8.23-11.4,12.2-18.73,7.94l-5.33,17.28-17.64-30.63-129.32-75.13c-5.02-2.92-7.51-8.81-6.1-14.44h0Z"/>
+    <path d="M606.3,219.41l-152.11-88.11c-4.24-2.46-9.16-2.16-12.94.12,3.47-1.41,7.55-1.3,11.15.78l152.11,88.11c5.02,2.91,7.52,8.78,6.12,14.42l-17.44,66.45c-.86,3.47-3.02,6.17-5.78,7.83,3.6-1.46,6.53-4.54,7.57-8.73l17.44-66.45c1.39-5.63-1.1-11.51-6.12-14.42h0Z"/>
+    <polygon class="st6" points="454.06 161.74 452.91 166.44 590.14 244.9 591.28 240.36 454.06 161.74"/>
+    <polygon class="st6" points="448.55 181.81 447.4 186.51 584.63 264.97 585.78 260.43 448.55 181.81"/>
+    <polygon class="st6" points="443.87 202.72 442.72 207.41 515.46 248.85 516.61 244.32 443.87 202.72"/>
+  </g>
+  <g class="iso-card-top">
+    <path class="st7" d="M396.8,70.92l13.51-50.67c1.57-6.29,8.74-9.32,14.35-6.07l116.63,67.56c3.85,2.23,5.76,6.74,4.69,11.05l-13.37,50.95c-1.56,6.31-8.74,9.35-14.36,6.09l-98.93-57.47-22.54,6.26,4.69-16.62c-3.85-2.24-5.76-6.75-4.68-11.07h0Z"/>
+    <path class="st9" d="M541.29,81.73L424.66,14.17c-3.25-1.88-7.02-1.65-9.92.09,2.66-1.08,5.79-1,8.55.6l116.63,67.56c3.85,2.23,5.76,6.74,4.69,11.05l-13.37,50.95c-.66,2.66-2.31,4.73-4.43,6,2.76-1.12,5.01-3.48,5.81-6.69l13.37-50.95c1.07-4.32-.84-8.82-4.69-11.05h-.01Z"/>
+    <polygon class="st12" points="424.56 37.51 423.68 41.11 528.9 101.27 529.78 97.8 424.56 37.51"/>
+    <polygon class="st12" points="420.34 52.9 419.46 56.5 524.68 116.66 525.56 113.19 420.34 52.9"/>
+    <polygon class="st12" points="416.75 68.93 415.87 72.53 471.64 104.31 472.53 100.83 416.75 68.93"/>
+  </g>
+  <g class="st11 iso-chip">
+    <g class="st19">
+      <g>
+        <path class="st5" d="M727.26,380.38l-12.88-7.47c-1.58-.92-3.21-.31-3.64,1.35l-3.5,13.56c-.43,1.66.5,3.75,2.08,4.67l12.88,7.47c1.57.91,3.21.31,3.64-1.35l3.5-13.56c.43-1.66-.51-3.76-2.08-4.67"/>
+        <path class="st16" d="M709.32,392.49c-1.58-.92-2.51-3.01-2.08-4.67l3.5-13.56c.43-1.66,2.06-2.27,3.64-1.35l12.88,7.47c1.57.91,2.51,3.01,2.08,4.67l-3.5,13.56c-.43,1.66-2.06,2.27-3.64,1.35l-12.88-7.47M727.41,379.78l-12.88-7.47c-1.89-1.09-3.84-.37-4.35,1.62l-3.5,13.56c-.51,1.99.6,4.49,2.49,5.59l12.88,7.47c1.89,1.09,3.84.37,4.35-1.62l3.5-13.56c.51-1.99-.6-4.5-2.49-5.59"/>
+      </g>
+    </g>
+  </g>
+</svg>

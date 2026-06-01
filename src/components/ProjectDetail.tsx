@@ -12,6 +12,13 @@ import LocalVideoModal from './LocalVideoModal';
 import ImageModal from './ImageModal';
 import Cohesity3DGallery from './Cohesity3DGallery';
 import { COHESITY_3D_RELATED_PROJECTS } from '@/data/cohesity-3d-related';
+import {
+  AWS_REINVENT_OOH_SLUG,
+  AWS_REINVENT_BOOTH_SLUG,
+  AWS_REINVENT_RELATED_INTRO,
+  getAwsReinventRelatedSlugs,
+  isAwsReinventCampaignSlug,
+} from '@/data/aws-reinvent-related';
 
 const DESIGN_SYSTEM_GALLERY_PREVIEWS: Record<string, string> = {
   '/images/design-system/typography.png': '/images/design-system/typography-preview.png',
@@ -76,6 +83,11 @@ const PAGE_WALL_COLUMN_COUNT = 8; // distribute into 8 columns; responsive grid 
 const LottiePlayer = dynamic(() => import('./LottiePlayer'), { 
   ssr: false,
   loading: () => <div className="w-full h-full bg-ink-light animate-pulse" />
+});
+
+const CssIsographicAnimations = dynamic(() => import('./CssIsographicAnimations'), {
+  ssr: false,
+  loading: () => <div className="mb-20 h-96 bg-ink-light animate-pulse rounded-sm" />,
 });
 
 interface ProjectDetailProps {
@@ -360,7 +372,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           }
 
           // For AWS and Nasdaq projects, use the first image if it's a video (larger hero video)
-          if ((project.slug === 'aws-reinvent-ooh-2024' || project.slug === 'nasdaq-tower-animation-2019') && project.images[0]) {
+          if ((project.slug === AWS_REINVENT_OOH_SLUG || project.slug === 'nasdaq-tower-animation-2019') && project.images[0]) {
             const firstImage = project.images[0];
             const isVideo = firstImage.endsWith('.mp4') || firstImage.endsWith('.mov') || firstImage.endsWith('.webm');
             if (isVideo) {
@@ -397,7 +409,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               src={project.thumbnail}
               alt={project.title}
               fill
-              className="object-cover"
+              className={project.slug === 'css-animated-isographics' ? 'object-contain bg-[#f3f4f6] p-8 md:p-12' : 'object-cover'}
             />
           );
         })()}
@@ -617,7 +629,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       )}
 
       {/* OOH Design Concepts - AWS re:Invent */}
-      {project.slug === 'aws-reinvent-ooh-2024' && (
+      {project.slug === AWS_REINVENT_OOH_SLUG && (
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -643,6 +655,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               })
               .map((image, i) => {
                 const optionNumber = image.match(/ooh-opt(\d+)/i)?.[1] || (i + 1).toString();
+                const alt = `OOH Design Concept ${optionNumber}`;
                 return (
                   <motion.div
                     key={image}
@@ -652,15 +665,32 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     transition={{ duration: 0.4, delay: i * 0.1 }}
                     className="space-y-4"
                   >
-                    <div className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20">
+                    <motion.button
+                      type="button"
+                      onClick={() => {
+                        setImageModalSrc(image);
+                        setImageModalAlt(alt);
+                      }}
+                      className="group relative w-full aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 cursor-pointer"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Image
                         src={image}
-                        alt={`OOH Design Concept ${optionNumber}`}
+                        alt={alt}
                         fill
-                        className="object-contain"
+                        className="object-contain transition-opacity duration-300 group-hover:opacity-90"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
-                    </div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors duration-300">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-12 h-12 rounded-full bg-yellow/90 flex items-center justify-center shadow-lg">
+                          <svg className="w-6 h-6 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.button>
                     <div>
                       <h3 className="font-body font-semibold text-lg">Design option {optionNumber}</h3>
                     </div>
@@ -672,7 +702,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       )}
 
       {/* Booth Design Concepts - AWS re:Invent */}
-      {project.slug === 'aws-reinvent-ooh-2024' && (
+      {project.slug === AWS_REINVENT_BOOTH_SLUG && (
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -698,6 +728,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               })
               .map((image, i) => {
                 const optionNumber = image.match(/booth-opt(\d+)/i)?.[1] || (i + 1).toString();
+                const alt = `Booth Design Concept ${optionNumber}`;
                 return (
                   <motion.div
                     key={image}
@@ -707,15 +738,32 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                     transition={{ duration: 0.4, delay: i * 0.1 }}
                     className="space-y-4"
                   >
-                    <div className="relative aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20">
+                    <motion.button
+                      type="button"
+                      onClick={() => {
+                        setImageModalSrc(image);
+                        setImageModalAlt(alt);
+                      }}
+                      className="group relative w-full aspect-[4/3] bg-ink-light overflow-hidden rounded-sm border border-cream/20 cursor-pointer"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Image
                         src={image}
-                        alt={`Booth Design Concept ${optionNumber}`}
+                        alt={alt}
                         fill
-                        className="object-contain"
+                        className="object-contain transition-opacity duration-300 group-hover:opacity-90"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
-                    </div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors duration-300">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-12 h-12 rounded-full bg-yellow/90 flex items-center justify-center shadow-lg">
+                          <svg className="w-6 h-6 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.button>
                     <div>
                       <h3 className="font-body font-semibold text-lg">Design option {optionNumber}</h3>
                     </div>
@@ -727,7 +775,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       )}
 
       {/* Booth Animations - AWS re:Invent */}
-      {project.slug === 'aws-reinvent-ooh-2024' && (
+      {project.slug === AWS_REINVENT_BOOTH_SLUG && (
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -804,6 +852,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           />
         </motion.section>
       )}
+
+      {project.slug === 'css-animated-isographics' && <CssIsographicAnimations />}
 
       {/* 3D Illustration — structured gallery */}
       {project.slug === 'cohesity-3d-illustration' && (
@@ -1352,7 +1402,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             })()}
             {project.images.slice(1).filter((image, index) => {
               // Skip the first image if it's a video (already shown in hero for AWS project)
-              if (project.slug === 'aws-reinvent-ooh-2024' && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
+              if (project.slug === AWS_REINVENT_OOH_SLUG && index === 0 && project.images[0] && project.images[0].endsWith('.mp4')) {
                 return false;
               }
               
@@ -1361,9 +1411,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 return false;
               }
 
-              // AWS: OOH, Booth design concepts, and animation files live in dedicated sections; skip in main grid
-              if (project.slug === 'aws-reinvent-ooh-2024' && (
-                image.toLowerCase().includes('ooh-opt') || 
+              // AWS OOH: concept files live in dedicated section; skip in main grid
+              if (project.slug === AWS_REINVENT_OOH_SLUG && image.toLowerCase().includes('ooh-opt')) {
+                return false;
+              }
+
+              // AWS Booth: concept and animation files live in dedicated sections; skip in main grid
+              if (project.slug === AWS_REINVENT_BOOTH_SLUG && (
                 image.toLowerCase().includes('booth-opt') ||
                 image.toLowerCase().includes('led-storyborard') ||
                 image.toLowerCase().includes('led-cubes') ||
@@ -1396,6 +1450,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
               // HPE Discover: mockup and videos live in dedicated section; skip in main grid
               if (project.slug === 'hpe-discover-tao-event-animation-2025') return false;
+
+              // CSS Animated Isographics: all four graphics render as live CSS animations above.
+              if (project.slug === 'css-animated-isographics') return false;
 
               // Cohesity Website Redesign: key pages live in dedicated section; skip in main grid
               if (project.slug === 'cohesity-website-redesign-2025' && (
@@ -1822,111 +1879,33 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         );
       })()}
 
-      {/* Related Projects - AWS re:Invent */}
-      {project.slug === 'aws-reinvent-ooh-2024' && (
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-20 pt-20 border-t border-cream/10"
-        >
-          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
-          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-            As part of the comprehensive AWS re:Invent campaign, I also designed the vehicle wraps that created mobile brand presence throughout Las Vegas.
-          </p>
-          {(() => {
-            const carWrapProject = visibleProjects.find(p => p.slug === 'car-wrap-reinvent-2024');
-            if (!carWrapProject) return null;
-            
-            return (
-              <Link 
-                href={`/work/${carWrapProject.slug}`}
-                className="group block"
-              >
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                    <div className="relative aspect-[4/3] md:col-span-1">
-                      <Image
-                        src={carWrapProject.thumbnail}
-                        alt={carWrapProject.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
-                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{carWrapProject.category}</span>
-                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
-                        {carWrapProject.title}
-                      </h3>
-                      <p className="text-cream/60 text-sm line-clamp-2">
-                        {carWrapProject.overview}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
-            );
-          })()}
-        </motion.section>
-      )}
+      {/* Related Projects - AWS re:Invent campaign */}
+      {isAwsReinventCampaignSlug(project.slug) && (() => {
+        const relatedProjects = getAwsReinventRelatedSlugs(project.slug)
+          .map((slug) => visibleProjects.find((p) => p.slug === slug))
+          .filter((p): p is Project => !!p);
+        if (relatedProjects.length === 0) return null;
 
-      {/* Related Projects - Car Wrap */}
-      {project.slug === 'car-wrap-reinvent-2024' && (
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-20 pt-20 border-t border-cream/10"
-        >
-          <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
-          <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-            The vehicle wraps were part of a larger comprehensive brand presence campaign for AWS re:Invent, which included out-of-home media, booth design, and animated content.
-          </p>
-          {(() => {
-            const awsProject = visibleProjects.find(p => p.slug === 'aws-reinvent-ooh-2024');
-            if (!awsProject) return null;
-            
-            return (
-              <Link 
-                href={`/work/${awsProject.slug}`}
-                className="group block"
-              >
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                    <div className="relative aspect-[4/3] md:col-span-1">
-                      <Image
-                        src={awsProject.thumbnail}
-                        alt={awsProject.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
-                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{awsProject.category}</span>
-                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
-                        {awsProject.title}
-                      </h3>
-                      <p className="text-cream/60 text-sm line-clamp-2">
-                        {awsProject.overview}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
-            );
-          })()}
-        </motion.section>
-      )}
+        return (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20 pt-20 border-t border-cream/10"
+          >
+            <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
+            <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
+              {AWS_REINVENT_RELATED_INTRO[project.slug]}
+            </p>
+            <div className="grid grid-cols-1 gap-6">
+              {relatedProjects.map((relatedProject) => (
+                <RelatedProjectCard key={relatedProject.slug} project={relatedProject} />
+              ))}
+            </div>
+          </motion.section>
+        );
+      })()}
 
       {/* Related Projects - Cohesity Website Redesign 2025 */}
       {project.slug === 'cohesity-website-redesign-2025' && (() => {
@@ -1967,43 +1946,20 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         >
           <h2 className="font-body font-semibold text-xl md:text-2xl mb-6">Related Projects</h2>
           <p className="text-sm md:text-base leading-relaxed text-cream/70 mb-6 max-w-3xl">
-            The visual identity and style guide established here were applied across Cohesity campaigns, including the comprehensive brand presence for AWS re:Invent.
+            The visual identity and style guide established here were applied across Cohesity campaigns, including the AWS re:Invent 2023 event presence.
           </p>
           {(() => {
-            const awsProject = visibleProjects.find(p => p.slug === 'aws-reinvent-ooh-2024');
-            if (!awsProject) return null;
+            const relatedProjects = [AWS_REINVENT_OOH_SLUG, AWS_REINVENT_BOOTH_SLUG]
+              .map((slug) => visibleProjects.find((p) => p.slug === slug))
+              .filter((p): p is Project => !!p);
+            if (relatedProjects.length === 0) return null;
 
             return (
-              <Link
-                href={`/work/${awsProject.slug}`}
-                className="group block"
-              >
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative overflow-hidden bg-ink-light rounded-sm border border-cream/20"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                    <div className="relative aspect-[4/3] md:col-span-1">
-                      <Image
-                        src={awsProject.thumbnail}
-                        alt={awsProject.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-6 md:col-span-2 flex flex-col justify-center">
-                      <span className="font-body text-xs text-cream/40 uppercase tracking-widest mb-2">{awsProject.category}</span>
-                      <h3 className="text-xl font-display font-semibold mb-2 group-hover:text-yellow transition-colors">
-                        {awsProject.title}
-                      </h3>
-                      <p className="text-cream/60 text-sm line-clamp-2">
-                        {awsProject.overview}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
+              <div className="grid grid-cols-1 gap-6">
+                {relatedProjects.map((relatedProject) => (
+                  <RelatedProjectCard key={relatedProject.slug} project={relatedProject} />
+                ))}
+              </div>
             );
           })()}
         </motion.section>

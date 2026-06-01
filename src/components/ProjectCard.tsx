@@ -42,6 +42,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const colors = getCategoryColors(project.category);
   const carouselImages = project.heroCarouselImages?.length ? project.heroCarouselImages : [];
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const isCssIsographics = project.slug === 'css-animated-isographics';
 
   useEffect(() => {
     if (carouselImages.length === 0) return;
@@ -59,7 +60,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         className="relative overflow-hidden bg-ink-light rounded-sm"
       >
         {/* Project Image, Video, Lottie, or Carousel */}
-        <div className={`relative aspect-[4/3] overflow-hidden ${project.hasLottie && project.lottieFile ? 'flex items-center justify-center' : ''}`}>
+        <div className={`relative aspect-[4/3] overflow-hidden ${project.hasLottie && project.lottieFile ? 'flex items-center justify-center' : ''} ${isCssIsographics ? 'bg-[#f3f4f6]' : ''}`}>
           {project.hasLottie && project.lottieFile ? (
             <div className="w-full h-full flex items-start justify-center pt-6 pb-2 px-4">
               <div className="w-full h-full flex items-center justify-center">
@@ -107,7 +108,7 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               src={project.thumbnail}
               alt={project.title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className={`${isCssIsographics ? 'object-contain p-6 md:p-8' : 'object-cover'} transition-transform duration-500 group-hover:scale-105`}
             />
           )}
           

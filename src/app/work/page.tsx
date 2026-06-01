@@ -7,6 +7,7 @@ import ExternalProjectCard from '@/components/ExternalProjectCard';
 import { visibleProjects, categories } from '@/data/projects';
 import { COHESITY_3D_RELATED_PROJECTS } from '@/data/cohesity-3d-related';
 import { COHESITY_DESIGN_SYSTEM_RELATED_PROJECTS } from '@/data/cohesity-design-system-related';
+import { INTERACTIVE_RELATED_PROJECTS } from '@/data/interactive-related';
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string>('All');
@@ -20,7 +21,9 @@ export default function WorkPage() {
       ? COHESITY_3D_RELATED_PROJECTS
       : activeFilter === 'Design System'
         ? COHESITY_DESIGN_SYSTEM_RELATED_PROJECTS
-        : [];
+        : activeFilter === 'Interactive'
+          ? INTERACTIVE_RELATED_PROJECTS
+          : [];
   const hasResults = filteredProjects.length > 0 || externalProjects.length > 0;
 
   return (
